@@ -1,10 +1,11 @@
 ## Interface: 20300
 ## Notes: Simple Map Mod
 ## Title: Mapster
-## Author: Nevcairiel
+## Author: Nevcairiel, Funkydude
 ## SavedVariables: MapsterDB
 ## OptionalDeps: Ace3
 ## X-Category: Map
 ## Version: 1.0
 
 Mapster.lua
+Coords.lua
