@@ -24,25 +24,25 @@ function Mapster:OnEnable()
 	WorldMapFrame:SetAttribute("UIPanelLayout-enabled", false)
 	WorldMapFrame:HookScript("OnShow", wmfOnShow)
 	BlackoutWorld:Hide()
-	
+
 	oldwmfOnKeyDown = WorldMapFrame:GetScript("OnKeyDown")
 	WorldMapFrame:SetScript("OnKeyDown", nil)
-	
+
 	WorldMapFrame:SetMovable(true)
 	WorldMapFrame:RegisterForDrag("LeftButton")
 	WorldMapFrame:SetScript("OnDragStart", wmfStartMoving)
 	WorldMapFrame:SetScript("OnDragStop", wmfStopMoving)
-	
+
 	WorldMapFrame:ClearAllPoints()
 	WorldMapFrame:SetPoint("CENTER", UIParent, "CENTER", db.x or 0, db.y or 0)
-	
+
 	self:SetAlpha()
 	self:SetStrata()
-	
+
 	hooksecurefunc(WorldMapTooltip, "Show", function(self)
 		self:SetFrameStrata("TOOLTIP")
 	end)
-	
+
 	self:RawHook("CloseSpecialWindows", true)
 end
 
@@ -66,7 +66,7 @@ end
 
 function wmfStopMoving(frame)
 	frame:StopMovingOrSizing()
-	
+
 	-- save position relative to center of the screen
 	local x,y = frame:GetCenter()
 	local z = UIParent:GetEffectiveScale() / 2 / frame:GetScale()
