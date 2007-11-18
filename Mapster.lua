@@ -10,7 +10,8 @@ local defaults = {
 
 local wmfOnShow, wmfStartMoving, wmfStopMoving
 
-local Mapster = LibStub("AceAddon-3.0"):NewAddon("Mapster", "AceEvent-3.0", "AceHook-3.0")
+Mapster = LibStub("AceAddon-3.0"):NewAddon("Mapster", "AceEvent-3.0", "AceHook-3.0")
+local Mapster = Mapster
 
 function Mapster:OnInitialize()
 	self.db = LibStub("AceDB-3.0"):New("MapsterDB", defaults)
