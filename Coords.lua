@@ -5,6 +5,7 @@ local fmt = string.format
 local IsInInstance = IsInInstance
 local GetCursorPosition = GetCursorPosition
 local GetPlayerMapPosition = GetPlayerMapPosition
+local select = select
 local display = nil
 local cursortext = nil
 local playertext = nil
@@ -31,6 +32,10 @@ function Mapster:MouseXY()
 	local scale = WorldMapDetailFrame:GetEffectiveScale()
 	local cx = (x/scale - left) / width
 	local cy = (top - y/scale) / height
+
+	if cx < 0 or cx > 1 or cy < 0 or cy > 1 then
+		cx, cy = nil, nil
+	end
 
 	return cx, cy
 end
