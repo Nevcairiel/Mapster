@@ -6,13 +6,14 @@ local IsInInstance = IsInInstance
 local GetCursorPosition = GetCursorPosition
 local GetPlayerMapPosition = GetPlayerMapPosition
 local select = select
-local display = nil
-local cursortext = nil
-local playertext = nil
-local stop = nil
+local display, cursortext, playertext
 local left, top, width, height, scale
 
-local MouseXY, OnUpdate
+local MouseXY, OnUpdate, updateMapPosition
+
+function Mapster_Coords:OnInitialize()
+	Mapster:RegisterCallback("MapPositionChanged", updateMapPosition)
+end
 
 function Mapster_Coords:OnEnable()
 	if not display then
@@ -28,13 +29,15 @@ function Mapster_Coords:OnEnable()
 	display:Show()
 end
 
+function updateMapPosition()
+	left, top = WorldMapDetailFrame:GetLeft(), WorldMapDetailFrame:GetTop()
+	width, height = WorldMapDetailFrame:GetWidth(), WorldMapDetailFrame:GetHeight()
+	scale = WorldMapDetailFrame:GetEffectiveScale()
+end
+
 function MouseXY()
-	if not stop then
-		left, top = WorldMapDetailFrame:GetLeft(), WorldMapDetailFrame:GetTop()
-		width = WorldMapDetailFrame:GetWidth()
-		height = WorldMapDetailFrame:GetHeight()
-		scale = WorldMapDetailFrame:GetEffectiveScale()
-		stop = true
+	if not left then
+		updateMapPosition()
 	end
 
 	local x, y = GetCursorPosition()
