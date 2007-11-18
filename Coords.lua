@@ -9,6 +9,8 @@ local select = select
 local display = nil
 local cursortext = nil
 local playertext = nil
+local stop = nil
+local left, top, width, height, scale
 
 function Mapster_Coords:OnEnable()
 	if not display then
@@ -24,12 +26,16 @@ function Mapster_Coords:OnEnable()
 	display:Show()
 end
 
-function Mapster:MouseXY()
+function Mapster_Coords:MouseXY()
+	if not stop then
+		left, top = WorldMapDetailFrame:GetLeft(), WorldMapDetailFrame:GetTop()
+		width = WorldMapDetailFrame:GetWidth()
+		height = WorldMapDetailFrame:GetHeight()
+		scale = WorldMapDetailFrame:GetEffectiveScale()
+		stop = true
+	end
+
 	local x, y = GetCursorPosition()
-	local left, top = WorldMapDetailFrame:GetLeft(), WorldMapDetailFrame:GetTop()
-	local width = WorldMapDetailFrame:GetWidth()
-	local height = WorldMapDetailFrame:GetHeight()
-	local scale = WorldMapDetailFrame:GetEffectiveScale()
 	local cx = (x/scale - left) / width
 	local cy = (top - y/scale) / height
 
@@ -43,7 +49,7 @@ end
 local coords = " %s:\n %.0f, %.0f"
 function Mapster_Coords.OnUpdate()
 	local px, py = GetPlayerMapPosition("player")
-	local cx, cy = Mapster:MouseXY()
+	local cx, cy = Mapster_Coords:MouseXY()
 
 	if cx then
 		cursortext:SetText(fmt(coords, "Cursor", 100 * cx, 100 * cy))
