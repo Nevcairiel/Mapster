@@ -59,23 +59,19 @@ function wmfOnShow(frame)
 end
 
 function wmfStartMoving(frame)
-	frame:SetWidth(1024)
-	frame:SetHeight(768)
 	frame:StartMoving()
 end
 
 function wmfStopMoving(frame)
 	frame:StopMovingOrSizing()
 	
-	frame:SetWidth(1024)
-	frame:SetHeight(768)
 	-- save position relative to center of the screen
 	local x,y = frame:GetCenter()
 	local z = UIParent:GetEffectiveScale() / 2 / frame:GetScale()
 	db.x = x - GetScreenWidth() * z
 	db.y = y - GetScreenHeight() * z
 	frame:ClearAllPoints()
-	frame:SetPoint("CENTER", "UIParent", "CENTER", x, y)
+	frame:SetPoint("CENTER", "UIParent", "CENTER", db.x, db.y)
 end
 
 function Mapster:SetStrata(value)
