@@ -12,10 +12,12 @@ local playertext = nil
 local stop = nil
 local left, top, width, height, scale
 
+local MouseXY, OnUpdate
+
 function Mapster_Coords:OnEnable()
 	if not display then
 		display = CreateFrame("Frame", "Mapster_CoordsFrame", WorldMapFrame)
-		display:SetScript("OnUpdate", self.OnUpdate)
+		display:SetScript("OnUpdate", OnUpdate)
 
 		cursortext = display:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 		cursortext:SetPoint("RIGHT", WorldMapFrame, "CENTER", -50, -367)
@@ -26,7 +28,7 @@ function Mapster_Coords:OnEnable()
 	display:Show()
 end
 
-function Mapster_Coords:MouseXY()
+function MouseXY()
 	if not stop then
 		left, top = WorldMapDetailFrame:GetLeft(), WorldMapDetailFrame:GetTop()
 		width = WorldMapDetailFrame:GetWidth()
@@ -46,10 +48,10 @@ function Mapster_Coords:MouseXY()
 	return cx, cy
 end
 
-local coords = " %s:\n %.0f, %.0f"
-function Mapster_Coords.OnUpdate()
+local coords = " %s:\n %.1f, %.1f"
+function OnUpdate()
 	local px, py = GetPlayerMapPosition("player")
-	local cx, cy = Mapster_Coords:MouseXY()
+	local cx, cy = MouseXY()
 
 	if cx then
 		cursortext:SetText(fmt(coords, "Cursor", 100 * cx, 100 * cy))
