@@ -10,7 +10,7 @@ local defaults = {
 
 local wmfOnShow, wmfStartMoving, wmfStopMoving
 
-local Mapster = LibStub("AceAddon-3.0"):NewAddon("Mapster", "AceEvent-3.0")
+local Mapster = LibStub("AceAddon-3.0"):NewAddon("Mapster", "AceEvent-3.0", "AceHook-3.0")
 
 function Mapster:OnInitialize()
 	self.db = LibStub("AceDB-3.0"):New("MapsterDB", defaults)
@@ -42,6 +42,8 @@ function Mapster:OnEnable()
 	hooksecurefunc(WorldMapTooltip, "Show", function(self)
 		self:SetFrameStrata("TOOLTIP")
 	end)
+	
+	self:RawHook("CloseSpecialWindows", true)
 end
 
 function Mapster:OnDisable()
@@ -83,4 +85,13 @@ end
 function Mapster:SetAlpha(value)
 	if value then db.alpha = value end
 	WorldMapFrame:SetAlpha(db.alpha)
+end
+
+function Mapster:CloseSpecialWindows()
+	local result = self.hooks["CloseSpecialWindows"]()
+	if WorldMapFrame:IsShown() then
+			ToggleWorldMap()
+			result = 1
+	end
+	return result
 end
