@@ -12,10 +12,9 @@ local left, top, width, height, scale
 local MouseXY, OnUpdate, updateMapPosition
 
 function Mapster_Coords:OnEnable()
+	Mapster.RegisterCallback(self, "MapUpdateDisplay", updateMapPosition)
 	if not display then
 		display = CreateFrame("Frame", "Mapster_CoordsFrame", WorldMapFrame)
-		display:SetScript("OnUpdate", OnUpdate)
-		hooksecurefunc(WorldMapFrame, "SetPoint", updateMapPosition)
 
 		cursortext = display:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 		cursortext:SetPoint("RIGHT", WorldMapFrame, "CENTER", -50, -367)
@@ -23,7 +22,14 @@ function Mapster_Coords:OnEnable()
 		playertext = display:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 		playertext:SetPoint("LEFT", WorldMapFrame, "CENTER", 50, -367)
 	end
+	display:SetScript("OnUpdate", OnUpdate)
 	display:Show()
+end
+
+function Mapster_Coords:OnDisable()
+	Mapster.UnregisterCallback(self, "MapUpdateDisplay")
+	display:SetScript("OnUpdate", nil)
+	display:Hide()
 end
 
 function updateMapPosition()

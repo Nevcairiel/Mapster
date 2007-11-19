@@ -11,10 +11,13 @@ local defaults = {
 local wmfOnShow, wmfStartMoving, wmfStopMoving
 
 local Mapster = LibStub("AceAddon-3.0"):NewAddon("Mapster", "AceEvent-3.0", "AceHook-3.0")
+local CallbackHandler = LibStub("CallbackHandler-1.0")
 
 function Mapster:OnInitialize()
 	self.db = LibStub("AceDB-3.0"):New("MapsterDB", defaults)
 	db = self.db.profile
+	
+	self.callbacks = CallbackHandler:New(self)
 end
 
 local oldUIPanel, oldwmfOnKeyDown
@@ -74,6 +77,8 @@ function wmfStopMoving(frame)
 	db.y = y - GetScreenHeight() * z
 	frame:ClearAllPoints()
 	frame:SetPoint("CENTER", "UIParent", "CENTER", db.x, db.y)
+	
+	Mapster.callbacks:Fire("MapUpdateDisplay")
 end
 
 function Mapster:SetStrata(value)
