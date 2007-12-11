@@ -54,7 +54,7 @@ function MouseXY()
 	return cx, cy
 end
 
-local coords = " %s:\n %.1f, %.1f"
+local coords = " %s: %.1f, %.1f"
 function OnUpdate()
 	local px, py = GetPlayerMapPosition("player")
 	local cx, cy = MouseXY()
