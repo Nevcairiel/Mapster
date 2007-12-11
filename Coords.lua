@@ -60,7 +60,7 @@ function OnUpdate()
 	local cx, cy = MouseXY()
 
 	if cx then
-		cursortext:SetText(fmt(coords, "Cursor", 100 * cx, 100 * cy))
+		cursortext:SetFormattedText(coords, "Cursor", 100 * cx, 100 * cy)
 	else
 		cursortext:SetText("")
 	end
@@ -68,6 +68,6 @@ function OnUpdate()
 	if IsInInstance() and select(2, IsInInstance()) ~= "pvp" then
 		playertext:SetText("")
 	else
-		playertext:SetText(fmt(coords, "Player", 100 * px, 100 * py))
+		playertext:SetFormattedText(coords, "Player", 100 * px, 100 * py)
 	end
 end
