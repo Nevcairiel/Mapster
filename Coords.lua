@@ -1,7 +1,6 @@
 ﻿local Mapster = LibStub("AceAddon-3.0"):GetAddon("Mapster")
 local Mapster_Coords = Mapster:NewModule("Coords")
 
-local fmt = string.format
 local IsInInstance = IsInInstance
 local GetCursorPosition = GetCursorPosition
 local GetPlayerMapPosition = GetPlayerMapPosition
