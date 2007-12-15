@@ -78,7 +78,7 @@ function UpdateUnitIcon(tex, unit, flash, isRaid)
 	if isRaid then
 		local subgroup = select(3, GetRaidRosterInfo(sub(unit, 5)+0))
 		if not subgroup then return end
-		tex:SetTexture(fmt(grouptex, path, subgroup))
+		tex:SetTexture(fmt(grouptex, subgroup))
 	end
 	local t = RAID_CLASS_COLORS[fileName]
 	if flash then
