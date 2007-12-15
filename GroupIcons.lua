@@ -5,6 +5,7 @@ local GroupIcons = Mapster:NewModule("GroupIcons", "AceEvent-3.0", "AceTimer-3.0
 
 local fmt = string.format
 local sub = string.sub
+local strfind = string.find
 local RAID_CLASS_COLORS = RAID_CLASS_COLORS
 local select = select
 local _G = _G
@@ -14,13 +15,17 @@ local path = "Interface\\AddOns\\Mapster\\Artwork\\"
 local FixUnit, FixWorldMapUnits, FixBattlefieldUnits, OnUpdate, UpdateUnitIcon
 
 function GroupIcons:OnEnable()
-	self:RegisterEvent("ADDON_LOADED", function(event, addon)
-		if addon == "Blizzard_BattlefieldMinimap" then
-			FixBattlefieldUnits(true)
-		end
-	end)
+	if not IsAddOnLoaded("Blizzard_BattlefieldMinimap") then
+		self:RegisterEvent("ADDON_LOADED", function(event, addon)
+			if addon == "Blizzard_BattlefieldMinimap" then
+				GroupIcons:UnregisterEvent("ADDON_LOADED")
+				FixBattlefieldUnits(true)
+			end
+		end)
+	else
+		FixBattlefieldUnits(true)
+	end
 	FixWorldMapUnits(true)
-	FixBattlefieldUnits(true)
 end
 
 function GroupIcons:OnDisable()
@@ -62,11 +67,11 @@ end
 
 function OnUpdate(self)
 	local flash = GetTime() % 1 < 0.5
-
+	
 	local name = self:GetName().."Icon"
 	local texture = _G[name]
 	if texture then
-		local isRaid = strmatch(name, "Raid")
+		local isRaid = strfind(name, "Raid", 1, true)
 		UpdateUnitIcon(texture, self.unit, flash, isRaid)
 	end
 end
