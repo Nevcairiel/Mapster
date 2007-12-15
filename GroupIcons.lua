@@ -5,7 +5,7 @@ local GroupIcons = Mapster:NewModule("GroupIcons", "AceEvent-3.0")
 
 local fmt = string.format
 local sub = string.sub
-local strfind = string.find
+local find = string.find
 local RAID_CLASS_COLORS = RAID_CLASS_COLORS
 local select = select
 local _G = _G
@@ -72,27 +72,32 @@ function FixBattlefieldUnits(state)
 end
 
 function OnUpdate(self)
-	local flash = GetTime() % 1 < 0.5
-	
 	local name = self:GetName().."Icon"
 	local texture = _G[name]
 	if texture then
-		local isRaid = strfind(name, "Raid", 1, true)
-		UpdateUnitIcon(texture, self.unit, flash, isRaid)
+		UpdateUnitIcon(texture, self.unit)
 	end
 end
 
 local grouptex = path .. "Group%d"
-function UpdateUnitIcon(tex, unit, flash, isRaid)
-	local fileName = select(2, UnitClass(unit))
+function UpdateUnitIcon(tex, unit)
+	-- sanity check
+	if not (tex and unit) then return end
+	-- grab the class filename
+	local _, fileName = UnitClass(unit)
 	if not fileName then return end
-	if isRaid then
-		local subgroup = select(3, GetRaidRosterInfo(sub(unit, 5)+0))
+	
+	-- handle raid units, and set the correct subgroup texture
+	if find(unit, "raid", 1, true) then
+		local _, _, subgroup = GetRaidRosterInfo(sub(unit, 5))
 		if not subgroup then return end
 		tex:SetTexture(fmt(grouptex, subgroup))
 	end
+	
+	-- color the texture
 	local t = RAID_CLASS_COLORS[fileName]
-	if flash then
+	-- either by flash color
+	if (GetTime() % 1 < 0.5) then
 		if UnitAffectingCombat(unit) then
 			-- red flash for units in combat
 			tex:SetVertexColor(0.8, 0, 0)
@@ -103,7 +108,8 @@ function UpdateUnitIcon(tex, unit, flash, isRaid)
 			-- flash in that blizzard color for inactive units (added in 2.3 iirc)
 			tex:SetVertexColor(0.5, 0.2, 0)
 		end
-	elseif t then -- no flash, set class color
+	-- or class color
+	elseif t then
 		tex:SetVertexColor(t.r, t.g, t.b)
 	else --fallback grey, you never know what happens
 		tex:SetVertexColor(0.8, 0.8, 0.8)
