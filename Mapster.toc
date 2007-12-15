@@ -9,3 +9,4 @@
 
 Mapster.lua
 Coords.lua
+GroupIcons.lua
