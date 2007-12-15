@@ -1,7 +1,7 @@
 -- GroupIcons Module for Mapster
 -- Idea/Concept/Artwork taken from Cartographer
 local Mapster = LibStub("AceAddon-3.0"):GetAddon("Mapster")
-local GroupIcons = Mapster:NewModule("GroupIcons", "AceEvent-3.0", "AceTimer-3.0")
+local GroupIcons = Mapster:NewModule("GroupIcons", "AceEvent-3.0")
 
 local fmt = string.format
 local sub = string.sub
