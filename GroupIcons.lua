@@ -7,7 +7,6 @@ local fmt = string.format
 local sub = string.sub
 local find = string.find
 local RAID_CLASS_COLORS = RAID_CLASS_COLORS
-local select = select
 local _G = _G
 
 local UnitClass = UnitClass

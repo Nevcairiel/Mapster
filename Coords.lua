@@ -1,16 +1,15 @@
 ﻿local Mapster = LibStub("AceAddon-3.0"):GetAddon("Mapster")
-local Mapster_Coords = Mapster:NewModule("Coords")
+local Coords = Mapster:NewModule("Coords")
 
 local IsInInstance = IsInInstance
 local GetCursorPosition = GetCursorPosition
 local GetPlayerMapPosition = GetPlayerMapPosition
-local select = select
 local display, cursortext, playertext
 local left, top, width, height, scale
 
 local MouseXY, OnUpdate, updateMapPosition
 
-function Mapster_Coords:OnEnable()
+function Coords:OnEnable()
 	Mapster.RegisterCallback(self, "MapUpdateDisplay", updateMapPosition)
 	if not display then
 		display = CreateFrame("Frame", "Mapster_CoordsFrame", WorldMapFrame)
@@ -25,7 +24,7 @@ function Mapster_Coords:OnEnable()
 	display:Show()
 end
 
-function Mapster_Coords:OnDisable()
+function Coords:OnDisable()
 	Mapster.UnregisterCallback(self, "MapUpdateDisplay")
 	display:SetScript("OnUpdate", nil)
 	display:Hide()
@@ -53,20 +52,21 @@ function MouseXY()
 	return cx, cy
 end
 
-local coords = " %s: %.1f, %.1f"
+local text = " %s: %.1f, %.1f"
 function OnUpdate()
 	local px, py = GetPlayerMapPosition("player")
 	local cx, cy = MouseXY()
 
 	if cx then
-		cursortext:SetFormattedText(coords, "Cursor", 100 * cx, 100 * cy)
+		cursortext:SetFormattedText(text, "Cursor", 100 * cx, 100 * cy)
 	else
 		cursortext:SetText("")
 	end
 
-	if IsInInstance() and select(2, IsInInstance()) ~= "pvp" then
+	local itrue, itype = IsInInstance()
+	if itrue and itype ~= "pvp" then
 		playertext:SetText("")
 	else
-		playertext:SetFormattedText(coords, "Player", 100 * px, 100 * py)
+		playertext:SetFormattedText(text, "Player", 100 * px, 100 * py)
 	end
 end
