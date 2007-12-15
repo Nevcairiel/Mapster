@@ -18,18 +18,17 @@ function GroupIcons:OnEnable()
 	self:RegisterEvent("ADDON_LOADED", function(event, addon)
 		if addon == "Blizzard_BattlefieldMinimap" then
 			FixBattlefieldUnits(true)
-			self:Update()
+			GroupIcons:Update()
 		end
 	end)
 	self:RegisterEvent("WORLD_MAP_UPDATE", function()
-		if GetNumRaidMembers() > 0 then
-			GroupIcons:ScheduleRepeatingTimer("Update", 0.5)
-		else
-			GroupIcons:Update()
+		if not GroupIcons.timer then
+			GroupIcons.timer = GroupIcons:ScheduleRepeatingTimer("Update", 0.5)
 		end
 	end)
 	
 	FixWorldMapUnits(true)
+	FixBattlefieldUnits(true)
 end
 
 function GroupIcons:OnDisable()
@@ -71,9 +70,10 @@ end
 
 function UpdateUnitIcon(tex, unit, flash, isRaid)
 	local _, fileName = UnitClass(unit)
+	if not fileName then return end
 	if isRaid then
 		local _, _, subgroup = GetRaidRosterInfo(strsub(unit, 5)+0)
-		if not subgroup or not fileName then return end
+		if not subgroup then return end
 		tex:SetTexture(fmt("%sGroup%d", path, subgroup))
 	end
 	local t = RAID_CLASS_COLORS[fileName]
@@ -98,8 +98,9 @@ end
 function GroupIcons:Update()
 	local worldMapShown = WorldMapFrame:IsShown()
 	local battlefieldMinimapShown = BattlefieldMinimap and BattlefieldMinimap:IsVisible()
-	if not worldMapShown and not battlefieldMinimapShown then
-		self:CancelAllTimers()
+	if not (worldMapShown or battlefieldMinimapShown) then
+		self:CancelTimer(self.timer)
+		self.timer = nil
 		return
 	end
 	
