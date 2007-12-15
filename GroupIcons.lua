@@ -10,6 +10,12 @@ local RAID_CLASS_COLORS = RAID_CLASS_COLORS
 local select = select
 local _G = _G
 
+local UnitClass = UnitClass
+local GetRaidRosterInfo = GetRaidRosterInfo
+local UnitAffectingCombat = UnitAffectingCombat
+local UnitIsDeadOrGhost = UnitIsDeadOrGhost
+local MapUnit_IsInactive = MapUnit_IsInactive
+
 local path = "Interface\\AddOns\\Mapster\\Artwork\\"
 
 local FixUnit, FixWorldMapUnits, FixBattlefieldUnits, OnUpdate, UpdateUnitIcon
