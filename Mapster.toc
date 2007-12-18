@@ -3,9 +3,13 @@
 ## Title: Mapster
 ## Author: Nevcairiel, Funkydude
 ## SavedVariables: MapsterDB
-## OptionalDeps: Ace3
 ## X-Category: Map
 ## Version: 1.0
+
+## X-Embeds: Ace3
+## OptionalDeps: Ace3
+
+embeds.xml
 
 Mapster.lua
 Coords.lua
