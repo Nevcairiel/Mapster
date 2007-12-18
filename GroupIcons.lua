@@ -80,19 +80,21 @@ end
 
 local grouptex = path .. "Group%d"
 function UpdateUnitIcon(tex, unit)
+	--Don't flash inactive
+	if MapUnit_IsInactive(unit) then return end
 	-- sanity check
 	if not (tex and unit) then return end
 	-- grab the class filename
 	local _, fileName = UnitClass(unit)
 	if not fileName then return end
-	
+
 	-- handle raid units, and set the correct subgroup texture
 	if find(unit, "raid", 1, true) then
 		local _, _, subgroup = GetRaidRosterInfo(sub(unit, 5))
 		if not subgroup then return end
 		tex:SetTexture(fmt(grouptex, subgroup))
 	end
-	
+
 	-- color the texture
 	local t = RAID_CLASS_COLORS[fileName]
 	-- either by flash color
@@ -103,9 +105,6 @@ function UpdateUnitIcon(tex, unit)
 		elseif UnitIsDeadOrGhost(unit) then
 			-- dark grey flash for dead units
 			tex:SetVertexColor(0.2, 0.2, 0.2)
-		elseif MapUnit_IsInactive(unit) then
-			-- flash in that blizzard color for inactive units (added in 2.3 iirc)
-			tex:SetVertexColor(0.5, 0.2, 0)
 		end
 	-- or class color
 	elseif t then
