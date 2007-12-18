@@ -6,8 +6,9 @@ local GetCursorPosition = GetCursorPosition
 local GetPlayerMapPosition = GetPlayerMapPosition
 local display, cursortext, playertext
 local left, top, width, height, scale
+local itrue, itype
 
-local MouseXY, OnUpdate, updateMapPosition
+local MouseXY, OnUpdate, updateMapPosition, InInstance
 
 function Coords:OnEnable()
 	Mapster.RegisterCallback(self, "MapUpdateDisplay", updateMapPosition)
@@ -22,6 +23,12 @@ function Coords:OnEnable()
 	end
 	display:SetScript("OnUpdate", OnUpdate)
 	display:Show()
+
+	WorldMapFrame:HookScript("OnShow", InInstance)
+end
+
+function InInstance()
+	itrue, itype = IsInInstance()
 end
 
 function Coords:OnDisable()
@@ -54,7 +61,6 @@ end
 
 local text = " %s: %.1f, %.1f"
 function OnUpdate()
-	local px, py = GetPlayerMapPosition("player")
 	local cx, cy = MouseXY()
 
 	if cx then
@@ -63,10 +69,10 @@ function OnUpdate()
 		cursortext:SetText("")
 	end
 
-	local itrue, itype = IsInInstance()
 	if itrue and itype ~= "pvp" then
 		playertext:SetText("")
 	else
+		local px, py = GetPlayerMapPosition("player")
 		playertext:SetFormattedText(text, "Player", 100 * px, 100 * py)
 	end
 end
