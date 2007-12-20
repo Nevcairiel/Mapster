@@ -80,6 +80,8 @@ end
 
 local grouptex = path .. "Group%d"
 function UpdateUnitIcon(tex, unit)
+	--Don't flash or color inactive
+	if MapUnit_IsInactive(unit) then return end
 	-- sanity check
 	if not (tex and unit) then return end
 	-- grab the class filename
@@ -96,7 +98,7 @@ function UpdateUnitIcon(tex, unit)
 	-- color the texture
 	local t = RAID_CLASS_COLORS[fileName]
 	-- either by flash color
-	if (GetTime() % 1 < 0.5) and not MapUnit_IsInactive(unit) then
+	if (GetTime() % 1 < 0.5) then
 		if UnitAffectingCombat(unit) then
 			-- red flash for units in combat
 			tex:SetVertexColor(0.8, 0, 0)
