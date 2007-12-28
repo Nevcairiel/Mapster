@@ -1,17 +1,14 @@
 ﻿local Mapster = LibStub("AceAddon-3.0"):GetAddon("Mapster")
 local Coords = Mapster:NewModule("Coords")
 
-local IsInInstance = IsInInstance
 local GetCursorPosition = GetCursorPosition
 local GetPlayerMapPosition = GetPlayerMapPosition
+local WorldMapDetailFrame = WorldMapDetailFrame
 local display, cursortext, playertext
-local left, top, width, height, scale
-local itrue, itype
 
-local MouseXY, OnUpdate, updateMapPosition
+local MouseXY, OnUpdate
 
 function Coords:OnEnable()
-	Mapster.RegisterCallback(self, "MapUpdateDisplay", updateMapPosition)
 	if not display then
 		display = CreateFrame("Frame", "Mapster_CoordsFrame", WorldMapFrame)
 
@@ -26,21 +23,14 @@ function Coords:OnEnable()
 end
 
 function Coords:OnDisable()
-	Mapster.UnregisterCallback(self, "MapUpdateDisplay")
 	display:SetScript("OnUpdate", nil)
 	display:Hide()
 end
 
-function updateMapPosition()
-	left, top = WorldMapDetailFrame:GetLeft(), WorldMapDetailFrame:GetTop()
-	width, height = WorldMapDetailFrame:GetWidth(), WorldMapDetailFrame:GetHeight()
-	scale = WorldMapDetailFrame:GetEffectiveScale()
-end
-
 function MouseXY()
-	if not left then
-		updateMapPosition()
-	end
+	local left, top = WorldMapDetailFrame:GetLeft(), WorldMapDetailFrame:GetTop()
+	local width, height = WorldMapDetailFrame:GetWidth(), WorldMapDetailFrame:GetHeight()
+	local scale = WorldMapDetailFrame:GetEffectiveScale()
 
 	local x, y = GetCursorPosition()
 	local cx = (x/scale - left) / width
