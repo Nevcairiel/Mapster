@@ -37,7 +37,7 @@ function MouseXY()
 	local cy = (top - y/scale) / height
 
 	if cx < 0 or cx > 1 or cy < 0 or cy > 1 then
-		cx, cy = nil, nil
+		return
 	end
 
 	return cx, cy
