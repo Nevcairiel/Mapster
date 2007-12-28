@@ -43,7 +43,7 @@ function MouseXY()
 	return cx, cy
 end
 
-local text = " %s: %.1f, %.1f"
+local text = " %s: %.2f, %.2f"
 function OnUpdate()
 	local cx, cy = MouseXY()
 	local px, py = GetPlayerMapPosition("player")
