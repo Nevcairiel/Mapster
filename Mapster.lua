@@ -26,6 +26,7 @@ function Mapster:OnEnable()
 	UIPanelWindows["WorldMapFrame"] = nil
 	WorldMapFrame:SetAttribute("UIPanelLayout-enabled", false)
 	WorldMapFrame:HookScript("OnShow", wmfOnShow)
+	WorldMapFrame:HookScript("OnHide", wmfOnHide)
 	BlackoutWorld:Hide()
 
 	oldwmfOnKeyDown = WorldMapFrame:GetScript("OnKeyDown")
@@ -61,6 +62,10 @@ function wmfOnShow(frame)
 	frame:SetWidth(1024)
 	frame:SetHeight(768)
 	Mapster:SetStrata()
+end
+
+function wmfOnHide(frame)
+	SetMapToCurrentZone()
 end
 
 function wmfStartMoving(frame)
