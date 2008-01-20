@@ -15,17 +15,13 @@ local wmfOnShow, wmfStartMoving, wmfStopMoving
 
 local Mapster = LibStub("AceAddon-3.0"):NewAddon("Mapster", "AceEvent-3.0", "AceHook-3.0")
 
-local function fixDBUpValue()
-	db = Mapster.db.profile
-end
-
 function Mapster:OnInitialize()
 	self.db = LibStub("AceDB-3.0"):New("MapsterDB", defaults)
-	self.db.RegisterCallback(self, "OnProfileChanged", fixDBUpValue)
-	self.db.RegisterCallback(self, "OnProfileCopied", fixDBUpValue)
-	self.db.RegisterCallback(self, "OnProfileReset", fixDBUpValue)
-	fixDBUpValue()
-
+	self.db.RegisterCallback(self, "OnProfileChanged", "Refresh")
+	self.db.RegisterCallback(self, "OnProfileCopied", "Refresh")
+	self.db.RegisterCallback(self, "OnProfileReset", "Refresh")
+	db = self.db.profile
+	
 	self:SetupOptions()
 end
 
@@ -68,10 +64,18 @@ function Mapster:OnDisable()
 end
 
 function Mapster:Refresh()
+	db = self.db.profile
+	
 	self:SetStrata()
 	self:SetAlpha()
 	if WorldMapFrame:IsShown() then
 		WorldMapFrame:SetScale(db.scale)
+	end
+	
+	for k,v in self:IterateModules() do
+		if v.Refresh then
+			v:Refresh()
+		end
 	end
 end
 

@@ -4,7 +4,7 @@ local Mapster = LibStub("AceAddon-3.0"):GetAddon("Mapster")
 local optGetter, optSetter
 do
 	function optGetter(info)
-		local key = info[#info]
+		local key = info[#info] 
 		return Mapster.db.profile[key]
 	end
 	
