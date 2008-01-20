@@ -1,4 +1,10 @@
-﻿local Mapster = LibStub("AceAddon-3.0"):GetAddon("Mapster")
+﻿--[[
+Copyright (c) 2008, Hendrik "Nevcairiel" Leppkes < h.leppkes@gmail.com >
+All rights reserved.
+]]
+
+--[[ $Id$ ]]
+local Mapster = LibStub("AceAddon-3.0"):GetAddon("Mapster")
 
 local MODNAME = "Coords"
 local Coords = Mapster:NewModule(MODNAME)

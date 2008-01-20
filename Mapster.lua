@@ -1,3 +1,9 @@
+--[[
+Copyright (c) 2008, Hendrik "Nevcairiel" Leppkes < h.leppkes@gmail.com >
+All rights reserved.
+]]
+
+--[[ $Id$ ]]
 
 local db
 local defaults = {
@@ -56,12 +62,14 @@ function Mapster:OnEnable()
 	self:RawHook("CloseSpecialWindows", true)
 end
 
+--[[
 function Mapster:OnDisable()
 	UIPanelWindows["WorldMapFrame"] = oldUIPanel
 	WorldMapFrame:SetAttribute("UIPanelLayout-enabled", true)
 	WorldMapFrame:SetScript("OnKeyDown", oldwmfOnKeyDown)
 	BlackoutWorld:Show()
 end
+]]
 
 function Mapster:Refresh()
 	db = self.db.profile

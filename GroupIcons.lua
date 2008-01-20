@@ -1,6 +1,11 @@
--- GroupIcons Module for Mapster
--- Idea/Artwork taken from Cartographer
+--[[
+Copyright (c) 2008, Hendrik "Nevcairiel" Leppkes < h.leppkes@gmail.com >
+All rights reserved.
+]]
+
+--[[ $Id$ ]]
 local Mapster = LibStub("AceAddon-3.0"):GetAddon("Mapster")
+
 local MODNAME = "GroupIcons"
 local GroupIcons = Mapster:NewModule(MODNAME, "AceEvent-3.0")
 
@@ -16,6 +21,7 @@ local UnitAffectingCombat = UnitAffectingCombat
 local UnitIsDeadOrGhost = UnitIsDeadOrGhost
 local MapUnit_IsInactive = MapUnit_IsInactive
 
+--Artwork taken from Cartographer
 local path = "Interface\\AddOns\\Mapster\\Artwork\\"
 
 local FixUnit, FixWorldMapUnits, FixBattlefieldUnits, OnUpdate, UpdateUnitIcon
