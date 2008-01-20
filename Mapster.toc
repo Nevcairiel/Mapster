@@ -12,5 +12,6 @@
 embeds.xml
 
 Mapster.lua
+Config.lua
 Coords.lua
 GroupIcons.lua

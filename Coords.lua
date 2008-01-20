@@ -8,6 +8,21 @@ local display, cursortext, playertext
 
 local MouseXY, OnUpdate
 
+local options = {
+	coords = {
+		type = "group",
+		name = "Coordinates",
+		args = {
+			enabled = {
+				type = "toggle",
+				name = "Enable Coordinates",
+				get = function() return Mapster:GetModuleEnabled("Coords") end,
+				set = function(info, value) Mapster:SetModuleEnabled("Coords", value) end,
+			},
+		},
+	},
+}
+
 function Coords:OnEnable()
 	if not display then
 		display = CreateFrame("Frame", "Mapster_CoordsFrame", WorldMapFrame)
@@ -17,6 +32,8 @@ function Coords:OnEnable()
 
 		playertext = display:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 		playertext:SetPoint("LEFT", WorldMapFrame, "CENTER", 50, -367)
+		
+		Mapster:InjectOptions("Coordinates", options)
 	end
 	display:SetScript("OnUpdate", OnUpdate)
 	display:Show()

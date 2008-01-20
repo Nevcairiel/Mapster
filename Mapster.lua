@@ -4,21 +4,31 @@ local defaults = {
 	profile = {
 		scale = 0.75,
 		alpha = 1,
-		strata = "FULLSCREEN"
+		strata = "HIGH",
+		modules = {
+			['*'] = true,
+		},
 	}
 }
 
 local wmfOnShow, wmfStartMoving, wmfStopMoving
 
 local Mapster = LibStub("AceAddon-3.0"):NewAddon("Mapster", "AceEvent-3.0", "AceHook-3.0")
-local CallbackHandler = LibStub("CallbackHandler-1.0")
+
+local function fixDBUpValue()
+	db = Mapster.db.profile
+end
 
 function Mapster:OnInitialize()
 	self.db = LibStub("AceDB-3.0"):New("MapsterDB", defaults)
-	db = self.db.profile
+	self.db.RegisterCallback(self, "OnProfileChanged", fixDBUpValue)
+	self.db.RegisterCallback(self, "OnProfileCopied", fixDBUpValue)
+	self.db.RegisterCallback(self, "OnProfileReset", fixDBUpValue)
+	fixDBUpValue()
 
-	self.callbacks = CallbackHandler:New(self)
+	self:SetupOptions()
 end
+
 
 local oldUIPanel, oldwmfOnKeyDown
 function Mapster:OnEnable()
@@ -57,6 +67,14 @@ function Mapster:OnDisable()
 	BlackoutWorld:Show()
 end
 
+function Mapster:Refresh()
+	self:SetStrata()
+	self:SetAlpha()
+	if WorldMapFrame:IsShown() then
+		WorldMapFrame:SetScale(db.scale)
+	end
+end
+
 function wmfOnShow(frame)
 	frame:SetScale(db.scale)
 	frame:SetWidth(1024)
@@ -82,18 +100,14 @@ function wmfStopMoving(frame)
 	db.y = y - GetScreenHeight() * z
 	frame:ClearAllPoints()
 	frame:SetPoint("CENTER", "UIParent", "CENTER", db.x, db.y)
-
-	Mapster.callbacks:Fire("MapUpdateDisplay")
 end
 
-function Mapster:SetStrata(value)
-	if value then db.strata = value end
+function Mapster:SetStrata()
 	WorldMapFrame:SetFrameStrata(db.strata)
 	WorldMapDetailFrame:SetFrameStrata(db.strata)
 end
 
-function Mapster:SetAlpha(value)
-	if value then db.alpha = value end
+function Mapster:SetAlpha()
 	WorldMapFrame:SetAlpha(db.alpha)
 end
 
@@ -104,4 +118,20 @@ function Mapster:CloseSpecialWindows()
 			result = 1
 	end
 	return result
+end
+
+function Mapster:GetModuleEnabled(module)
+	return db.modules[module]
+end
+
+function Mapster:SetModuleEnabled(module, value)
+	local old = db.modules[module]
+	db.modules[module] = value
+	if old ~= value then
+		if value then
+			self:EnableModule(module)
+		else
+			self:DisableModule(module)
+		end
+	end
 end
