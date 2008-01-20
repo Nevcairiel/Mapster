@@ -1,7 +1,8 @@
 -- GroupIcons Module for Mapster
--- Idea/Concept/Artwork taken from Cartographer
+-- Idea/Artwork taken from Cartographer
 local Mapster = LibStub("AceAddon-3.0"):GetAddon("Mapster")
-local GroupIcons = Mapster:NewModule("GroupIcons", "AceEvent-3.0")
+local MODNAME = "GroupIcons"
+local GroupIcons = Mapster:NewModule(MODNAME, "AceEvent-3.0")
 
 local fmt = string.format
 local sub = string.sub
@@ -19,12 +20,41 @@ local path = "Interface\\AddOns\\Mapster\\Artwork\\"
 
 local FixUnit, FixWorldMapUnits, FixBattlefieldUnits, OnUpdate, UpdateUnitIcon
 
+local options = {
+	groupicons = {
+		order = 20,
+		type = "group",
+		name = "Group Icons",
+		arg = MODNAME,
+		args = {
+			intro = {
+				order = 1,
+				type = "description",
+				name = "The Group Icons module converts the player icons on the World Map and the Zone/Battlefield map to more meaningful icons, showing their class and (in raids) their sub-group.",
+			},
+			enabled = {
+				order = 2,
+				type = "toggle",
+				name = "Enable Group Icons",
+				get = function() return Mapster:GetModuleEnabled(MODNAME) end,
+				set = function(info, value) Mapster:SetModuleEnabled(MODNAME, value) end,
+			},
+		}
+	}
+}
+
+function GroupIcons:OnInitialize()
+	self:SetEnabledState(Mapster:GetModuleEnabled(MODNAME))
+	Mapster:InjectOptions(MODNAME, options)
+end
+
 function GroupIcons:OnEnable()
 	if not IsAddOnLoaded("Blizzard_BattlefieldMinimap") then
 		self:RegisterEvent("ADDON_LOADED", function(event, addon)
 			if addon == "Blizzard_BattlefieldMinimap" then
 				GroupIcons:UnregisterEvent("ADDON_LOADED")
 				FixBattlefieldUnits(true)
+				self:UnregisterEvent("ADDON_LOADED")
 			end
 		end)
 	else
@@ -34,6 +64,7 @@ function GroupIcons:OnEnable()
 end
 
 function GroupIcons:OnDisable()
+	self:UnregisterEvent("ADDON_LOADED")
 	FixWorldMapUnits(false)
 	FixBattlefieldUnits(false)
 end

@@ -35,6 +35,7 @@ end
 
 local options = {
 	coords = {
+		order = 10,
 		type = "group",
 		name = "Coordinates",
 		arg = MODNAME,
