@@ -872,11 +872,52 @@ local errata = {
 local db
 local defaults = {
 	profile = {
-	
+		colorR = 1,
+		colorG = 1,
+		colorB = 1,
+		colorA = 1,
 	},
 	global = {
 		errata = errata,
 	},
+}
+
+local options = {
+	fogclear = {
+		order = 30,
+		type = "group",
+		name = "FogClear",
+		arg = MODNAME,
+		get = optGetter,
+		set = optSetter,
+		args = {
+			intro = {
+				order = 1,
+				type = "description",
+				name = "The FogClear module removes the Fog of War from the World map, thus displaying the artwork for all the undiscovered zones.",
+			},
+			enabled = {
+				order = 2,
+				type = "toggle",
+				name = "Enable FogClear",
+				get = function() return Mapster:GetModuleEnabled(MODNAME) end,
+				set = function(info, value) Mapster:SetModuleEnabled(MODNAME, value) end,
+			},
+			colordesc = {
+				order = 3,
+				type = "description",
+				name = "However, if you like to know which areas you did not discover yet, you can set a color that gets applied to those areas, so you notice where to go.",
+			},
+			color = {
+				order = 4,
+				type = "color",
+				name = "Overlay Color",
+				get = "GetOverlayColor",
+				set = "SetOverlayColor",
+				handler = FogClear,
+			},
+		}
+	}
 }
 
 function FogClear:OnInitialize()
@@ -992,16 +1033,34 @@ function FogClear:UpdateOverlays()
 				texture:SetTexCoord(0, texturePixelWidth / textureFileWidth, 0, texturePixelHeight / textureFileHeight)
 				texture:ClearAllPoints()
 				texture:SetPoint("TOPLEFT", "WorldMapDetailFrame", "TOPLEFT", offsetX + (256 * (k-1)), -(offsetY + (256 * (j - 1))))
-				texture:SetTexture(textureName..(((j - 1) * numTexturesWide) + k))
+				texture:SetTexture(format(textureName.."%d", ((j - 1) * numTexturesWide) + k))
+				
+				if discoveredOverlays[texName] then
+					texture:SetVertexColor(1, 1, 1)
+					texture:SetAlpha(1)
+				else
+					texture:SetVertexColor(self.db.profile.colorR, self.db.profile.colorG, self.db.profile.colorB)
+					texture:SetAlpha(self.db.profile.colorA)
+				end
+				
 				texture:Show()
 			end
 		end
 	end
 	for i = textureCount+1, NUM_WORLDMAP_OVERLAYS do
-		--_G[format("WorldMapOverlay%d", i)]:Hide()
+		_G[format("WorldMapOverlay%d", i)]:Hide()
 	end
 	
 	for k in pairs(discoveredOverlays) do
 		discoveredOverlays[k] = nil
 	end
+end
+
+function FogClear:GetOverlayColor()
+	return self.db.profile.colorR, self.db.profile.colorG, self.db.profile.colorB, self.db.profile.colorA
+end
+
+function FogClear:SetOverlayColor(info, r,g,b,a)
+	self.db.profile.colorR, self.db.profile.colorG, self.db.profile.colorB, self.db.profile.colorA = r,g,b,a
+	self:UpdateOverlays()
 end
