@@ -19,7 +19,6 @@ local defaults = {
 	}
 }
 
-local _G = _G
 local format = string.format
 
 local wmfOnShow, wmfStartMoving, wmfStopMoving, dropdownScaleFix
@@ -123,7 +122,7 @@ end
 
 function dropdownScaleFix(frame)
 	ToggleDropDownMenu()
-	_G["DropDownList1"]:SetScale(db.scale)
+	DropDownList1:SetScale(db.scale)
 end
 
 function Mapster:SetStrata()
