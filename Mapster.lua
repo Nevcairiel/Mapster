@@ -5,6 +5,8 @@ All rights reserved.
 
 --[[ $Id$ ]]
 
+local Mapster = LibStub("AceAddon-3.0"):NewAddon("Mapster", "AceEvent-3.0", "AceHook-3.0")
+
 local db
 local defaults = {
 	profile = {
@@ -17,9 +19,10 @@ local defaults = {
 	}
 }
 
-local wmfOnShow, wmfStartMoving, wmfStopMoving
+local _G = _G
+local format = string.format
 
-local Mapster = LibStub("AceAddon-3.0"):NewAddon("Mapster", "AceEvent-3.0", "AceHook-3.0")
+local wmfOnShow, wmfStartMoving, wmfStopMoving, dropdownScaleFix
 
 function Mapster:OnInitialize()
 	self.db = LibStub("AceDB-3.0"):New("MapsterDB", defaults)
@@ -51,7 +54,11 @@ function Mapster:OnEnable()
 
 	WorldMapFrame:ClearAllPoints()
 	WorldMapFrame:SetPoint("CENTER", UIParent, "CENTER", db.x or 0, db.y or 0)
-
+	
+	WorldMapContinentDropDownButton:SetScript("OnClick", dropdownScaleFix)
+	WorldMapZoneDropDownButton:SetScript("OnClick", dropdownScaleFix)
+	WorldMapZoneMinimapDropDownButton:SetScript("OnClick", dropdownScaleFix)
+	
 	self:SetAlpha()
 	self:SetStrata()
 
@@ -112,6 +119,11 @@ function wmfStopMoving(frame)
 	db.y = y - GetScreenHeight() * z
 	frame:ClearAllPoints()
 	frame:SetPoint("CENTER", "UIParent", "CENTER", db.x, db.y)
+end
+
+function dropdownScaleFix(frame)
+	ToggleDropDownMenu()
+	_G["DropDownList1"]:SetScale(db.scale)
 end
 
 function Mapster:SetStrata()
