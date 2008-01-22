@@ -66,6 +66,15 @@ local options = {
 	},
 }
 
+local function toggleOptions()
+	local ACD = LibStub("AceConfigDialog-3.0")
+	if ACD.OpenFrames["Mapster"] then
+		ACD:Close("Mapster")
+	else
+		ACD:Open("Mapster")
+	end
+end
+
 function Mapster:SetupOptions()
 	-- create button on the worldmap to toggle the options
 	self.optionsButton = CreateFrame("Button", "MapsterOptionsButton", WorldMapFrame, "UIPanelButtonTemplate")
@@ -76,7 +85,7 @@ function Mapster:SetupOptions()
 	self.optionsButton:SetPoint("TOPRIGHT", "WorldMapPositioningGuide", "TOPRIGHT", -9, -37)
 	self.optionsButton:Show()
 	
-	self.optionsButton:SetScript("OnClick", function() LibStub("AceConfigDialog-3.0"):Open("Mapster") end)
+	self.optionsButton:SetScript("OnClick", toggleOptions)
 	
 	-- setup options table
 	LibStub("AceConfig-3.0"):RegisterOptionsTable("Mapster", options)
