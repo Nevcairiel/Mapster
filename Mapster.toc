@@ -8,7 +8,7 @@
 
 ## X-Embeds: Ace3
 ## OptionalDeps: Ace3
- 
+
 embeds.xml
 
 Mapster.lua
