@@ -104,6 +104,7 @@ function Coords:OnDisable()
 end
 
 function Coords:Refresh()
+	db = self.db.profile
 	local acc = db.accuracy or 1
 	text = texttemplate:format(acc, acc)
 end
