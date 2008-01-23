@@ -95,7 +95,6 @@ function Coords:OnEnable()
 	end
 	display:SetScript("OnUpdate", OnUpdate)
 	display:Show()
-	self:Refresh()
 end
 
 function Coords:OnDisable()
@@ -105,7 +104,8 @@ end
 
 function Coords:Refresh()
 	db = self.db.profile
-	text = texttemplate:format(db.accuracy, db.accuracy)
+	local acc = db.accuracy or 1
+	text = texttemplate:format(acc, acc)
 end
 
 function MouseXY()
@@ -125,6 +125,7 @@ function MouseXY()
 end
 
 function OnUpdate()
+	if not text then Coords:Refresh() end
 	local cx, cy = MouseXY()
 	local px, py = GetPlayerMapPosition("player")
 
