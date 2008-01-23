@@ -31,7 +31,7 @@ do
 		local key = info[#info]
 		return db[key]
 	end
-	
+
 	function optSetter(info, value)
 		local key = info[#info]
 		db[key] = value
@@ -78,7 +78,7 @@ local options = {
 function Coords:OnInitialize()
 	self.db = Mapster.db:RegisterNamespace(MODNAME, defaults)
 	db = self.db.profile
-	
+
 	self:SetEnabledState(Mapster:GetModuleEnabled(MODNAME))
 	Mapster:InjectOptions(MODNAME, options)
 end
@@ -93,6 +93,7 @@ function Coords:OnEnable()
 		playertext = display:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 		playertext:SetPoint("LEFT", WorldMapFrame, "CENTER", 50, -367)
 	end
+	self:Refresh()
 	display:SetScript("OnUpdate", OnUpdate)
 	display:Show()
 end
@@ -103,7 +104,6 @@ function Coords:OnDisable()
 end
 
 function Coords:Refresh()
-	db = self.db.profile
 	local acc = db.accuracy or 1
 	text = texttemplate:format(acc, acc)
 end
@@ -125,7 +125,6 @@ function MouseXY()
 end
 
 function OnUpdate()
-	if not text then Coords:Refresh() end
 	local cx, cy = MouseXY()
 	local px, py = GetPlayerMapPosition("player")
 
