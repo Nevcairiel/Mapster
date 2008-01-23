@@ -77,8 +77,9 @@ local options = {
 
 function Coords:OnInitialize()
 	self.db = Mapster.db:RegisterNamespace(MODNAME, defaults)
-	db = self.db.profile
-
+	
+	self:Refresh()
+	
 	self:SetEnabledState(Mapster:GetModuleEnabled(MODNAME))
 	Mapster:InjectOptions(MODNAME, options)
 end
@@ -86,14 +87,13 @@ end
 function Coords:OnEnable()
 	if not display then
 		display = CreateFrame("Frame", "Mapster_CoordsFrame", WorldMapFrame)
-
+		
 		cursortext = display:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 		cursortext:SetPoint("RIGHT", WorldMapFrame, "CENTER", -50, -367)
-
+		
 		playertext = display:CreateFontString(nil, "ARTWORK", "GameFontNormal")
 		playertext:SetPoint("LEFT", WorldMapFrame, "CENTER", 50, -367)
 	end
-	self:Refresh()
 	display:SetScript("OnUpdate", OnUpdate)
 	display:Show()
 end
@@ -105,7 +105,8 @@ end
 
 function Coords:Refresh()
 	db = self.db.profile
-	local acc = db.accuracy or 1
+	
+	local acc = tonumber(db.accuracy) or 1
 	text = texttemplate:format(acc, acc)
 end
 
@@ -113,28 +114,28 @@ function MouseXY()
 	local left, top = WorldMapDetailFrame:GetLeft(), WorldMapDetailFrame:GetTop()
 	local width, height = WorldMapDetailFrame:GetWidth(), WorldMapDetailFrame:GetHeight()
 	local scale = WorldMapDetailFrame:GetEffectiveScale()
-
+	
 	local x, y = GetCursorPosition()
 	local cx = (x/scale - left) / width
 	local cy = (top - y/scale) / height
-
+	
 	if cx < 0 or cx > 1 or cy < 0 or cy > 1 then
 		return
 	end
-
+	
 	return cx, cy
 end
 
 function OnUpdate()
 	local cx, cy = MouseXY()
 	local px, py = GetPlayerMapPosition("player")
-
+	
 	if cx then
 		cursortext:SetFormattedText(text, "Cursor", 100 * cx, 100 * cy)
 	else
 		cursortext:SetText("")
 	end
-
+	
 	if px == 0 then
 		playertext:SetText("")
 	else
