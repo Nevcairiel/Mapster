@@ -90,7 +90,7 @@ function Mapster:SetupOptions()
 	self.optionsButton:SetScript("OnClick", toggleOptions)
 	
 	-- setup options table
-	LibStub("AceConfig-3.0"):RegisterOptionsTable("Mapster", masteroptions)
+	LibStub("AceConfig-3.0"):RegisterOptionsTable("Mapster", options)
 end
 
 function Mapster:InjectOptions(name, optionTbl)
