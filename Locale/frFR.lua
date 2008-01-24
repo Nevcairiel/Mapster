@@ -1,33 +1,32 @@
---[[ $Id$ ]]
+﻿--[[ $Id$ ]]
 local L = LibStub("AceLocale-3.0"):NewLocale("Mapster", "frFR")
 if not L then return end
-
 -- Mapster Config
--- L["intro_desc"] = "Mapster allows you to control various aspects of your World Map. You can change the style of the map, control the plugins that extend the map with new functionality, and configure different profiles for every of your characters."
--- L["Style"] = true
--- L["alpha_desc"] = "You can change the transparency of the world map to allow you to continue seeing the world environment while your map is open for navigation."
--- L["Alpha"] = true
--- L["scale_desc"] = "Change the scale of the world map if you do not want the whole screen filled while the map is open."
--- L["Scale"] = true
+L["intro_desc"] = "Mapster permet de contrôler divers aspects de la carte du monde. Vous pouvez modifier son style, contrôler les plugins qui lui ajoutent de nouvelles fonctionnalités, et configurer différents profils pour tous vos personnages."
+L["Style"] = "Style"
+L["alpha_desc"] = "Vous pouvez modifier la transparence de la carte du monde afin de continuer à voir l'environnement du jeu quand vous consultez la carte."
+L["Alpha"] = "Transparence"
+L["scale_desc"] = "Modifiez l'échelle de la carte du monde si vous ne souhaitez pas que tout votre écran soit occupé quand la carte est ouverte."
+L["Scale"] = "Échelle"
 
 -- Coords
--- L["Coordinates"] = true -- name of the module
--- L["coords_desc"] = "The Coordinates module adds a display of your current location, and the coordinates of your mouse cursor to the World Map frame."
--- L["Enable Coordinates"] = true
--- L["Accuracy"] = true
--- L["coords_accuracy_desc"] = "\nYou can control the accuracy of the coordinates, e.g. if you need very exact coordinates you can set this to 2."
+L["Coordinates"] = "Coordonnées" -- name of the module
+L["coords_desc"] = "Le module des coordonnées ajoute sur la fenêtre de la carte du monde les coordonnées actuelles de votre personnage ainsi que ceux de votre curseur."
+L["Enable Coordinates"] = "Activer les coordonnées"
+L["Accuracy"] = "Précision"
+L["coords_accuracy_desc"] = "\nVous pouvez ici contrôler la précision des coordonnées. Par exemple, si vous voulez des coordonnées très précises, mettez la valeur à 2."
 
--- L["Cursor"] = true
--- L["Player"] = true
+L["Cursor"] = "Curseur"
+L["Player"] = "Joueur"
 
 -- Group Icons
--- L["Group Icons"] = true -- name of the module
--- L["groupicons_desc"] = "The Group Icons module converts the player icons on the World Map and the Zone/Battlefield map to more meaningful icons, showing their class and (in raids) their sub-group."
--- L["Enable Group Icons"] = true
+L["Group Icons"] = "Icônes de groupe" -- name of the module
+L["groupicons_desc"] = "Le module des icônes de groupe converti les icônes des joueurs affichés sur la carte du monde et sur la carte locale en des icônes plus significatives, indiquant leurs classes et (si en raid) leurs groupes."
+L["Enable Group Icons"] = "Activer Icônes de groupe"
 
 -- FogClear
--- L["FogClear"] = true -- name of the module
--- L["fogclear_desc"] = "The FogClear module removes the Fog of War from the World map, thus displaying the artwork for all the undiscovered zones."
--- L["Enable FogClear"] = true
--- L["fogclear_desc_color"] = "However, if you like to know which areas you did not discover yet, you can set a color that gets applied to those areas, so you notice where to go."
--- L["Overlay Color"] = true
+L["FogClear"] = "Antibrouillard" -- name of the module
+L["fogclear_desc"] = "Le module d'antibrouillard enlève le brouillard de guerre de la carte du monde, affichant ainsi tout ce qui se trouve dans les zones qui vous sont inconnues."
+L["Enable FogClear"] = "Activer l'antibrouillard"
+L["fogclear_desc_color"] = "Cependant, si vous préférez savoir quelles zones vous n'avez pas encore découvertes, vous pouvez définir une couleur qui sera appliquée à ces zones, afin de savoir où aller."
+L["Overlay Color"] = "Couleur de superposition"

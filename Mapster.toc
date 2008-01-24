@@ -1,5 +1,6 @@
-## Interface: 20300
+﻿## Interface: 20300
 ## Notes: Simple Map Mod
+## Notes-frFR: Simples modifications de la carte.
 ## Title: Mapster
 ## Author: Nevcairiel, Funkydude
 ## SavedVariables: MapsterDB
@@ -12,6 +13,7 @@
 embeds.xml
 
 Locale\enUS.lua
+Locale\frFR.lua
 
 Mapster.lua
 Config.lua
