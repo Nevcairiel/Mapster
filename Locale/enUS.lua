@@ -1,5 +1,5 @@
 --[[ $Id$ ]]
-local L = LibStub("AceLocale-3.0"):NewLocale("Mapster","enUS",true)
+local L = LibStub("AceLocale-3.0"):NewLocale("Mapster","enUS", true)
 
 -- Mapster Config
 L["intro_desc"] = "Mapster allows you to control various aspects of your World Map. You can change the style of the map, control the plugins that extend the map with new functionality, and configure different profiles for every of your characters."
