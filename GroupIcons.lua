@@ -5,6 +5,7 @@ All rights reserved.
 
 --[[ $Id$ ]]
 local Mapster = LibStub("AceAddon-3.0"):GetAddon("Mapster")
+local L = LibStub("AceLocale-3.0"):GetLocale("Mapster")
 
 local MODNAME = "GroupIcons"
 local GroupIcons = Mapster:NewModule(MODNAME, "AceEvent-3.0")
@@ -30,18 +31,18 @@ local options = {
 	groupicons = {
 		order = 20,
 		type = "group",
-		name = "Group Icons",
+		name = L["Group Icons"],
 		arg = MODNAME,
 		args = {
 			intro = {
 				order = 1,
 				type = "description",
-				name = "The Group Icons module converts the player icons on the World Map and the Zone/Battlefield map to more meaningful icons, showing their class and (in raids) their sub-group.",
+				name = L["groupicons_desc"],
 			},
 			enabled = {
 				order = 2,
 				type = "toggle",
-				name = "Enable Group Icons",
+				name = L["Enable Group Icons"],
 				get = function() return Mapster:GetModuleEnabled(MODNAME) end,
 				set = function(info, value) Mapster:SetModuleEnabled(MODNAME, value) end,
 			},

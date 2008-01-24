@@ -5,6 +5,7 @@ All rights reserved.
 
 --[[ $Id$ ]]
 local Mapster = LibStub("AceAddon-3.0"):GetAddon("Mapster")
+local L = LibStub("AceLocale-3.0"):GetLocale("Mapster")
 
 local optGetter, optSetter
 do
@@ -30,21 +31,21 @@ local options = {
 		intro = {
 			order = 1,
 			type = "description",
-			name = "Mapster allows you to control various aspects of your World Map. You can change the style of the map, control the plugins that extend the map with new functionality, and configure different profiles for every of your characters."
+			name = L["intro_desc"],
 		},
 		style = {
 			order = 5,
-			name = "Style",
+			name = L["Style"],
 			type = "group",
 			args = {
 				alphadesc = {
 					order = 2,
 					type = "description",
-					name = "You can change the transparency of the world map to allow you to continue seeing the world environment while your map is open for navigation.",
+					name = L["alpha_desc"],
 				},
 				alpha = {
 					order = 3,
-					name = "Alpha",
+					name = L["Alpha"],
 					type = "range",
 					min = 0, max = 1, step = 0.01,
 					isPercent = true,
@@ -52,11 +53,11 @@ local options = {
 				scaledesc = {
 					order = 4,
 					type = "description",
-					name = "Change the scale of the world map if you do not want the whole screen filled while the map is open.",
+					name = L["scale_desc"],
 				},
 				scale = {
 					order = 5,
-					name = "Scale",
+					name = L["Scale"],
 					type = "range",
 					min = 0.1, max = 1, step = 0.01,
 					isPercent = true,

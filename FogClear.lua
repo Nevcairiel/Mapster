@@ -5,6 +5,7 @@ All rights reserved.
 
 --[[ $Id$ ]]
 local Mapster = LibStub("AceAddon-3.0"):GetAddon("Mapster")
+local L = LibStub("AceLocale-3.0"):GetLocale("Mapster")
 
 local MODNAME = "FogClear"
 local FogClear = Mapster:NewModule(MODNAME, "AceHook-3.0")
@@ -886,7 +887,7 @@ local options = {
 	fogclear = {
 		order = 30,
 		type = "group",
-		name = "FogClear",
+		name = L["FogClear"],
 		arg = MODNAME,
 		get = optGetter,
 		set = optSetter,
@@ -894,24 +895,24 @@ local options = {
 			intro = {
 				order = 1,
 				type = "description",
-				name = "The FogClear module removes the Fog of War from the World map, thus displaying the artwork for all the undiscovered zones.",
+				name = L["fogclear_desc"],
 			},
 			enabled = {
 				order = 2,
 				type = "toggle",
-				name = "Enable FogClear",
+				name = L["Enable FogClear"],
 				get = function() return Mapster:GetModuleEnabled(MODNAME) end,
 				set = function(info, value) Mapster:SetModuleEnabled(MODNAME, value) end,
 			},
 			colordesc = {
 				order = 3,
 				type = "description",
-				name = "However, if you like to know which areas you did not discover yet, you can set a color that gets applied to those areas, so you notice where to go.",
+				name = L["fogclear_desc_color"],
 			},
 			color = {
 				order = 4,
 				type = "color",
-				name = "Overlay Color",
+				name = L["Overlay Color"],
 				get = "GetOverlayColor",
 				set = "SetOverlayColor",
 				handler = FogClear,

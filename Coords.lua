@@ -5,6 +5,7 @@ All rights reserved.
 
 --[[ $Id$ ]]
 local Mapster = LibStub("AceAddon-3.0"):GetAddon("Mapster")
+local L = LibStub("AceLocale-3.0"):GetLocale("Mapster")
 
 local MODNAME = "Coords"
 local Coords = Mapster:NewModule(MODNAME)
@@ -43,7 +44,7 @@ local options = {
 	coords = {
 		order = 10,
 		type = "group",
-		name = "Coordinates",
+		name = L["Coordinates"],
 		arg = MODNAME,
 		get = optGetter,
 		set = optSetter,
@@ -51,24 +52,24 @@ local options = {
 			intro = {
 				order = 1,
 				type = "description",
-				name = "The Coordinates module adds a display of your current location, and the coordinates of your mouse cursor to the World Map frame.",
+				name = L["coords_desc"],
 			},
 			enabled = {
 				order = 2,
 				type = "toggle",
-				name = "Enable Coordinates",
+				name = L["Enable Coordinates"],
 				get = function() return Mapster:GetModuleEnabled(MODNAME) end,
 				set = function(info, value) Mapster:SetModuleEnabled(MODNAME, value) end,
 			},
 			accuracydesc = {
 				order = 3,
 				type = "description",
-				name = "\nYou can control the accuracy of the coordinates, e.g. if you need very exact coordinates you can set this to 2.",
+				name = L["coords_accuracy_desc"],
 			},
 			accuracy = {
 				order = 4,
 				type = "range",
-				name = "Accuracy",
+				name = L["Accuracy"],
 				min = 0, max = 2, step = 1,
 			},
 		},
@@ -131,7 +132,7 @@ function OnUpdate()
 	local px, py = GetPlayerMapPosition("player")
 	
 	if cx then
-		cursortext:SetFormattedText(text, "Cursor", 100 * cx, 100 * cy)
+		cursortext:SetFormattedText(text, L["Cursor"], 100 * cx, 100 * cy)
 	else
 		cursortext:SetText("")
 	end
@@ -139,6 +140,6 @@ function OnUpdate()
 	if px == 0 then
 		playertext:SetText("")
 	else
-		playertext:SetFormattedText(text, "Player", 100 * px, 100 * py)
+		playertext:SetFormattedText(text, L["Player"], 100 * px, 100 * py)
 	end
 end

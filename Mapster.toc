@@ -11,6 +11,8 @@
 
 embeds.xml
 
+Locale\enUS.lua
+
 Mapster.lua
 Config.lua
 Coords.lua
