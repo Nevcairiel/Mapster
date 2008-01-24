@@ -23,6 +23,7 @@ end
 
 local options = {
 	type = "group",
+	childGroups = "tree",
 	name = "Mapster",
 	plugins = {},
 	get = optGetter,
@@ -89,7 +90,7 @@ function Mapster:SetupOptions()
 	self.optionsButton:SetScript("OnClick", toggleOptions)
 	
 	-- setup options table
-	LibStub("AceConfig-3.0"):RegisterOptionsTable("Mapster", options)
+	LibStub("AceConfig-3.0"):RegisterOptionsTable("Mapster", masteroptions)
 end
 
 function Mapster:InjectOptions(name, optionTbl)
