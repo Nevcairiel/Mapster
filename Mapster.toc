@@ -7,6 +7,11 @@
 ## X-Category: Map
 ## Version: 1.0
 
+## LoadManagers: AddonLoader
+## X-LoadOn-Hooks: ToggleWorldMap
+## X-LoadOn-ToggleWorldMap: if not IsAddOnLoaded("Mapster") then AddonLoader:LoadAddOn("Mapster") end
+## LoadWith: Blizzard_BattlefieldMinimap
+
 ## OptionalDeps: Ace3
 
 Libs\LibStub\LibStub.lua

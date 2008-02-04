@@ -36,6 +36,11 @@ end
 
 local oldUIPanel, oldwmfOnKeyDown
 function Mapster:OnEnable()
+	local vis = WorldMapFrame:IsVisible()
+	if vis then
+		HideUIPanel(WorldMapFrame)
+	end
+	
 	oldUIPanel = UIPanelWindows["WorldMapFrame"]
 	UIPanelWindows["WorldMapFrame"] = nil
 	WorldMapFrame:SetAttribute("UIPanelLayout-enabled", false)
@@ -66,6 +71,10 @@ function Mapster:OnEnable()
 	end)
 
 	self:RawHook("CloseSpecialWindows", true)
+	
+	if vis then
+		ShowUIPanel(WorldMapFrame)
+	end
 end
 
 --[[
