@@ -8,7 +8,7 @@ local Mapster = LibStub("AceAddon-3.0"):GetAddon("Mapster")
 local L = LibStub("AceLocale-3.0"):GetLocale("Mapster")
 
 local MODNAME = "FogClear"
-local FogClear = Mapster:NewModule(MODNAME, "AceHook-3.0")
+local FogClear = Mapster:NewModule(MODNAME, "AceHook-3.0", "AceEvent-3.0")
 
 local strlen, strsub = string.len, string.sub
 local mod, floor, ceil = math.fmod, math.floor, math.ceil
