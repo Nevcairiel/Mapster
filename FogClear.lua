@@ -935,14 +935,24 @@ function FogClear:OnEnable()
 	self:RawHook("GetNumMapOverlays", true)
 	self:RawHook("WorldMapFrame_Update", true)
 	
+	if not IsAddOnLoaded("Blizzard_BattlefieldMinimap") then
+		self:RegisterEvent("ADDON_LOADED", function(event, addon)
+			if addon == "Blizzard_BattlefieldMinimap" then
+				FogClear:UnregisterEvent("ADDON_LOADED")
+				FogClear:RawHook("BattlefieldMinimap_Update", true)
+			end
+		end)
+	else
+		self:RawHook("BattlefieldMinimap_Update", true)
+	end
+	
 	if WorldMapFrame:IsShown() then
 		WorldMapFrame_Update()
 	end
 end
 
 function FogClear:OnDisable()
-	self:Unhook("GetNumMapOverlays")
-	self:Unhook("WorldMapFrame_Update")
+	self:UnhookAll()
 end
 
 function FogClear:GetNumMapOverlays()
@@ -954,13 +964,17 @@ end
 
 function FogClear:WorldMapFrame_Update()
 	self.hooks.WorldMapFrame_Update()
-	self:UpdateOverlays()
+	self:UpdateWorldMapOverlays()
+end
+
+function FogClear:BattlefieldMinimap_Update()
+	self.hooks.BattlefieldMinimap_Update()
+	self:UpdateBattlefieldMinimapOverlays()
 end
 
 local discoveredOverlays = {}
-function FogClear:UpdateOverlays()
-	if not WorldMapFrame:IsShown() then return end
-	
+local function updateOverlayTextures(frame, frameName, scale, alphaMod)
+	local self = FogClear
 	local mapFileName, textureHeight = GetMapInfo()
 	if not mapFileName then return end
 	
@@ -982,6 +996,7 @@ function FogClear:UpdateOverlays()
 	
 	local textureCount = 0
 	
+	local numOv = (frame == BattlefieldMinimap) and NUM_BATTLEFIELDMAP_OVERLAYS or NUM_WORLDMAP_OVERLAYS
 	for texName, texID in pairs(overlayMap) do
 		local textureName = pathPrefix .. texName
 		local textureWidth, textureHeight, offsetX, offsetY = mod(texID, 2^10), mod(floor(texID / 2^10), 2^10), mod(floor(texID / 2^20), 2^10), floor(texID / 2^30)
@@ -989,11 +1004,16 @@ function FogClear:UpdateOverlays()
 		local numTexturesWide = ceil(textureWidth / 256)
 		local numTexturesTall = ceil(textureHeight / 256)
 		local neededTextures = textureCount + (numTexturesWide * numTexturesTall)
-		if neededTextures > NUM_WORLDMAP_OVERLAYS then
-			for j = NUM_WORLDMAP_OVERLAYS + 1, neededTextures do
-				WorldMapDetailFrame:CreateTexture(format("WorldMapOverlay%d", j), "ARTWORK")
+		if neededTextures > numOv then
+			for j = numOv + 1, neededTextures do
+				frame:CreateTexture(format(frameName, j), "ARTWORK")
 			end
-			NUM_WORLDMAP_OVERLAYS = neededTextures
+			numOv = neededTextures
+			if frame == BattlefieldMinimap then
+				NUM_BATTLEFIELDMAP_OVERLAYS = neededTextures
+			else
+				NUM_WORLDMAP_OVERLAYS = neededTextures
+			end
 		end
 		for j = 1, numTexturesTall do
 			local texturePixelHeight
@@ -1013,7 +1033,7 @@ function FogClear:UpdateOverlays()
 			end
 			for k = 1, numTexturesWide do
 				textureCount = textureCount + 1
-				local texture = _G[format("WorldMapOverlay%d", textureCount)]
+				local texture = _G[format(frameName, textureCount)]
 				local texturePixelWidth
 				local textureFileWidth
 				if k < numTexturesWide then
@@ -1029,32 +1049,42 @@ function FogClear:UpdateOverlays()
 						textureFileWidth = textureFileWidth * 2
 					end
 				end
-				texture:SetWidth(texturePixelWidth)
-				texture:SetHeight(texturePixelHeight)
+				texture:SetWidth(texturePixelWidth*scale)
+				texture:SetHeight(texturePixelHeight*scale)
 				texture:SetTexCoord(0, texturePixelWidth / textureFileWidth, 0, texturePixelHeight / textureFileHeight)
 				texture:ClearAllPoints()
-				texture:SetPoint("TOPLEFT", "WorldMapDetailFrame", "TOPLEFT", offsetX + (256 * (k-1)), -(offsetY + (256 * (j - 1))))
+				texture:SetPoint("TOPLEFT", frame, "TOPLEFT", (offsetX + (256 * (k-1))) * scale, -(offsetY + (256 * (j - 1))) * scale)
 				texture:SetTexture(format(textureName.."%d", ((j - 1) * numTexturesWide) + k))
 				
 				if discoveredOverlays[texName] then
 					texture:SetVertexColor(1, 1, 1)
-					texture:SetAlpha(1)
+					texture:SetAlpha(1 - (alphaMod or 0))
 				else
 					texture:SetVertexColor(self.db.profile.colorR, self.db.profile.colorG, self.db.profile.colorB)
-					texture:SetAlpha(self.db.profile.colorA)
+					texture:SetAlpha(self.db.profile.colorA * ( 1 - (alphaMod or 0)))
 				end
 				
 				texture:Show()
 			end
 		end
 	end
-	for i = textureCount+1, NUM_WORLDMAP_OVERLAYS do
-		_G[format("WorldMapOverlay%d", i)]:Hide()
+	for i = textureCount+1, numOv do
+		_G[format(frameName, i)]:Hide()
 	end
 	
 	for k in pairs(discoveredOverlays) do
 		discoveredOverlays[k] = nil
 	end
+end
+
+function FogClear:UpdateWorldMapOverlays()
+	if not WorldMapFrame:IsShown() then return end
+	updateOverlayTextures(WorldMapDetailFrame, "WorldMapOverlay%d", 1, 0)
+end
+
+function FogClear:UpdateBattlefieldMinimapOverlays()
+	local scale = BattlefieldMinimap1:GetWidth()/256
+	updateOverlayTextures(BattlefieldMinimap, "BattlefieldMinimapOverlay%d", scale, BattlefieldMinimapOptions.opacity)
 end
 
 function FogClear:GetOverlayColor()
