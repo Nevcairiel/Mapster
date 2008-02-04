@@ -953,7 +953,6 @@ function FogClear:OnEnable()
 	if WorldMapFrame:IsShown() then
 		WorldMapFrame_Update()
 	end
-	if 
 end
 
 function FogClear:OnDisable()
