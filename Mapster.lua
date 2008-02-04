@@ -87,7 +87,12 @@ function Mapster:Refresh()
 	end
 	
 	for k,v in self:IterateModules() do
-		if v.Refresh then
+		if self:GetModuleEnabled(k) and not v:IsEnabled() then
+			self:EnableModule(k)
+		elseif not self:GetModuleEnabled(k) and v:IsEnabled() then
+			self:DisableModule(k)
+		end
+		if v.Refresh and v:IsEnabled() then
 			v:Refresh()
 		end
 	end

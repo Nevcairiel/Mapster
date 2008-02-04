@@ -979,6 +979,11 @@ function FogClear:OnDisable()
 	end
 end
 
+function FogClear:Refresh()
+	self:UpdateWorldMapOverlays()
+	self:UpdateBattlefieldMinimapOverlays()
+end
+
 function FogClear:GetNumMapOverlays()
 	if NUM_WORLDMAP_OVERLAYS == 0 then
 		return self.hooks.GetNumMapOverlays()
@@ -1118,6 +1123,5 @@ end
 
 function FogClear:SetOverlayColor(info, r,g,b,a)
 	self.db.profile.colorR, self.db.profile.colorG, self.db.profile.colorB, self.db.profile.colorA = r,g,b,a
-	self:UpdateWorldMapOverlays()
-	self:UpdateBattlefieldMinimapOverlays()
+	self:Refresh()
 end
