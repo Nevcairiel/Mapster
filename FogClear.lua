@@ -944,11 +944,16 @@ function FogClear:OnEnable()
 		end)
 	else
 		self:RawHook("BattlefieldMinimap_Update", true)
+		
+		if BattlefieldMinimap:IsShown() then
+			BattlefieldMinimap_Update()
+		end
 	end
 	
 	if WorldMapFrame:IsShown() then
 		WorldMapFrame_Update()
 	end
+	if 
 end
 
 function FogClear:OnDisable()
