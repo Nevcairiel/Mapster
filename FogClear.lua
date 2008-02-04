@@ -956,7 +956,27 @@ function FogClear:OnEnable()
 end
 
 function FogClear:OnDisable()
+	self:UnhookAll()
+	local tex
+	for i=1, NUM_WORLDMAP_OVERLAYS do
+		tex = _G[format("WorldMapOverlay%d", i)]
+		tex:SetVertexColor(1,1,1)
+		tex:SetAlpha(1)
+	end
+	if WorldMapFrame:IsShown() then
+		WorldMapFrame_Update()
+	end
 	
+	if BattlefieldMinimap then
+		for i=1, NUM_BATTLEFIELDMAP_OVERLAYS do
+			tex = _G[format("BattlefieldMinimapOverlay%d", i)]
+			tex:SetVertexColor(1,1,1)
+			tex:SetAlpha(1 - BattlefieldMinimapOptions.opacity)
+		end
+		if BattlefieldMinimap:IsShown() then
+			BattlefieldMinimap_Update()
+		end
+	end
 end
 
 function FogClear:GetNumMapOverlays()
