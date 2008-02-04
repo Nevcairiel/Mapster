@@ -952,8 +952,7 @@ function FogClear:OnEnable()
 end
 
 function FogClear:OnDisable()
-	self:UnhookAll()
-	self:UnregisterEvent("ADDON_LOADED")
+	
 end
 
 function FogClear:GetNumMapOverlays()

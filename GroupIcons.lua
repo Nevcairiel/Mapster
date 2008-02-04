@@ -71,7 +71,6 @@ function GroupIcons:OnEnable()
 end
 
 function GroupIcons:OnDisable()
-	self:UnregisterEvent("ADDON_LOADED")
 	FixWorldMapUnits(false)
 	FixBattlefieldUnits(false)
 end
