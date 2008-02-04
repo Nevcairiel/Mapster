@@ -1107,6 +1107,7 @@ function FogClear:UpdateWorldMapOverlays()
 end
 
 function FogClear:UpdateBattlefieldMinimapOverlays()
+	if not BattlefieldMinimap or not BattlefieldMinimap:IsShown() then return end
 	local scale = BattlefieldMinimap1:GetWidth()/256
 	updateOverlayTextures(BattlefieldMinimap, "BattlefieldMinimapOverlay%d", scale, BattlefieldMinimapOptions.opacity)
 end
@@ -1117,5 +1118,6 @@ end
 
 function FogClear:SetOverlayColor(info, r,g,b,a)
 	self.db.profile.colorR, self.db.profile.colorG, self.db.profile.colorB, self.db.profile.colorA = r,g,b,a
-	self:UpdateOverlays()
+	self:UpdateWorldMapOverlays()
+	self:UpdateBattlefieldMinimapOverlays()
 end
