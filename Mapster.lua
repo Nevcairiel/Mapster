@@ -111,9 +111,10 @@ end
 
 local oldContinent, oldZone
 function Mapster:ZONE_CHANGED_NEW_AREA()
-	if realZone == (GetCurrentMapZone() + GetCurrentMapContinent() * 100) or (GetCurrentMapZone() ~= 0 and GetPlayerMapPosition("player") ~= 0) then
+	local curZone = GetCurrentMapZone() + GetCurrentMapContinent() * 100
+	if realZone == curZone or ((curZone % 100) > 0 and GetPlayerMapPosition("player") ~= 0) then
 		SetMapToCurrentZone()
-		realZone = GetCurrentMapZone() + GetCurrentMapContinent() * 100
+		realZone = curZone
 	end
 end
 
