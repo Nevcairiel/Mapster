@@ -34,7 +34,7 @@ function Mapster:OnInitialize()
 end
 
 
-local oldUIPanel, oldwmfOnKeyDown
+local oldUIPanel, oldwmfOnKeyDown, realZone
 function Mapster:OnEnable()
 	local vis = WorldMapFrame:IsVisible()
 	if vis then
@@ -72,6 +72,8 @@ function Mapster:OnEnable()
 
 	self:RawHook("CloseSpecialWindows", true)
 	
+	self:RegisterEvent("ZONE_CHANGED_NEW_AREA")
+	
 	if vis then
 		ShowUIPanel(WorldMapFrame)
 	end
@@ -107,11 +109,20 @@ function Mapster:Refresh()
 	end
 end
 
+local oldContinent, oldZone
+function Mapster:ZONE_CHANGED_NEW_AREA()
+	if realZone == (GetCurrentMapZone() + GetCurrentMapContinent() * 100) or (GetCurrentMapZone() ~= 0 and GetPlayerMapPosition("player") ~= 0) then
+		SetMapToCurrentZone()
+		realZone = GetCurrentMapZone() + GetCurrentMapContinent() * 100
+	end
+end
+
 function wmfOnShow(frame)
 	frame:SetScale(db.scale)
 	frame:SetWidth(1024)
 	frame:SetHeight(768)
 	Mapster:SetStrata()
+	realZone = GetCurrentMapZone() + GetCurrentMapContinent() * 100
 end
 
 function wmfOnHide(frame)
