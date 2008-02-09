@@ -13,18 +13,9 @@
 ## LoadWith: Blizzard_BattlefieldMinimap
 
 ## OptionalDeps: Ace3
+## X-Embeds: Ace3
 
-Libs\LibStub\LibStub.lua
-Libs\CallbackHandler-1.0\CallbackHandler-1.0.xml
-
-Libs\AceAddon-3.0\AceAddon-3.0.xml
-Libs\AceEvent-3.0\AceEvent-3.0.xml
-Libs\AceHook-3.0\AceHook-3.0.xml
-Libs\AceDB-3.0\AceDB-3.0.xml
-Libs\AceLocale-3.0\AceLocale-3.0.xml
-
-Libs\AceGUI-3.0\AceGUI-3.0.xml
-Libs\AceConfig-3.0\AceConfig-3.0.xml
+libs.xml
 
 Locale\enUS.lua
 Locale\frFR.lua
