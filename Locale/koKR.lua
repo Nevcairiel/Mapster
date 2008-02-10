@@ -1,33 +1,33 @@
---[[ $Id$ ]]
+﻿--[[ $Id$ ]]
 local L = LibStub("AceLocale-3.0"):NewLocale("Mapster", "koKR")
 if not L then return end
 
 -- Mapster Config
--- L["intro_desc"] = "Mapster allows you to control various aspects of your World Map. You can change the style of the map, control the plugins that extend the map with new functionality, and configure different profiles for every of your characters."
--- L["Style"] = true
--- L["alpha_desc"] = "You can change the transparency of the world map to allow you to continue seeing the world environment while your map is open for navigation."
--- L["Alpha"] = true
--- L["scale_desc"] = "Change the scale of the world map if you do not want the whole screen filled while the map is open."
--- L["Scale"] = true
+L["intro_desc"] = "Mapster는 월드맵에 여러 가지 추가 기능을 부여합니다. 맵의 스타일 변경 등 확장 플러그인에 대한 설정이 가능합니다."
+L["Style"] = "스타일"
+L["alpha_desc"] = "월드맵의 투명도를 변경합니다."
+L["Alpha"] = "투명도"
+L["scale_desc"] = "월드맵의 크기를 변경합니다."
+L["Scale"] = "크기"
 
 -- Coords
--- L["Coordinates"] = true -- name of the module
--- L["coords_desc"] = "The Coordinates module adds a display of your current location, and the coordinates of your mouse cursor to the World Map frame."
--- L["Enable Coordinates"] = true
--- L["Accuracy"] = true
--- L["coords_accuracy_desc"] = "\nYou can control the accuracy of the coordinates, e.g. if you need very exact coordinates you can set this to 2."
+L["Coordinates"] = "좌표" -- name of the module
+L["coords_desc"] = "좌표 모듈은 현재 캐릭터의 위치에 좌표를 표시합니다. 또한 마우스 커서가 위치한 곳의 좌표도 표시합니다."
+L["Enable Coordinates"] = "좌표 모듈 사용"
+L["Accuracy"] = "좌표 자릿수"
+L["coords_accuracy_desc"] = "\n좌표의 소수점 자릿수를 결정합니다."
 
--- L["Cursor"] = true
--- L["Player"] = true
+L["Cursor"] = "커서"
+L["Player"] = "캐릭터"
 
 -- Group Icons
--- L["Group Icons"] = true -- name of the module
--- L["groupicons_desc"] = "The Group Icons module converts the player icons on the World Map and the Zone/Battlefield map to more meaningful icons, showing their class and (in raids) their sub-group."
--- L["Enable Group Icons"] = true
+L["Group Icons"] = "파티원" -- name of the module
+L["groupicons_desc"] = "월드맵에 파티원의 위치를 아이콘으로 표시합니다. 공격대에서는 직업과 파티도 표시합니다."
+L["Enable Group Icons"] = "파티원 표시"
 
 -- FogClear
--- L["FogClear"] = true -- name of the module
--- L["fogclear_desc"] = "The FogClear module removes the Fog of War from the World map, thus displaying the artwork for all the undiscovered zones."
--- L["Enable FogClear"] = true
--- L["fogclear_desc_color"] = "However, if you like to know which areas you did not discover yet, you can set a color that gets applied to those areas, so you notice where to go."
--- L["Overlay Color"] = true
+L["FogClear"] = "미확인 지역 탐색" -- name of the module
+L["fogclear_desc"] = "월드맵에 가보지 않은 미확인 지역을 보여줍니다."
+L["Enable FogClear"] = "미확인 지역 탐색 가능"
+L["fogclear_desc_color"] = "현재 캐릭터가 가보지 않은 지역을 볼 수 있게 합니다. 해당지역에 색상을 지정하여 가본 지역과 구분하여 표시할 수 있습니다."
+L["Overlay Color"] = "미확인 지역 색상"
