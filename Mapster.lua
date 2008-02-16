@@ -5,7 +5,7 @@ All rights reserved.
 
 --[[ $Id$ ]]
 
-local Mapster = LibStub("AceAddon-3.0"):NewAddon("Mapster", "AceEvent-3.0", "AceHook-3.0")
+local Mapster = LibStub("AceAddon-3.0"):NewAddon("Mapster", "AceEvent-3.0")
 
 local db
 local defaults = {
