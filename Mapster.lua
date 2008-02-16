@@ -70,7 +70,7 @@ function Mapster:OnEnable()
 		self:SetFrameStrata("TOOLTIP")
 	end)
 
-	self:RawHook("CloseSpecialWindows", true)
+	tinsert(UISpecialFrames, "WorldMapFrame")
 	
 	self:RegisterEvent("ZONE_CHANGED_NEW_AREA")
 	
@@ -158,15 +158,6 @@ end
 
 function Mapster:SetAlpha()
 	WorldMapFrame:SetAlpha(db.alpha)
-end
-
-function Mapster:CloseSpecialWindows()
-	local result = self.hooks["CloseSpecialWindows"]()
-	if WorldMapFrame:IsShown() then
-			ToggleWorldMap()
-			result = 1
-	end
-	return result
 end
 
 function Mapster:GetModuleEnabled(module)
