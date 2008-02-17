@@ -867,6 +867,10 @@ local errata = {
 		["OshuGun"] = 358806272512,
 		["WindyreedPass"] = 85452914944,
 	},
+	["Sunwell"] = {
+		["SunsReachHarbor"] = 270847607296,
+		["SunsReachSanctum"] = 4558684672,
+	},
 	['*'] = {},
 }
 
