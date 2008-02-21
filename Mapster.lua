@@ -24,7 +24,7 @@ local format = string.format
 local wmfOnShow, wmfStartMoving, wmfStopMoving, dropdownScaleFix
 
 function Mapster:OnInitialize()
-	self.db = LibStub("AceDB-3.0"):New("MapsterDB", defaults)
+	self.db = LibStub("AceDB-3.0"):New("MapsterDB", defaults, "Default")
 	self.db.RegisterCallback(self, "OnProfileChanged", "Refresh")
 	self.db.RegisterCallback(self, "OnProfileCopied", "Refresh")
 	self.db.RegisterCallback(self, "OnProfileReset", "Refresh")
