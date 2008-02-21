@@ -1,6 +1,7 @@
 ﻿--[[ $Id$ ]]
 local L = LibStub("AceLocale-3.0"):NewLocale("Mapster", "frFR")
 if not L then return end
+
 -- Mapster Config
 L["intro_desc"] = "Mapster permet de contrôler divers aspects de la carte du monde. Vous pouvez modifier son style, contrôler les plugins qui lui ajoutent de nouvelles fonctionnalités, et configurer différents profils pour tous vos personnages."
 L["Style"] = "Style"
