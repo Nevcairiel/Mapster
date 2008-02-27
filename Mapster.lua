@@ -109,12 +109,15 @@ function Mapster:Refresh()
 	end
 end
 
-local oldContinent, oldZone
+local function getZoneId()
+	return (GetCurrentMapZone() + GetCurrentMapContinent() * 100)
+end
+
 function Mapster:ZONE_CHANGED_NEW_AREA()
-	local curZone = GetCurrentMapZone() + GetCurrentMapContinent() * 100
-	if realZone == curZone or ((curZone % 100) > 0 and GetPlayerMapPosition("player") ~= 0) then
+	local curZone = getZoneId()
+	if realZone == curZone or ((curZone % 100) > 0 and (GetPlayerMapPosition("player")) ~= 0) then
 		SetMapToCurrentZone()
-		realZone = curZone
+		realZone = getZoneId()
 	end
 end
 
@@ -123,7 +126,7 @@ function wmfOnShow(frame)
 	frame:SetWidth(1024)
 	frame:SetHeight(768)
 	Mapster:SetStrata()
-	realZone = GetCurrentMapZone() + GetCurrentMapContinent() * 100
+	realZone = getZoneId()
 end
 
 function wmfOnHide(frame)
