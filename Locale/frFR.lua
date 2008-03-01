@@ -1,4 +1,4 @@
-﻿--[[ $Id$ ]]
+--[[ $Id$ ]]
 local L = LibStub("AceLocale-3.0"):NewLocale("Mapster", "frFR")
 if not L then return end
 
