@@ -8,7 +8,7 @@ L["Style"] = true
 L["alpha_desc"] = "You can change the transparency of the world map to allow you to continue seeing the world environment while your map is open for navigation."
 L["Alpha"] = true
 L["scale_desc"] = "Change the scale of the world map if you do not want the whole screen filled while the map is open."
-L["Scale"] = true 
+L["Scale"] = true
 
 -- Coords
 L["Coordinates"] = true -- name of the module

@@ -1,4 +1,4 @@
-﻿## Interface: 20300
+## Interface: 20300
 ## Notes: Simple Map Mod
 ## Notes-zhCN: 简单实用的地图模块
 ## Notes-frFR: Simples modifications de la carte.
@@ -6,7 +6,7 @@
 ## Author: Nevcairiel, Funkydude
 ## SavedVariables: MapsterDB
 ## X-Category: Map
-## Version: 1.0
+## Version: 1.0.0
 
 ## LoadManagers: AddonLoader
 ## X-LoadOn-Hooks: ToggleWorldMap

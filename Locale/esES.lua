@@ -17,7 +17,7 @@ if not L then return end
 -- L["Accuracy"] = true
 -- L["coords_accuracy_desc"] = "\nYou can control the accuracy of the coordinates, e.g. if you need very exact coordinates you can set this to 2."
 
--- L["Cursor"] = true 
+-- L["Cursor"] = true
 -- L["Player"] = true
 
 -- Group Icons

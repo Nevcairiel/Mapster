@@ -17,7 +17,7 @@ L["Enable Coordinates"] = "Koordinaten aktivieren"
 L["Accuracy"] = "Genauigkeit"
 L["coords_accuracy_desc"] = "\nDu kannst die Genauigkeit der Koordinaten einstellen, zB wenn du sehr exakte Werte ben\195\182tigst dann stelle den Wert auf 2."
 
-L["Cursor"] = "Kursor" 
+L["Cursor"] = "Kursor"
 L["Player"] = "Spieler"
 
 -- Group Icons
