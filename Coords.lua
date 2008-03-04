@@ -127,12 +127,13 @@ function MouseXY()
 	return cx, cy
 end
 
+local cursor, player = L["Cursor"], L["Player"]
 function OnUpdate()
 	local cx, cy = MouseXY()
 	local px, py = GetPlayerMapPosition("player")
 	
 	if cx then
-		cursortext:SetFormattedText(text, L["Cursor"], 100 * cx, 100 * cy)
+		cursortext:SetFormattedText(text, cursor, 100 * cx, 100 * cy)
 	else
 		cursortext:SetText("")
 	end
@@ -140,6 +141,6 @@ function OnUpdate()
 	if px == 0 then
 		playertext:SetText("")
 	else
-		playertext:SetFormattedText(text, L["Player"], 100 * px, 100 * py)
+		playertext:SetFormattedText(text, player, 100 * px, 100 * py)
 	end
 end
