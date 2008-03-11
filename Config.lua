@@ -23,9 +23,7 @@ end
 
 local options = {
 	type = "group",
-	childGroups = "tree",
 	name = "Mapster",
-	plugins = {},
 	get = optGetter,
 	set = optSetter,
 	args = {
@@ -34,36 +32,29 @@ local options = {
 			type = "description",
 			name = L["intro_desc"],
 		},
-		style = {
+		alphadesc = {
+			order = 2,
+			type = "description",
+			name = L["alpha_desc"],
+		},
+		alpha = {
+			order = 3,
+			name = L["Alpha"],
+			type = "range",
+			min = 0, max = 1, step = 0.01,
+			isPercent = true,
+		},
+		scaledesc = {
+			order = 4,
+			type = "description",
+			name = L["scale_desc"],
+		},
+		scale = {
 			order = 5,
-			name = L["Style"],
-			type = "group",
-			args = {
-				alphadesc = {
-					order = 2,
-					type = "description",
-					name = L["alpha_desc"],
-				},
-				alpha = {
-					order = 3,
-					name = L["Alpha"],
-					type = "range",
-					min = 0, max = 1, step = 0.01,
-					isPercent = true,
-				},
-				scaledesc = {
-					order = 4,
-					type = "description",
-					name = L["scale_desc"],
-				},
-				scale = {
-					order = 5,
-					name = L["Scale"],
-					type = "range",
-					min = 0.1, max = 1, step = 0.01,
-					isPercent = true,
-				},
-			},
+			name = L["Scale"],
+			type = "range",
+			min = 0.1, max = 1, step = 0.01,
+			isPercent = true,
 		},
 	},
 }
@@ -90,9 +81,12 @@ function Mapster:SetupOptions()
 	self.optionsButton:SetScript("OnClick", toggleOptions)
 	
 	-- setup options table
-	LibStub("AceConfig-3.0"):RegisterOptionsTable("Mapster", options)
+	LibStub("AceConfigRegistry-3.0"):RegisterOptionsTable("Mapster", options)
+	LibStub("AceConfigDialog-3.0"):AddToBlizOptions("Mapster", "Mapster")
 end
 
-function Mapster:InjectOptions(name, optionTbl)
-	options.plugins[name] = optionTbl
+function Mapster:RegisterModuleOptions(name, optionTbl, displayName)
+	name = "Mapster"..name
+	LibStub("AceConfigRegistry-3.0"):RegisterOptionsTable(name, optionTbl)
+	LibStub("AceConfigDialog-3.0"):AddToBlizOptions(name, displayName, "Mapster")
 end

@@ -41,37 +41,34 @@ do
 end
 
 local options = {
-	coords = {
-		order = 10,
-		type = "group",
-		name = L["Coordinates"],
-		arg = MODNAME,
-		get = optGetter,
-		set = optSetter,
-		args = {
-			intro = {
-				order = 1,
-				type = "description",
-				name = L["coords_desc"],
-			},
-			enabled = {
-				order = 2,
-				type = "toggle",
-				name = L["Enable Coordinates"],
-				get = function() return Mapster:GetModuleEnabled(MODNAME) end,
-				set = function(info, value) Mapster:SetModuleEnabled(MODNAME, value) end,
-			},
-			accuracydesc = {
-				order = 3,
-				type = "description",
-				name = L["coords_accuracy_desc"],
-			},
-			accuracy = {
-				order = 4,
-				type = "range",
-				name = L["Accuracy"],
-				min = 0, max = 2, step = 1,
-			},
+	type = "group",
+	name = L["Coordinates"],
+	arg = MODNAME,
+	get = optGetter,
+	set = optSetter,
+	args = {
+		intro = {
+			order = 1,
+			type = "description",
+			name = L["coords_desc"],
+		},
+		enabled = {
+			order = 2,
+			type = "toggle",
+			name = L["Enable Coordinates"],
+			get = function() return Mapster:GetModuleEnabled(MODNAME) end,
+			set = function(info, value) Mapster:SetModuleEnabled(MODNAME, value) end,
+		},
+		accuracydesc = {
+			order = 3,
+			type = "description",
+			name = L["coords_accuracy_desc"],
+		},
+		accuracy = {
+			order = 4,
+			type = "range",
+			name = L["Accuracy"],
+			min = 0, max = 2, step = 1,
 		},
 	},
 }
@@ -82,7 +79,7 @@ function Coords:OnInitialize()
 	self:Refresh()
 	
 	self:SetEnabledState(Mapster:GetModuleEnabled(MODNAME))
-	Mapster:InjectOptions(MODNAME, options)
+	Mapster:RegisterModuleOptions(MODNAME, options, L["Coordinates"])
 end
 
 function Coords:OnEnable()

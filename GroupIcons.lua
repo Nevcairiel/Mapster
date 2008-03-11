@@ -28,31 +28,29 @@ local path = "Interface\\AddOns\\Mapster\\Artwork\\"
 local FixUnit, FixWorldMapUnits, FixBattlefieldUnits, OnUpdate, UpdateUnitIcon
 
 local options = {
-	groupicons = {
-		order = 20,
-		type = "group",
-		name = L["Group Icons"],
-		arg = MODNAME,
-		args = {
-			intro = {
-				order = 1,
-				type = "description",
-				name = L["groupicons_desc"],
-			},
-			enabled = {
-				order = 2,
-				type = "toggle",
-				name = L["Enable Group Icons"],
-				get = function() return Mapster:GetModuleEnabled(MODNAME) end,
-				set = function(info, value) Mapster:SetModuleEnabled(MODNAME, value) end,
-			},
-		}
+	order = 20,
+	type = "group",
+	name = L["Group Icons"],
+	arg = MODNAME,
+	args = {
+		intro = {
+			order = 1,
+			type = "description",
+			name = L["groupicons_desc"],
+		},
+		enabled = {
+			order = 2,
+			type = "toggle",
+			name = L["Enable Group Icons"],
+			get = function() return Mapster:GetModuleEnabled(MODNAME) end,
+			set = function(info, value) Mapster:SetModuleEnabled(MODNAME, value) end,
+		},
 	}
 }
 
 function GroupIcons:OnInitialize()
 	self:SetEnabledState(Mapster:GetModuleEnabled(MODNAME))
-	Mapster:InjectOptions(MODNAME, options)
+	Mapster:RegisterModuleOptions(MODNAME, options, L["Group Icons"])
 end
 
 function GroupIcons:OnEnable()
