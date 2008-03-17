@@ -30,5 +30,4 @@ L["Enable Group Icons"] = "파티원 표시"
 L["FogClear"] = "미확인 지역 탐색" -- name of the module
 L["fogclear_desc"] = "월드맵에 가보지 않은 미확인 지역을 보여줍니다."
 L["Enable FogClear"] = "미확인 지역 탐색 가능"
-L["fogclear_desc_color"] = "현재 캐릭터가 가보지 않은 지역을 볼 수 있게 합니다. 해당지역에 색상을 지정하여 가본 지역과 구분하여 표시할 수 있습니다."
 L["Overlay Color"] = "미확인 지역 색상"

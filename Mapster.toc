@@ -29,6 +29,7 @@ Locale\koKR.lua
 
 Mapster.lua
 Config.lua
-Coords.lua
-GroupIcons.lua
+
 FogClear.lua
+GroupIcons.lua
+Coords.lua

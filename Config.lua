@@ -21,43 +21,50 @@ do
 	end
 end
 
-local options = {
-	type = "group",
-	name = "Mapster",
-	get = optGetter,
-	set = optSetter,
-	args = {
-		intro = {
-			order = 1,
-			type = "description",
-			name = L["intro_desc"],
-		},
-		alphadesc = {
-			order = 2,
-			type = "description",
-			name = L["alpha_desc"],
-		},
-		alpha = {
-			order = 3,
-			name = L["Alpha"],
-			type = "range",
-			min = 0, max = 1, step = 0.01,
-			isPercent = true,
-		},
-		scaledesc = {
-			order = 4,
-			type = "description",
-			name = L["scale_desc"],
-		},
-		scale = {
-			order = 5,
-			name = L["Scale"],
-			type = "range",
-			min = 0.1, max = 1, step = 0.01,
-			isPercent = true,
-		},
-	},
-}
+local options
+local function getOptions()
+	if not options then
+		options = {
+			type = "group",
+			name = "Mapster",
+			get = optGetter,
+			set = optSetter,
+			args = {
+				intro = {
+					order = 1,
+					type = "description",
+					name = L["intro_desc"],
+				},
+				alphadesc = {
+					order = 2,
+					type = "description",
+					name = L["alpha_desc"],
+				},
+				alpha = {
+					order = 3,
+					name = L["Alpha"],
+					type = "range",
+					min = 0, max = 1, step = 0.01,
+					isPercent = true,
+				},
+				scaledesc = {
+					order = 4,
+					type = "description",
+					name = L["scale_desc"],
+				},
+				scale = {
+					order = 5,
+					name = L["Scale"],
+					type = "range",
+					min = 0.1, max = 1, step = 0.01,
+					isPercent = true,
+				},
+			},
+		}
+	end
+	
+	return options
+end
 
 local function toggleOptions()
 	local ACD = LibStub("AceConfigDialog-3.0")
@@ -81,8 +88,11 @@ function Mapster:SetupOptions()
 	self.optionsButton:SetScript("OnClick", toggleOptions)
 	
 	-- setup options table
-	LibStub("AceConfigRegistry-3.0"):RegisterOptionsTable("Mapster", options)
+	LibStub("AceConfigRegistry-3.0"):RegisterOptionsTable("Mapster", getOptions)
 	LibStub("AceConfigDialog-3.0"):AddToBlizOptions("Mapster", "Mapster")
+	
+	LibStub("AceConfigRegistry-3.0"):RegisterOptionsTable("MapsterProfile", LibStub("AceDBOptions-3.0"):GetOptionsTable(self.db))
+	LibStub("AceConfigDialog-3.0"):AddToBlizOptions("MapsterProfile", "Profiles", "Mapster")
 end
 
 function Mapster:RegisterModuleOptions(name, optionTbl, displayName)

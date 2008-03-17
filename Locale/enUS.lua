@@ -28,7 +28,6 @@ L["Enable Group Icons"] = true
 
 -- FogClear
 L["FogClear"] = true -- name of the module
-L["fogclear_desc"] = "The FogClear module removes the Fog of War from the World map, thus displaying the artwork for all the undiscovered zones."
+L["fogclear_desc"] = "The FogClear module removes the Fog of War from the World map, thus displaying the artwork for all the undiscovered zones, optionally with a color overlay on undiscovered areas."
 L["Enable FogClear"] = true
-L["fogclear_desc_color"] = "However, if you like to know which areas you did not discover yet, you can set a color that gets applied to those areas, so you notice where to go."
 L["Overlay Color"] = true

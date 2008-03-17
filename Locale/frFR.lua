@@ -30,5 +30,4 @@ L["Enable Group Icons"] = "Activer Icônes de groupe"
 L["FogClear"] = "Antibrouillard" -- name of the module
 L["fogclear_desc"] = "Le module d'antibrouillard enlève le brouillard de guerre de la carte du monde, affichant ainsi tout ce qui se trouve dans les zones qui vous sont inconnues."
 L["Enable FogClear"] = "Activer l'antibrouillard"
-L["fogclear_desc_color"] = "Cependant, si vous préférez savoir quelles zones vous n'avez pas encore découvertes, vous pouvez définir une couleur qui sera appliquée à ces zones, afin de savoir où aller."
 L["Overlay Color"] = "Couleur de superposition"
