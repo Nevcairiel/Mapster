@@ -984,6 +984,7 @@ function FogClear:OnDisable()
 end
 
 function FogClear:Refresh()
+	if not self:IsEnabled() then return end
 	self:UpdateWorldMapOverlays()
 	self:UpdateBattlefieldMinimapOverlays()
 end
