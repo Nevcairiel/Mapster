@@ -66,15 +66,6 @@ local function getOptions()
 	return options
 end
 
-local function toggleOptions()
-	local ACD = LibStub("AceConfigDialog-3.0")
-	if ACD.OpenFrames["Mapster"] then
-		ACD:Close("Mapster")
-	else
-		ACD:Open("Mapster")
-	end
-end
-
 function Mapster:SetupOptions()
 	-- create button on the worldmap to toggle the options
 	self.optionsButton = CreateFrame("Button", "MapsterOptionsButton", WorldMapFrame, "UIPanelButtonTemplate")
@@ -85,18 +76,24 @@ function Mapster:SetupOptions()
 	self.optionsButton:SetPoint("TOPRIGHT", "WorldMapPositioningGuide", "TOPRIGHT", -9, -37)
 	self.optionsButton:Show()
 	
-	self.optionsButton:SetScript("OnClick", toggleOptions)
+	self.optionsButton:SetScript("OnClick", function() 
+		-- open the profiles tab before, so the menu expands
+		InterfaceOptionsFrame_OpenToFrame(Mapster.optionsFrames.Profile)
+		InterfaceOptionsFrame_OpenToFrame(Mapster.optionsFrames.Mapster)
+		InterfaceOptionsFrame:SetFrameStrata("DIALOG") 
+	end)
+	
+	self.optionsFrames = {}
 	
 	-- setup options table
 	LibStub("AceConfigRegistry-3.0"):RegisterOptionsTable("Mapster", getOptions)
-	LibStub("AceConfigDialog-3.0"):AddToBlizOptions("Mapster", "Mapster")
+	self.optionsFrames.Mapster = LibStub("AceConfigDialog-3.0"):AddToBlizOptions("Mapster")
 	
-	LibStub("AceConfigRegistry-3.0"):RegisterOptionsTable("MapsterProfile", LibStub("AceDBOptions-3.0"):GetOptionsTable(self.db))
-	LibStub("AceConfigDialog-3.0"):AddToBlizOptions("MapsterProfile", "Profiles", "Mapster")
+	self:RegisterModuleOptions("Profile", LibStub("AceDBOptions-3.0"):GetOptionsTable(self.db), "Profiles")
 end
 
 function Mapster:RegisterModuleOptions(name, optionTbl, displayName)
-	name = "Mapster"..name
-	LibStub("AceConfigRegistry-3.0"):RegisterOptionsTable(name, optionTbl)
-	LibStub("AceConfigDialog-3.0"):AddToBlizOptions(name, displayName, "Mapster")
+	local cname = "Mapster"..name
+	LibStub("AceConfigRegistry-3.0"):RegisterOptionsTable(cname, optionTbl)
+	self.optionsFrames[name] = LibStub("AceConfigDialog-3.0"):AddToBlizOptions(cname, displayName, "Mapster")
 end
