@@ -30,5 +30,4 @@ L["Enable Group Icons"] = "Gruppensymbole aktivieren"
 L["FogClear"] = "FogClear" -- name of the module
 L["fogclear_desc"] = "Das FogClear-Modul entfernt den Nebel des Krieges auf der Weltkarte, womit alle bisher unentdeckten Gebiete automatisch aufgedeckt werden."
 L["Enable FogClear"] = "FogClear aktivieren"
-L["fogclear_desc_color"] = "Wenn du aber wissen willst welche Gebiete du bisher noch nicht (selbst) entdeckt hast, so kannst du f\195\188r diese Gebiete eine eigene Farbe einstellen welche dann an diesen entsprechenden Gebieten angezeigt wird."
 L["Overlay Color"] = "Overlay-Farbe"

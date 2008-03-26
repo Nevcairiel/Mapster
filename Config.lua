@@ -21,24 +21,20 @@ do
 	end
 end
 
-local options = {
-	type = "group",
-	childGroups = "tree",
-	name = "Mapster",
-	plugins = {},
-	get = optGetter,
-	set = optSetter,
-	args = {
-		intro = {
-			order = 1,
-			type = "description",
-			name = L["intro_desc"],
-		},
-		style = {
-			order = 5,
-			name = L["Style"],
+local options
+local function getOptions()
+	if not options then
+		options = {
 			type = "group",
+			name = "Mapster",
+			get = optGetter,
+			set = optSetter,
 			args = {
+				intro = {
+					order = 1,
+					type = "description",
+					name = L["intro_desc"],
+				},
 				alphadesc = {
 					order = 2,
 					type = "description",
@@ -64,17 +60,10 @@ local options = {
 					isPercent = true,
 				},
 			},
-		},
-	},
-}
-
-local function toggleOptions()
-	local ACD = LibStub("AceConfigDialog-3.0")
-	if ACD.OpenFrames["Mapster"] then
-		ACD:Close("Mapster")
-	else
-		ACD:Open("Mapster")
+		}
 	end
+	
+	return options
 end
 
 function Mapster:SetupOptions()
@@ -87,12 +76,24 @@ function Mapster:SetupOptions()
 	self.optionsButton:SetPoint("TOPRIGHT", "WorldMapPositioningGuide", "TOPRIGHT", -9, -37)
 	self.optionsButton:Show()
 	
-	self.optionsButton:SetScript("OnClick", toggleOptions)
+	self.optionsButton:SetScript("OnClick", function() 
+		-- open the profiles tab before, so the menu expands
+		InterfaceOptionsFrame_OpenToFrame(Mapster.optionsFrames.Profile)
+		InterfaceOptionsFrame_OpenToFrame(Mapster.optionsFrames.Mapster)
+		InterfaceOptionsFrame:SetFrameStrata("DIALOG") 
+	end)
+	
+	self.optionsFrames = {}
 	
 	-- setup options table
-	LibStub("AceConfig-3.0"):RegisterOptionsTable("Mapster", options)
+	LibStub("AceConfigRegistry-3.0"):RegisterOptionsTable("Mapster", getOptions)
+	self.optionsFrames.Mapster = LibStub("AceConfigDialog-3.0"):AddToBlizOptions("Mapster")
+	
+	self:RegisterModuleOptions("Profile", LibStub("AceDBOptions-3.0"):GetOptionsTable(self.db), "Profiles")
 end
 
-function Mapster:InjectOptions(name, optionTbl)
-	options.plugins[name] = optionTbl
+function Mapster:RegisterModuleOptions(name, optionTbl, displayName)
+	local cname = "Mapster"..name
+	LibStub("AceConfigRegistry-3.0"):RegisterOptionsTable(cname, optionTbl)
+	self.optionsFrames[name] = LibStub("AceConfigDialog-3.0"):AddToBlizOptions(cname, displayName, "Mapster")
 end

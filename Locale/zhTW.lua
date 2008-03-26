@@ -30,6 +30,5 @@ if not L then return end
  L["FogClear"] = "地圖全亮" -- name of the module
  L["fogclear_desc"] = "地圖全亮,顯示你沒去過的區域."
  L["Enable FogClear"] = "啟用地圖全亮"
- L["fogclear_desc_color"] = "設置一層顏色來覆蓋你沒去過的區域地圖."
  L["Overlay Color"] = "覆蓋顏色"
 --translated from the reference of  cwdg's zhCH translation, there is something call "change simplify chinese to traditional chinese tools ":P

@@ -887,50 +887,51 @@ local defaults = {
 	},
 }
 
-local options = {
-	fogclear = {
-		order = 30,
-		type = "group",
-		name = L["FogClear"],
-		arg = MODNAME,
-		get = optGetter,
-		set = optSetter,
-		args = {
-			intro = {
-				order = 1,
-				type = "description",
-				name = L["fogclear_desc"],
-			},
-			enabled = {
-				order = 2,
-				type = "toggle",
-				name = L["Enable FogClear"],
-				get = function() return Mapster:GetModuleEnabled(MODNAME) end,
-				set = function(info, value) Mapster:SetModuleEnabled(MODNAME, value) end,
-			},
-			colordesc = {
-				order = 3,
-				type = "description",
-				name = L["fogclear_desc_color"],
-			},
-			color = {
-				order = 4,
-				type = "color",
-				name = L["Overlay Color"],
-				get = "GetOverlayColor",
-				set = "SetOverlayColor",
-				handler = FogClear,
-			},
+local options
+
+local function getOptions()
+	if not options then
+		options = {
+			type = "group",
+			name = L["FogClear"],
+			arg = MODNAME,
+			get = optGetter,
+			set = optSetter,
+			args = {
+				intro = {
+					order = 1,
+					type = "description",
+					name = L["fogclear_desc"] .. "\n",
+				},
+				enabled = {
+					order = 2,
+					type = "toggle",
+					name = L["Enable FogClear"],
+					get = function() return Mapster:GetModuleEnabled(MODNAME) end,
+					set = function(info, value) Mapster:SetModuleEnabled(MODNAME, value) end,
+				},
+				color = {
+					order = 3,
+					type = "color",
+					name = L["Overlay Color"],
+					get = "GetOverlayColor",
+					set = "SetOverlayColor",
+					handler = FogClear,
+				},
+			}
 		}
-	}
-}
+	end
+	
+	return options
+end
+
 
 function FogClear:OnInitialize()
 	self.db = Mapster.db:RegisterNamespace(MODNAME, defaults)
 	db = self.db.profile
 	
 	self:SetEnabledState(Mapster:GetModuleEnabled(MODNAME))
-	Mapster:InjectOptions(MODNAME, options)
+	Mapster:RegisterModuleOptions(MODNAME, getOptions, L["FogClear"])
 end
 
 function FogClear:OnEnable()
