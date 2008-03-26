@@ -80,8 +80,8 @@ function Mapster:SetupOptions()
 		-- open the profiles tab before, so the menu expands
 		InterfaceOptionsFrame_OpenToFrame(Mapster.optionsFrames.Profile)
 		InterfaceOptionsFrame_OpenToFrame(Mapster.optionsFrames.Mapster)
-		InterfaceOptionsFrame:SetFrameStrata("DIALOG") 
 	end)
+	InterfaceOptionsFrame:SetFrameStrata("DIALOG") 
 	
 	self.optionsFrames = {}
 	
