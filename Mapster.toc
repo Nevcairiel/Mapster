@@ -6,7 +6,7 @@
 ## Author: Nevcairiel, Funkydude
 ## SavedVariables: MapsterDB
 ## X-Category: Map
-## Version: 1.0.1
+## Version: 1.0.2
 
 ## LoadManagers: AddonLoader
 ## X-LoadOn-Hooks: ToggleWorldMap
