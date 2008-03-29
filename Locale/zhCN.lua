@@ -4,30 +4,30 @@ local L = LibStub("AceLocale-3.0"):NewLocale("Mapster", "zhCN")
 if not L then return end
 
 -- Mapster Config
--- L["intro_desc"] = "Mapster allows you to control various aspects of your World Map. You can change the style of the map, control the plugins that extend the map with new functionality, and configure different profiles for every of your characters."
--- L["Style"] = true
--- L["alpha_desc"] = "You can change the transparency of the world map to allow you to continue seeing the world environment while your map is open for navigation."
--- L["Alpha"] = true
--- L["scale_desc"] = "Change the scale of the world map if you do not want the whole screen filled while the map is open."
--- L["Scale"] = true
+L["intro_desc"] = "Mapster让你改变世界地图的各种样式, 通过扩展插件来增强大地图的功能.冰可以为每个角色设置不同的配置"
+L["Style"] = "样式"
+L["alpha_desc"] = "改变世界地图的透明度, 使你在打开大地图的情况下仍然继续操作你的人物"
+L["Alpha"] = "透明度"
+L["scale_desc"] = "调整世界地图的显示比例. 它可以让你的世界地图不会再覆盖整个屏幕"
+L["Scale"] = "缩放"
 
 -- Coords
--- L["Coordinates"] = true -- name of the module
--- L["coords_desc"] = "The Coordinates module adds a display of your current location, and the coordinates of your mouse cursor to the World Map frame."
--- L["Enable Coordinates"] = true
--- L["Accuracy"] = true
--- L["coords_accuracy_desc"] = "\nYou can control the accuracy of the coordinates, e.g. if you need very exact coordinates you can set this to 2."
+L["Coordinates"] = "坐标" -- name of the module
+L["coords_desc"] = "在世界地图上加入你当前位置坐标和鼠标位置的鼠标"
+L["Enable Coordinates"] = "启用坐标"
+L["Accuracy"] = "高精度"
+L["coords_accuracy_desc"] = "\n选择此项使你的坐标信息更加精确.例如: 如果你需要精确的位置坐标,请设置到2."
 
--- L["Cursor"] = true
--- L["Player"] = true
+L["Cursor"] = "鼠标"
+L["Player"] = "玩家"
 
 -- Group Icons
--- L["Group Icons"] = true -- name of the module
--- L["groupicons_desc"] = "The Group Icons module converts the player icons on the World Map and the Zone/Battlefield map to more meaningful icons, showing their class and (in raids) their sub-group."
--- L["Enable Group Icons"] = true
+L["Group Icons"] = "小队标记" -- name of the module
+L["groupicons_desc"] = "增强在世界地图和区域/战场地图上的标记. 他们可以详细的显示职业和队伍"
+L["Enable Group Icons"] = "启用小队标记"
 
 -- FogClear
--- L["FogClear"] = true -- name of the module
--- L["fogclear_desc"] = "The FogClear module removes the Fog of War from the World map, thus displaying the artwork for all the undiscovered zones, optionally with a color overlay on undiscovered areas."
--- L["Enable FogClear"] = true
--- L["Overlay Color"] = true
+L["FogClear"] = "地图全亮" -- name of the module
+L["fogclear_desc"] = "世界地图全亮.显示你没有去探索过的地图"
+L["Enable FogClear"] =  "启用地图全亮"
+L["Overlay Color"] = "覆盖颜色"
