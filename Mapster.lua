@@ -58,6 +58,7 @@ function Mapster:OnEnable()
 
 	WorldMapFrame:ClearAllPoints()
 	WorldMapFrame:SetPoint("CENTER", UIParent, "CENTER", db.x or 0, db.y or 0)
+	WorldMapFrame:SetToplevel(true)
 	
 	WorldMapContinentDropDownButton:SetScript("OnClick", dropdownScaleFix)
 	WorldMapZoneDropDownButton:SetScript("OnClick", dropdownScaleFix)
