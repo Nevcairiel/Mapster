@@ -21,46 +21,56 @@ do
 	end
 end
 
-local options
+local options, moduleOptions = nil, {}
 local function getOptions()
 	if not options then
 		options = {
 			type = "group",
 			name = "Mapster",
-			get = optGetter,
-			set = optSetter,
 			args = {
-				intro = {
+				general = {
 					order = 1,
-					type = "description",
-					name = L["intro_desc"],
-				},
-				alphadesc = {
-					order = 2,
-					type = "description",
-					name = L["alpha_desc"],
-				},
-				alpha = {
-					order = 3,
-					name = L["Alpha"],
-					type = "range",
-					min = 0, max = 1, step = 0.01,
-					isPercent = true,
-				},
-				scaledesc = {
-					order = 4,
-					type = "description",
-					name = L["scale_desc"],
-				},
-				scale = {
-					order = 5,
-					name = L["Scale"],
-					type = "range",
-					min = 0.1, max = 1, step = 0.01,
-					isPercent = true,
+					type = "group",
+					name = "General Settings",
+					get = optGetter,
+					set = optSetter,
+					args = {
+						intro = {
+							order = 1,
+							type = "description",
+							name = L["intro_desc"],
+						},
+						alphadesc = {
+							order = 2,
+							type = "description",
+							name = L["alpha_desc"],
+						},
+						alpha = {
+							order = 3,
+							name = L["Alpha"],
+							type = "range",
+							min = 0, max = 1, step = 0.01,
+							isPercent = true,
+						},
+						scaledesc = {
+							order = 4,
+							type = "description",
+							name = L["scale_desc"],
+						},
+						scale = {
+							order = 5,
+							name = L["Scale"],
+							type = "range",
+							min = 0.1, max = 1, step = 0.01,
+							isPercent = true,
+						},
+					},
 				},
 			},
 		}
+		for k,v in pairs(moduleOptions) do
+			options.args[k] = (type(v) == "function") and v() or v
+		end
 	end
 	
 	return options
@@ -78,7 +88,7 @@ function Mapster:SetupOptions()
 	
 	self.optionsButton:SetScript("OnClick", function() 
 		-- open the profiles tab before, so the menu expands
-		InterfaceOptionsFrame_OpenToFrame(Mapster.optionsFrames.Profile)
+		InterfaceOptionsFrame_OpenToFrame(Mapster.optionsFrames.Profiles)
 		InterfaceOptionsFrame_OpenToFrame(Mapster.optionsFrames.Mapster)
 	end)
 	InterfaceOptionsFrame:SetFrameStrata("DIALOG") 
@@ -87,13 +97,12 @@ function Mapster:SetupOptions()
 	
 	-- setup options table
 	LibStub("AceConfigRegistry-3.0"):RegisterOptionsTable("Mapster", getOptions)
-	self.optionsFrames.Mapster = LibStub("AceConfigDialog-3.0"):AddToBlizOptions("Mapster")
+	self.optionsFrames.Mapster = LibStub("AceConfigDialog-3.0"):AddToBlizOptions("Mapster", nil, nil, "general")
 	
-	self:RegisterModuleOptions("Profile", LibStub("AceDBOptions-3.0"):GetOptionsTable(self.db), "Profiles")
+	self:RegisterModuleOptions("Profiles", LibStub("AceDBOptions-3.0"):GetOptionsTable(self.db), "Profiles")
 end
 
 function Mapster:RegisterModuleOptions(name, optionTbl, displayName)
-	local cname = "Mapster"..name
-	LibStub("AceConfigRegistry-3.0"):RegisterOptionsTable(cname, optionTbl)
-	self.optionsFrames[name] = LibStub("AceConfigDialog-3.0"):AddToBlizOptions(cname, displayName, "Mapster")
+	moduleOptions[name] = optionTbl
+	self.optionsFrames[name] = LibStub("AceConfigDialog-3.0"):AddToBlizOptions("Mapster", displayName, "Mapster", name)
 end
