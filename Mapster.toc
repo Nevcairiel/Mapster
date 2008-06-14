@@ -3,10 +3,11 @@
 ## Notes-zhCN: 简单实用的地图模块
 ## Notes-frFR: Simples modifications de la carte.
 ## Title: Mapster
-## Author: Nevcairiel, Funkydude
+## Author: Nevcairiel, Funkydude (Coords Module)
 ## SavedVariables: MapsterDB
 ## X-Category: Map
 ## Version: 1.0.2
+## X-License: All rights reserved.
 
 ## LoadManagers: AddonLoader
 ## X-LoadOn-Hooks: ToggleWorldMap
@@ -16,7 +17,7 @@
 ## OptionalDeps: Ace3
 ## X-Embeds: Ace3
 
-libs.xml
+embeds.xml
 
 Locale\enUS.lua
 Locale\frFR.lua
