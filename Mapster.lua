@@ -34,15 +34,16 @@ function Mapster:OnInitialize()
 end
 
 
-local oldUIPanel, oldwmfOnKeyDown, realZone
+-- local oldUIPanel,
+local oldwmfOnKeyDown, realZone
 function Mapster:OnEnable()
 	local vis = WorldMapFrame:IsVisible()
 	if vis then
 		HideUIPanel(WorldMapFrame)
 	end
 	
-	oldUIPanel = UIPanelWindows["WorldMapFrame"]
-	UIPanelWindows["WorldMapFrame"] = nil
+	--oldUIPanel = UIPanelWindows["WorldMapFrame"]
+	--UIPanelWindows["WorldMapFrame"] = nil
 	WorldMapFrame:SetAttribute("UIPanelLayout-enabled", false)
 	WorldMapFrame:HookScript("OnShow", wmfOnShow)
 	WorldMapFrame:HookScript("OnHide", wmfOnHide)
