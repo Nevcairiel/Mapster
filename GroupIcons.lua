@@ -25,7 +25,7 @@ local MapUnit_IsInactive = MapUnit_IsInactive
 --Artwork taken from Cartographer
 local path = "Interface\\AddOns\\Mapster\\Artwork\\"
 
-local FixUnit, FixWorldMapUnits, FixBattlefieldUnits, OnUpdate, UpdateUnitIcon
+local FixUnit, FixWorldMapUnits, FixBattlefieldUnits, OnUpdate, OnEvent, UpdateUnitIcon
 
 local options
 local function getOptions()
@@ -84,14 +84,23 @@ function FixUnit(unit, state, isNormal)
 	local frame = _G[unit]
 	local icon = _G[unit.."Icon"]
 	if state then
+		frame.elapsed = 0.5
 		frame:SetScript("OnUpdate", OnUpdate)
 		if isNormal then
 			icon:SetTexture(path .. "Normal")
 		end
+		frame.icon = icon
+		frame:RegisterEvent("PARTY_MEMBERS_CHANGED")
+		frame:RegisterEvent("RAID_ROSTER_UPDATE")
+		frame:SetScript("OnEvent", OnEvent)
 	else
+		frame.elapsed = nil
 		frame:SetScript("OnUpdate", MapUnit_OnUpdate)
 		icon:SetVertexColor(1, 1, 1)
 		icon:SetTexture("Interface\\WorldMap\\WorldMapPartyIcon")
+		frame.icon = nil
+		frame:UnregisterAllEvents()
+		frame:SetScript("OnEvent", nil)
 	end
 end
 
@@ -115,34 +124,44 @@ function FixBattlefieldUnits(state)
 	end
 end
 
-function OnUpdate(self)
-	local name = self:GetName().."Icon"
-	local texture = _G[name]
-	if texture then
-		UpdateUnitIcon(texture, self.unit)
+function OnUpdate(self, elapsed)
+	self.elapsed = self.elapsed - elapsed
+	if self.elapsed <= 0 then
+		self.elapsed = 0.5
+		UpdateUnitIcon(self.icon, self.unit, self.fullUpdate)
+		self.fullUpdate = nil
 	end
 end
 
+function OnEvent(self)
+	self.fullUpdate = true
+end
+
 local grouptex = path .. "Group%d"
-function UpdateUnitIcon(tex, unit)
+function UpdateUnitIcon(tex, unit, full)
 	--Don't flash or color inactive
 	if MapUnit_IsInactive(unit) then return end
 	-- sanity check
 	if not (tex and unit) then return end
-	-- grab the class filename
-	local _, fileName = UnitClass(unit)
-	if not fileName then return end
+	
+	if full then
+		-- grab the class filename
+		local _, fileName = UnitClass(unit)
+		if not fileName then return end
 
-	-- handle raid units, and set the correct subgroup texture
-	if find(unit, "raid", 1, true) then
-		local _, _, subgroup = GetRaidRosterInfo(sub(unit, 5))
-		if not subgroup then return end
-		tex:SetTexture(fmt(grouptex, subgroup))
+		-- handle raid units, and set the correct subgroup texture
+		if find(unit, "raid", 1, true) then
+			local _, _, subgroup = GetRaidRosterInfo(sub(unit, 5))
+			if not subgroup then return end
+			tex:SetTexture(fmt(grouptex, subgroup))
+		end
+		
+		tex.color = RAID_CLASS_COLORS[fileName]
 	end
-
+	
 	-- color the texture
-	local t = RAID_CLASS_COLORS[fileName]
 	-- either by flash color
+	local t = tex.color
 	if (GetTime() % 1 < 0.5) then
 		if UnitAffectingCombat(unit) then
 			-- red flash for units in combat
