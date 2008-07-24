@@ -85,6 +85,7 @@ function FixUnit(unit, state, isNormal)
 	local icon = _G[unit.."Icon"]
 	if state then
 		frame.elapsed = 0.5
+		frame.fullUpdate = true
 		frame:SetScript("OnUpdate", OnUpdate)
 		if isNormal then
 			icon:SetTexture(path .. "Normal")
@@ -95,6 +96,7 @@ function FixUnit(unit, state, isNormal)
 		frame:SetScript("OnEvent", OnEvent)
 	else
 		frame.elapsed = nil
+		frame.fullUpdate = nil
 		frame:SetScript("OnUpdate", MapUnit_OnUpdate)
 		icon:SetVertexColor(1, 1, 1)
 		icon:SetTexture("Interface\\WorldMap\\WorldMapPartyIcon")
