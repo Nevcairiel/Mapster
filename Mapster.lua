@@ -151,8 +151,8 @@ function wmfStopMoving(frame)
 	frame:SetPoint("CENTER", "UIParent", "CENTER", db.x, db.y)
 end
 
-function dropdownScaleFix(frame)
-	ToggleDropDownMenu()
+function dropdownScaleFix(self)
+	ToggleDropDownMenu(nil, nil, self:GetParent())
 	DropDownList1:SetScale(db.scale)
 end
 
