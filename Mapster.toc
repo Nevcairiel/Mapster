@@ -1,4 +1,4 @@
-## Interface: 20400
+## Interface: 30000
 ## Notes: Simple Map Mod
 ## Notes-zhCN: 简单实用的地图模块
 ## Notes-frFR: Simples modifications de la carte.
@@ -6,12 +6,12 @@
 ## Author: Nevcairiel, Funkydude (Coords Module)
 ## SavedVariables: MapsterDB
 ## X-Category: Map
-## Version: 1.0.2
+## Version: 1.0.3
 ## X-License: All rights reserved.
 
 ## LoadManagers: AddonLoader
-## X-LoadOn-Hooks: ToggleWorldMap
-## X-LoadOn-ToggleWorldMap: if not IsAddOnLoaded("Mapster") then AddonLoader:LoadAddOn("Mapster") end
+## X-LoadOn-Hooks: ToggleFrame
+## X-LoadOn-ToggleFrame: if ... == WorldMapFrame and not IsAddOnLoaded("Mapster") then AddonLoader:LoadAddOn("Mapster") end
 ## LoadWith: Blizzard_BattlefieldMinimap
 
 ## OptionalDeps: Ace3
