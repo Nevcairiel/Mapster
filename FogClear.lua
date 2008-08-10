@@ -896,6 +896,22 @@ local errata = {
 		["BaelgunsExcavationSite"] = 351765054708,
 		["AncientLift"] = 377242188977,
 	},
+	["BoreanTundra"] = {
+		["AmberLedge"] = 150664861940,
+		["BorGorokOutpost"] = 329461132,
+		["TempleCityOfEnKilah"] = 16853012770,
+		["DeathsStand"] = 195088899361,
+		["Kaskala"] = 230314799489,
+		["TorpsFarm"] = 254762307870,
+		["TheDensOfDying"] = 12505531595,
+		["Coldarra"] = 52819404,
+		["TheGeyserFields"] = 503667063,
+		["ValianceKeep"] = 283947350275,
+		["WarsongStronghold"] = 254822078724,
+		["SteeljawsCaravan"] = 71283571956,
+		["RiplashStrand"] = 411550615934,
+		["GarroshsLanding"] = 255711373579,
+	},
 	['*'] = {},
 }
 
