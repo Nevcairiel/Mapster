@@ -105,7 +105,7 @@ function Mapster:Refresh()
 		elseif not self:GetModuleEnabled(k) and v:IsEnabled() then
 			self:DisableModule(k)
 		end
-		if v.Refresh and v:IsEnabled() then
+		if type(v.Refresh) == "function" and v:IsEnabled() then
 			v:Refresh()
 		end
 	end

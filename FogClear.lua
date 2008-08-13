@@ -985,7 +985,8 @@ function FogClear:OnDisable()
 end
 
 function FogClear:Refresh()
-	if not self:IsEnabled() then return end
+	db = self.db.profile
+	
 	self:UpdateWorldMapOverlays()
 	self:UpdateBattlefieldMinimapOverlays()
 end
@@ -1129,5 +1130,5 @@ end
 
 function FogClear:SetOverlayColor(info, r,g,b,a)
 	self.db.profile.colorR, self.db.profile.colorG, self.db.profile.colorB, self.db.profile.colorA = r,g,b,a
-	self:Refresh()
+	if self:IsEnabled() then self:Refresh() end
 end
