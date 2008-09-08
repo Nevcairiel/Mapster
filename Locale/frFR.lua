@@ -14,23 +14,23 @@ L["Scale"] = "Échelle"
 -- Coords
 L["Coordinates"] = "Coordonnées" -- name of the module
 L["coords_desc"] = "Le module des coordonnées ajoute sur la fenêtre de la carte du monde les coordonnées actuelles de votre personnage ainsi que ceux de votre curseur."
-L["Enable Coordinates"] = "Activer les coordonnées"
+L["Enable Coordinates"] = "Activer coordonnées"
 L["Accuracy"] = "Précision"
 L["coords_accuracy_desc"] = "\nVous pouvez ici contrôler la précision des coordonnées. Par exemple, si vous voulez des coordonnées très précises, mettez la valeur à 2."
 
-L["Cursor"] = "Curseur"
-L["Player"] = "Joueur"
+L["Cursor"] = "Curseur "
+L["Player"] = "Joueur "
 
 -- Group Icons
 L["Group Icons"] = "Icônes de groupe" -- name of the module
 L["groupicons_desc"] = "Le module des icônes de groupe converti les icônes des joueurs affichés sur la carte du monde et sur la carte locale en des icônes plus significatives, indiquant leurs classes et (si en raid) leurs groupes."
-L["Enable Group Icons"] = "Activer Icônes de groupe"
+L["Enable Group Icons"] = "Activer icônes de groupe"
 
 -- FogClear
 L["FogClear"] = "Antibrouillard" -- name of the module
 L["fogclear_desc"] = "Le module d'antibrouillard enlève le brouillard de guerre de la carte du monde, affichant ainsi tout ce qui se trouve dans les zones qui vous sont inconnues."
-L["Enable FogClear"] = "Activer l'antibrouillard"
+L["Enable FogClear"] = "Activer antibrouillard"
 L["Overlay Color"] = "Couleur de superposition"
---L["Reset FogClear Data"] = true
---L["reset_desc"] = "FogClear collects new Data in your own SavedVariables, but that data might get corrupted (or simply old) with a new patch. Reset the data if you see corruption in the world map."
---L["Note: You need to reload your UI after reseting the data!"] = true
+L["Reset FogClear Data"] = "RÀZ des données"
+L["reset_desc"] = "Antibrouillard enregistre les nouvelles données dans votre propre SavedVariables, mais ces données peuvent devenir corrompues (ou tout simplement obsolètes) avec un nouveau patch. Réinitialisez les données si une des cartes du monde semble corrompue."
+L["Note: You need to reload your UI after reseting the data!"] = "Note : rechargez votre IU après la réinitialisation des données !"
