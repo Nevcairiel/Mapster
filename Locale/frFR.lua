@@ -31,3 +31,6 @@ L["FogClear"] = "Antibrouillard" -- name of the module
 L["fogclear_desc"] = "Le module d'antibrouillard enlève le brouillard de guerre de la carte du monde, affichant ainsi tout ce qui se trouve dans les zones qui vous sont inconnues."
 L["Enable FogClear"] = "Activer l'antibrouillard"
 L["Overlay Color"] = "Couleur de superposition"
+--L["Reset FogClear Data"] = true
+--L["reset_desc"] = "FogClear collects new Data in your own SavedVariables, but that data might get corrupted (or simply old) with a new patch. Reset the data if you see corruption in the world map."
+--L["Note: You need to reload your UI after reseting the data!"] = true

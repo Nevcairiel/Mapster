@@ -31,3 +31,6 @@ if not L then return end
 -- L["fogclear_desc"] = "The FogClear module removes the Fog of War from the World map, thus displaying the artwork for all the undiscovered zones, optionally with a color overlay on undiscovered areas."
 -- L["Enable FogClear"] = true
 -- L["Overlay Color"] = true
+--L["Reset FogClear Data"] = true
+--L["reset_desc"] = "FogClear collects new Data in your own SavedVariables, but that data might get corrupted (or simply old) with a new patch. Reset the data if you see corruption in the world map."
+--L["Note: You need to reload your UI after reseting the data!"] = true

@@ -31,3 +31,6 @@ L["FogClear"] = "FogClear" -- name of the module
 L["fogclear_desc"] = "Das FogClear-Modul entfernt den Nebel des Krieges auf der Weltkarte, womit alle bisher unentdeckten Gebiete automatisch aufgedeckt werden."
 L["Enable FogClear"] = "FogClear aktivieren"
 L["Overlay Color"] = "Overlay-Farbe"
+--L["Reset FogClear Data"] = true
+--L["reset_desc"] = "FogClear collects new Data in your own SavedVariables, but that data might get corrupted (or simply old) with a new patch. Reset the data if you see corruption in the world map."
+--L["Note: You need to reload your UI after reseting the data!"] = true

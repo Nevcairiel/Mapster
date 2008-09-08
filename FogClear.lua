@@ -1055,6 +1055,23 @@ local function getOptions()
 					set = "SetOverlayColor",
 					handler = FogClear,
 				},
+				nl = {
+					order = 4,
+					type = "description",
+					name = "",
+				},
+				reset = {
+					order = 5,
+					type = "execute",
+					name = L["Reset FogClear Data"],
+					desc = L["reset_desc"],
+					func = function() for k,v in pairs(FogClear.db.global.errata) do FogClear.db.global.errata[k] = nil end end,
+				},
+				desc = {
+					order = 6,
+					type = "description",
+					name = L["Note: You need to reload your UI after reseting the data!"],
+				},
 			}
 		}
 	end

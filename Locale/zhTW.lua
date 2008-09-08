@@ -31,4 +31,7 @@ if not L then return end
  L["fogclear_desc"] = "地圖全亮,顯示你沒去過的區域."
  L["Enable FogClear"] = "啟用地圖全亮"
  L["Overlay Color"] = "覆蓋顏色"
+ --L["Reset FogClear Data"] = true
+--L["reset_desc"] = "FogClear collects new Data in your own SavedVariables, but that data might get corrupted (or simply old) with a new patch. Reset the data if you see corruption in the world map."
+--L["Note: You need to reload your UI after reseting the data!"] = true
 --translated from the reference of  cwdg's zhCH translation, there is something call "change simplify chinese to traditional chinese tools ":P

@@ -31,3 +31,6 @@ L["FogClear"] = "미확인 지역 탐색" -- name of the module
 L["fogclear_desc"] = "월드맵에 가보지 않은 미확인 지역을 보여줍니다."
 L["Enable FogClear"] = "미확인 지역 탐색 가능"
 L["Overlay Color"] = "미확인 지역 색상"
+--L["Reset FogClear Data"] = true
+--L["reset_desc"] = "FogClear collects new Data in your own SavedVariables, but that data might get corrupted (or simply old) with a new patch. Reset the data if you see corruption in the world map."
+--L["Note: You need to reload your UI after reseting the data!"] = true

@@ -31,3 +31,6 @@ L["FogClear"] = "地图全亮" -- name of the module
 L["fogclear_desc"] = "世界地图全亮.显示你没有去探索过的地图"
 L["Enable FogClear"] =  "启用地图全亮"
 L["Overlay Color"] = "覆盖颜色"
+--L["Reset FogClear Data"] = true
+--L["reset_desc"] = "FogClear collects new Data in your own SavedVariables, but that data might get corrupted (or simply old) with a new patch. Reset the data if you see corruption in the world map."
+--L["Note: You need to reload your UI after reseting the data!"] = true
