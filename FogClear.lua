@@ -1008,6 +1008,23 @@ local errata = {
 		["TempleofStorms"] = 323447066793,
 		["BrunnhildarVillage"] = 397640247601,
 	},
+	["IcecrownGlacier"] = {
+		["Aldurthar"] = 40101076341,
+		["Corprethar"] = 421265625396,
+		["TheBrokenFront"] = 353846402331,
+		["IcecrownCitadel"] = 500774938932,
+		["SindragosasFall"] = 46837083427,
+		["TheFleshwerks"] = 312687750363,
+		["TheShadowVault"] = 16443129055,
+		["TheConflagration"] = 327834355939,
+		["ValleyofEchoes"] = 419509265677,
+		["Scourgeholme"] = 287412829429,
+		["Ymirheim"] = 296818523359,
+		["OnslaughtHarbor"] = 179315159244,
+		["TheBombardment"] = 194911653112,
+		["Jotunheim"] = 131020056969,
+		["Valhalas"] = 53914878190,
+	},
 	['*'] = {},
 }
 
