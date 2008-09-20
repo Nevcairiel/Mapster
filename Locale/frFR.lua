@@ -34,3 +34,5 @@ L["Overlay Color"] = "Couleur de superposition"
 L["Reset FogClear Data"] = "RÀZ des données"
 L["reset_desc"] = "Antibrouillard enregistre les nouvelles données dans votre propre SavedVariables, mais ces données peuvent devenir corrompues (ou tout simplement obsolètes) avec un nouveau patch. Réinitialisez les données si une des cartes du monde semble corrompue."
 L["Note: You need to reload your UI after reseting the data!"] = "Note : rechargez votre IU après la réinitialisation des données !"
+--L["Debug"] = true
+--L["debug_desc"] = "Turn on debugging for the FogClear Module."

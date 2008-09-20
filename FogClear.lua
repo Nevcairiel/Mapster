@@ -1035,6 +1035,7 @@ local defaults = {
 		colorG = 1,
 		colorB = 1,
 		colorA = 1,
+		debug = false
 	},
 	global = {
 		errata = errata,
@@ -1049,8 +1050,6 @@ local function getOptions()
 			type = "group",
 			name = L["FogClear"],
 			arg = MODNAME,
-			get = optGetter,
-			set = optSetter,
 			args = {
 				intro = {
 					order = 1,
@@ -1084,8 +1083,16 @@ local function getOptions()
 					desc = L["reset_desc"],
 					func = function() for k,v in pairs(FogClear.db.global.errata) do FogClear.db.global.errata[k] = nil end end,
 				},
-				desc = {
+				debug = {
 					order = 6,
+					type = "toggle",
+					name = L["Debug"],
+					desc = L["debug_desc"],
+					get = function() return db.debug end,
+					set = function(_, value) db.debug = value end,
+				},
+				desc = {
+					order = 7,
 					type = "description",
 					name = L["Note: You need to reload your UI after reseting the data!"],
 				},
@@ -1269,6 +1276,9 @@ local function updateOverlayTextures(frame, frameName, scale, alphaMod)
 				else
 					texture:SetVertexColor(self.db.profile.colorR, self.db.profile.colorG, self.db.profile.colorB)
 					texture:SetAlpha(self.db.profile.colorA * ( 1 - (alphaMod or 0)))
+					if db.debug then
+						DEFAULT_CHAT_FRAME:AddMessage(format("|cff33ff99Mapster|r: Subzone: %s in zone: %s", texName, mapFileName))
+					end
 				end
 				
 				texture:Show()

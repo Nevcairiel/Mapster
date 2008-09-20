@@ -4,34 +4,35 @@ local L = LibStub("AceLocale-3.0"):NewLocale("Mapster", "zhTW")
 if not L then return end
 
 -- Mapster Config
- L["intro_desc"] = "Mapster讓你改變世界地圖的各種樣式. 通過擴展插件來新增地圖功能,並可以為每個角色設置不同的配置."
- L["Style"] = "樣式"
- L["alpha_desc"] = "改變世界地圖的透明度, 使你在打開地圖的情況下繼續操作你的人物."
- L["Alpha"] = "透明度"
- L["scale_desc"] = "調整世界地圖的大小.它可以讓你的世界地圖不再覆蓋整個螢幕."
- L["Scale"] = "縮放"
+L["intro_desc"] = "Mapster讓你改變世界地圖的各種樣式. 通過擴展插件來新增地圖功能,並可以為每個角色設置不同的配置."
+L["Style"] = "樣式"
+L["alpha_desc"] = "改變世界地圖的透明度, 使你在打開地圖的情況下繼續操作你的人物."
+L["Alpha"] = "透明度"
+L["scale_desc"] = "調整世界地圖的大小.它可以讓你的世界地圖不再覆蓋整個螢幕."
+L["Scale"] = "縮放"
 
 -- Coords
- L["Coordinates"] = "座標" -- name of the module
- L["coords_desc"] = "在世界地圖上加入你當前位置座標和滑鼠位置座標."
- L["Enable Coordinates"] = "啟用座標"
- L["Accuracy"] = "精准"
- L["coords_accuracy_desc"] = "\n那你的座標顯示的更精確.例如:如果你需要精確的位置座標,那麼請設置到2."
+L["Coordinates"] = "座標" -- name of the module
+L["coords_desc"] = "在世界地圖上加入你當前位置座標和滑鼠位置座標."
+L["Enable Coordinates"] = "啟用座標"
+L["Accuracy"] = "精准"
+L["coords_accuracy_desc"] = "\n那你的座標顯示的更精確.例如:如果你需要精確的位置座標,那麼請設置到2."
 
- L["Cursor"] = "鼠標"
- L["Player"] = "玩家"
+L["Cursor"] = "鼠標"
+L["Player"] = "玩家"
 
 -- Group Icons
- L["Group Icons"] = "隊伍標記" -- name of the module
- L["groupicons_desc"] = "在世界地圖和區域/戰場地圖上增加功能更強大的標記.它們可以詳細的顯示出職業以及隊伍"
- L["Enable Group Icons"] = "啟用隊伍標記"
+L["Group Icons"] = "隊伍標記" -- name of the module
+L["groupicons_desc"] = "在世界地圖和區域/戰場地圖上增加功能更強大的標記.它們可以詳細的顯示出職業以及隊伍"
+L["Enable Group Icons"] = "啟用隊伍標記"
 
 -- FogClear
- L["FogClear"] = "地圖全亮" -- name of the module
- L["fogclear_desc"] = "地圖全亮,顯示你沒去過的區域."
- L["Enable FogClear"] = "啟用地圖全亮"
- L["Overlay Color"] = "覆蓋顏色"
- --L["Reset FogClear Data"] = true
+L["FogClear"] = "地圖全亮" -- name of the module
+L["fogclear_desc"] = "地圖全亮,顯示你沒去過的區域."
+L["Enable FogClear"] = "啟用地圖全亮"
+L["Overlay Color"] = "覆蓋顏色"
+--L["Reset FogClear Data"] = true
 --L["reset_desc"] = "FogClear collects new Data in your own SavedVariables, but that data might get corrupted (or simply old) with a new patch. Reset the data if you see corruption in the world map."
 --L["Note: You need to reload your UI after reseting the data!"] = true
---translated from the reference of  cwdg's zhCH translation, there is something call "change simplify chinese to traditional chinese tools ":P
+--L["Debug"] = true
+--L["debug_desc"] = "Turn on debugging for the FogClear Module."

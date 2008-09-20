@@ -34,3 +34,5 @@ L["Overlay Color"] = "미확인 지역 색상"
 L["Reset FogClear Data"] = "미탐색 지역 데이터 초기화"
 L["reset_desc"] = "미탐색 지역데이터 수집을 초기화합니다."
 L["Note: You need to reload your UI after reseting the data!"] = "주의: 데이터 초기화를 위해서 UI를 재시작해야 합니다."
+--L["Debug"] = true
+--L["debug_desc"] = "Turn on debugging for the FogClear Module."

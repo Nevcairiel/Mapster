@@ -34,3 +34,5 @@ if not L then return end
 --L["Reset FogClear Data"] = true
 --L["reset_desc"] = "FogClear collects new Data in your own SavedVariables, but that data might get corrupted (or simply old) with a new patch. Reset the data if you see corruption in the world map."
 --L["Note: You need to reload your UI after reseting the data!"] = true
+--L["Debug"] = true
+--L["debug_desc"] = "Turn on debugging for the FogClear Module."
