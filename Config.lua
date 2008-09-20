@@ -88,8 +88,8 @@ function Mapster:SetupOptions()
 	
 	self.optionsButton:SetScript("OnClick", function() 
 		-- open the profiles tab before, so the menu expands
-		InterfaceOptionsFrame_OpenToFrame(Mapster.optionsFrames.Profiles)
-		InterfaceOptionsFrame_OpenToFrame(Mapster.optionsFrames.Mapster)
+		InterfaceOptionsFrame_OpenToCategory(Mapster.optionsFrames.Profiles)
+		InterfaceOptionsFrame_OpenToCategory(Mapster.optionsFrames.Mapster)
 	end)
 	InterfaceOptionsFrame:SetFrameStrata("DIALOG") 
 	
