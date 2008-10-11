@@ -917,6 +917,7 @@ local function getOptions()
 					get = "GetOverlayColor",
 					set = "SetOverlayColor",
 					handler = FogClear,
+					hasAlpha = true,
 				},
 			}
 		}
