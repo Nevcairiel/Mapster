@@ -6,7 +6,7 @@
 ## Author: Nevcairiel, Funkydude (Coords Module)
 ## SavedVariables: MapsterDB
 ## X-Category: Map
-## Version: 1.0.3
+## Version: 1.0.4
 ## X-License: All rights reserved.
 
 ## LoadManagers: AddonLoader
@@ -15,7 +15,6 @@
 ## LoadWith: Blizzard_BattlefieldMinimap
 
 ## OptionalDeps: Ace3
-## X-Embeds: Ace3
 
 embeds.xml
 
