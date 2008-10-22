@@ -1,38 +1,38 @@
---[[ $Id$ ]]
--- Please make sure to save the file as UTF-8; ¶
+﻿-- Please make sure to save the file as UTF-8; ¶
+--ruRU by Swix (wow.playhard.ru)
 local L = LibStub("AceLocale-3.0"):NewLocale("Mapster", "ruRU")
 if not L then return end
 
 -- Mapster Config
--- L["intro_desc"] = "Mapster allows you to control various aspects of your World Map. You can change the style of the map, control the plugins that extend the map with new functionality, and configure different profiles for every of your characters."
--- L["Style"] = true
--- L["alpha_desc"] = "You can change the transparency of the world map to allow you to continue seeing the world environment while your map is open for navigation."
--- L["Alpha"] = true
--- L["scale_desc"] = "Change the scale of the world map if you do not want the whole screen filled while the map is open."
--- L["Scale"] = true
+L["intro_desc"] = "С помощью Mapster'а вы сможете управлять различными параметрами карты мира. Вы можете изменить стиль карты, добавить новую функциональность с помощью плагинов, а также сконфигурировать различные профили для каждого вашего персонажа."
+L["Style"] = "Стиль"
+L["alpha_desc"] = "Вы можете изменить прозрачность карты, что позволит вам видеть окружающую обстановку в то время, как карта будет открыта."
+L["Alpha"] = "Прозрачность"
+L["scale_desc"] = "Изменените масштаб карты, если не хотите видеть её развёрнутой на весь экран."
+L["Scale"] = "Масштаб"
 
 -- Coords
--- L["Coordinates"] = true -- name of the module
--- L["coords_desc"] = "The Coordinates module adds a display of your current location, and the coordinates of your mouse cursor to the World Map frame."
--- L["Enable Coordinates"] = true
--- L["Accuracy"] = true
--- L["coords_accuracy_desc"] = "\nYou can control the accuracy of the coordinates, e.g. if you need very exact coordinates you can set this to 2."
+L["Coordinates"] = "Координаты" -- name of the module
+L["coords_desc"] = "Модуль координат добавляет строку с отображением вашего текущего местоположения, а также с положением курсора на карте."
+L["Enable Coordinates"] = "Включить координаты"
+L["Accuracy"] = "Точность"
+L["coords_accuracy_desc"] = "\nВы можете управлять точностью координат, например, если вам нужные очень точные координаты - вы можете установить это значение как 2."
 
--- L["Cursor"] = true
--- L["Player"] = true
+L["Cursor"] = "Курсор"
+L["Player"] = "Игрок"
 
 -- Group Icons
--- L["Group Icons"] = true -- name of the module
--- L["groupicons_desc"] = "The Group Icons module converts the player icons on the World Map and the Zone/Battlefield map to more meaningful icons, showing their class and (in raids) their sub-group."
--- L["Enable Group Icons"] = true
+L["Group Icons"] = "Иконки группы" -- name of the module
+L["groupicons_desc"] = "Модуль иконок группы преобразует обычные значки игроков на мировой карте и картах зоны/полей битв в более понятные иконки, с указанием класса персонажа и (в рейдах) его подгруппы."
+L["Enable Group Icons"] = "Включить иконки группы"
 
 -- FogClear
--- L["FogClear"] = true -- name of the module
--- L["fogclear_desc"] = "The FogClear module removes the Fog of War from the World map, thus displaying the artwork for all the undiscovered zones, optionally with a color overlay on undiscovered areas."
--- L["Enable FogClear"] = true
--- L["Overlay Color"] = true
---L["Reset FogClear Data"] = true
---L["reset_desc"] = "FogClear collects new Data in your own SavedVariables, but that data might get corrupted (or simply old) with a new patch. Reset the data if you see corruption in the world map."
---L["Note: You need to reload your UI after reseting the data!"] = true
---L["Debug"] = true
---L["debug_desc"] = "Turn on debugging for the FogClear Module."
+L["FogClear"] = "Туман войны" -- name of the module
+L["fogclear_desc"] = "Модуль очистки тумана войны делает скрытые (неисследованные) зоны видимыми, подсвечивая их особым цветом."
+L["Enable FogClear"] = "Очищать туман"
+L["Overlay Color"] = "Цвет подсветки"
+L["Reset FogClear Data"] = "Сбросить данные модуля очистки"
+L["reset_desc"] = "Модуль очистки тумана войны сохраняет новые данные в SavedVariables. Сброс этих данных может понадобится в том случае, если они оказались повреждены (или просто устарели) при выходе нового патча."
+L["Note: You need to reload your UI after reseting the data!"] = "Замечание: после выполнения этой операции необходимо перезагрузить ваш интерфейс!"
+L["Debug"] = "Отладка"
+L["debug_desc"] = "Включить режим отладки для модуля очистки тумана войны."
