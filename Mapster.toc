@@ -16,7 +16,9 @@
 
 ## OptionalDeps: Ace3
 
+#@no-lib-strip@
 embeds.xml
+#@end-no-lib-strip@
 
 Locale\enUS.lua
 Locale\frFR.lua
@@ -25,7 +27,7 @@ Locale\esES.lua
 Locale\zhCN.lua
 Locale\zhTW.lua
 Locale\koKR.lua
-#Locale\ruRU.lua
+Locale\ruRU.lua
 
 Mapster.lua
 Config.lua
