@@ -128,10 +128,16 @@ function wmfOnShow(frame)
 	frame:SetHeight(768)
 	Mapster:SetStrata()
 	realZone = getZoneId()
+	if BattlefieldMinimap then
+		BattlefieldMinimap:SetScript("OnUpdate", nil)
+	end
 end
 
 function wmfOnHide(frame)
 	SetMapToCurrentZone()
+	if BattlefieldMinimap then
+		BattlefieldMinimap:SetScript("OnUpdate", BattlefieldMinimap_OnUpdate)
+	end
 end
 
 function wmfStartMoving(frame)
