@@ -82,7 +82,7 @@ function Mapster:SetupOptions()
 	self.optionsButton:SetHeight(22)
 	self.optionsButton:SetText("Mapster")
 	self.optionsButton:ClearAllPoints()
-	self.optionsButton:SetPoint("TOPRIGHT", "WorldMapPositioningGuide", "TOPRIGHT", -9, -37)
+	self.optionsButton:SetPoint("TOPLEFT", "WorldMapZoomOutButton", "TOPRIGHT", 4, 0)
 	self.optionsButton:Show()
 	
 	self.optionsButton:SetScript("OnClick", function() 
