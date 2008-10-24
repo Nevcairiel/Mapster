@@ -64,7 +64,8 @@ function Mapster:OnEnable()
 	WorldMapZoneMinimapDropDownButton:SetScript("OnClick", dropdownScaleFix)
 	
 	self:SetAlpha()
-	self:SetStrata()
+	-- Apply all frame settings
+	wmfOnShow(WorldMapFrame)
 
 	hooksecurefunc(WorldMapTooltip, "Show", function(self)
 		self:SetFrameStrata("TOOLTIP")
