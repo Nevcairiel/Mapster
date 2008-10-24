@@ -128,10 +128,11 @@ end
 
 local grouptex = path .. "Group%d"
 function UpdateUnitIcon(tex, unit)
-	--Don't flash or color inactive
-	if MapUnit_IsInactive(unit) then return end
 	-- sanity check
 	if not (tex and unit) then return end
+	
+	--Don't flash or color inactive
+	if MapUnit_IsInactive(unit) then return end
 	
 	-- grab the class filename
 	local _, fileName = UnitClass(unit)
