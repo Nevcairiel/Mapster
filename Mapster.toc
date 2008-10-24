@@ -6,7 +6,7 @@
 ## Author: Nevcairiel, Funkydude (Coords Module)
 ## SavedVariables: MapsterDB
 ## X-Category: Map
-## Version: 1.0.4
+## Version: 1.0.5
 ## X-License: All rights reserved.
 
 ## LoadManagers: AddonLoader
