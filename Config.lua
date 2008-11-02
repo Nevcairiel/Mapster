@@ -85,6 +85,12 @@ local function getOptions()
 	return options
 end
 
+local function optFunc() 
+	-- open the profiles tab before, so the menu expands
+	InterfaceOptionsFrame_OpenToCategory(Mapster.optionsFrames.Profiles)
+	InterfaceOptionsFrame_OpenToCategory(Mapster.optionsFrames.Mapster)
+end
+
 function Mapster:SetupOptions()
 	InterfaceOptionsFrame:SetFrameStrata("DIALOG") 
 	
@@ -95,6 +101,8 @@ function Mapster:SetupOptions()
 	self.optionsFrames.Mapster = LibStub("AceConfigDialog-3.0"):AddToBlizOptions("Mapster", nil, nil, "general")
 	
 	self:RegisterModuleOptions("Profiles", LibStub("AceDBOptions-3.0"):GetOptionsTable(self.db), "Profiles")
+	
+	LibStub("AceConsole-3.0"):RegisterChatCommand( "mapster", optFunc)
 end
 
 function Mapster:RegisterModuleOptions(name, optionTbl, displayName)
@@ -117,9 +125,5 @@ function Mapster:SetupMapButton()
 		self.optionsButton:Show()
 	end
 	
-	self.optionsButton:SetScript("OnClick", function() 
-		-- open the profiles tab before, so the menu expands
-		InterfaceOptionsFrame_OpenToCategory(Mapster.optionsFrames.Profiles)
-		InterfaceOptionsFrame_OpenToCategory(Mapster.optionsFrames.Mapster)
-	end)
+	self.optionsButton:SetScript("OnClick", optFunc)
 end
