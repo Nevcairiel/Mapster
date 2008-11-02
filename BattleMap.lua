@@ -8,6 +8,7 @@ local L = LibStub("AceLocale-3.0"):GetLocale("Mapster")
 
 local MODNAME = "BattleMap"
 local BattleMap = Mapster:NewModule(MODNAME, "AceEvent-3.0")
+local FogClear
 
 -- Make sure to get the global before FogClear loads and overwrites it
 local GetNumMapOverlays = GetNumMapOverlays
@@ -80,6 +81,8 @@ function BattleMap:OnInitialize()
 	
 	self:SetEnabledState(Mapster:GetModuleEnabled(MODNAME))
 	Mapster:RegisterModuleOptions(MODNAME, getOptions, L["BattleMap"])
+	
+	FogClear = Mapster:GetModule("FogClear", true)
 end
 
 function BattleMap:OnEnable()
@@ -111,8 +114,9 @@ function BattleMap:Refresh()
 end
 
 function BattleMap:UpdateTextureVisibility()
-	local numOverlays = GetNumMapOverlays()
-	if numOverlays > 0 and db.hideTextures and self:IsEnabled() then
+	local hasOverlays
+	if FogClear and FogClear:IsEnabled() then hasOverlays = FogClear:RealHasOverlays() else hasOverlays = GetNumMapOverlays() > 0 end
+	if hasOverlays and db.hideTextures and self:IsEnabled() then
 		for i=1,12 do
 			_G["BattlefieldMinimap"..i]:Hide()
 		end

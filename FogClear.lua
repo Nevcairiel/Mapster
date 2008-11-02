@@ -1181,6 +1181,14 @@ function FogClear:GetNumMapOverlays()
 	return 0
 end
 
+function FogClear:RealHasOverlays()
+	local mapFileName = GetMapInfo()
+	if not mapFileName then return false end
+	
+	local overlayMap = self.overlays[mapFileName]
+	if overlayMap and next(overlayMap) then return true end
+end
+
 function FogClear:WorldMapFrame_Update()
 	self.hooks.WorldMapFrame_Update()
 	self:UpdateWorldMapOverlays()
