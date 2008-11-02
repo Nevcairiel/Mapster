@@ -133,6 +133,7 @@ function Mapster:ZONE_CHANGED_NEW_AREA()
 	end
 end
 
+local oldBFMOnUpdate
 function wmfOnShow(frame)
 	frame:SetScale(db.scale)
 	frame:SetWidth(1024)
@@ -140,6 +141,7 @@ function wmfOnShow(frame)
 	Mapster:SetStrata()
 	realZone = getZoneId()
 	if BattlefieldMinimap then
+		oldBFMOnUpdate = BattlefieldMinimap:GetScript("OnUpdate")
 		BattlefieldMinimap:SetScript("OnUpdate", nil)
 	end
 end
@@ -147,7 +149,7 @@ end
 function wmfOnHide(frame)
 	SetMapToCurrentZone()
 	if BattlefieldMinimap then
-		BattlefieldMinimap:SetScript("OnUpdate", BattlefieldMinimap_OnUpdate)
+		BattlefieldMinimap:SetScript("OnUpdate", oldBFMOnUpdate or BattlefieldMinimap_OnUpdate)
 	end
 end
 
