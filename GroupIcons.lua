@@ -110,8 +110,8 @@ end
 function FixBattlefieldUnits(state)
 	if BattlefieldMinimap then
 		for i = 1, 4 do
-		FixUnit(fmt("BattlefieldMinimapParty%d", i), state, true)
-	end
+			FixUnit(fmt("BattlefieldMinimapParty%d", i), state, true)
+		end
 		for i = 1, 40 do
 			FixUnit(fmt("BattlefieldMinimapRaid%d", i), state)
 		end
