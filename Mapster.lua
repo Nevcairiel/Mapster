@@ -11,6 +11,7 @@ local defaults = {
 		scale = 0.75,
 		alpha = 1,
 		strata = "HIGH",
+		hideMapButton = false,
 		modules = {
 			['*'] = true,
 		},
@@ -35,6 +36,8 @@ end
 -- local oldUIPanel,
 local oldwmfOnKeyDown, realZone
 function Mapster:OnEnable()
+	self:SetupMapButton()
+	
 	local vis = WorldMapFrame:IsVisible()
 	if vis then
 		HideUIPanel(WorldMapFrame)
@@ -106,6 +109,14 @@ function Mapster:Refresh()
 		end
 		if type(v.Refresh) == "function" and v:IsEnabled() then
 			v:Refresh()
+		end
+	end
+	
+	if self.optionsButton then
+		if db.hideMapButton or (QuestHelperWorldMapButton and QuestHelperWorldMapButton:IsShown()) then
+			self.optionsButton:Hide()
+		else
+			self.optionsButton:Show()
 		end
 	end
 end

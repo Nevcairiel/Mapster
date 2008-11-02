@@ -63,6 +63,16 @@ local function getOptions()
 							min = 0.1, max = 1, step = 0.01,
 							isPercent = true,
 						},
+						nl = {
+							order = 6,
+							type = "description",
+							name = "",
+						},
+						hideMapButton = {
+							order = 7,
+							type = "toggle",
+							name = L["Hide Map Button"],
+						},
 					},
 				},
 			},
@@ -76,20 +86,6 @@ local function getOptions()
 end
 
 function Mapster:SetupOptions()
-	-- create button on the worldmap to toggle the options
-	self.optionsButton = CreateFrame("Button", "MapsterOptionsButton", WorldMapFrame, "UIPanelButtonTemplate")
-	self.optionsButton:SetWidth(110)
-	self.optionsButton:SetHeight(22)
-	self.optionsButton:SetText("Mapster")
-	self.optionsButton:ClearAllPoints()
-	self.optionsButton:SetPoint("TOPRIGHT", "WorldMapPositioningGuide", "TOPRIGHT", -9, -37)
-	self.optionsButton:Show()
-	
-	self.optionsButton:SetScript("OnClick", function() 
-		-- open the profiles tab before, so the menu expands
-		InterfaceOptionsFrame_OpenToCategory(Mapster.optionsFrames.Profiles)
-		InterfaceOptionsFrame_OpenToCategory(Mapster.optionsFrames.Mapster)
-	end)
 	InterfaceOptionsFrame:SetFrameStrata("DIALOG") 
 	
 	self.optionsFrames = {}
@@ -104,4 +100,26 @@ end
 function Mapster:RegisterModuleOptions(name, optionTbl, displayName)
 	moduleOptions[name] = optionTbl
 	self.optionsFrames[name] = LibStub("AceConfigDialog-3.0"):AddToBlizOptions("Mapster", displayName, "Mapster", name)
+end
+
+function Mapster:SetupMapButton()
+	-- create button on the worldmap to toggle the options
+	self.optionsButton = CreateFrame("Button", "MapsterOptionsButton", WorldMapFrame, "UIPanelButtonTemplate")
+	self.optionsButton:SetWidth(110)
+	self.optionsButton:SetHeight(22)
+	self.optionsButton:SetText("Mapster")
+	self.optionsButton:ClearAllPoints()
+	self.optionsButton:SetPoint("TOPRIGHT", "WorldMapPositioningGuide", "TOPRIGHT", -9, -37)
+	
+	if self.db.profile.hideMapButton or (QuestHelperWorldMapButton and QuestHelperWorldMapButton:IsShown()) then
+		self.optionsButton:Hide()
+	else
+		self.optionsButton:Show()
+	end
+	
+	self.optionsButton:SetScript("OnClick", function() 
+		-- open the profiles tab before, so the menu expands
+		InterfaceOptionsFrame_OpenToCategory(Mapster.optionsFrames.Profiles)
+		InterfaceOptionsFrame_OpenToCategory(Mapster.optionsFrames.Mapster)
+	end)
 end

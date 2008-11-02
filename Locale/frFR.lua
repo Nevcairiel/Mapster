@@ -10,6 +10,7 @@ L["alpha_desc"] = "Vous pouvez modifier la transparence de la carte du monde afi
 L["Alpha"] = "Transparence"
 L["scale_desc"] = "Modifiez l'échelle de la carte du monde si vous ne souhaitez pas que tout votre écran soit occupé quand la carte est ouverte."
 L["Scale"] = "Échelle"
+-- L["Hide Map Button"] = true
 
 -- Coords
 L["Coordinates"] = "Coordonnées" -- name of the module

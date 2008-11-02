@@ -10,6 +10,7 @@ L["alpha_desc"] = "Du kannst die Transparenz der Weltkarte \195\164ndern, so da\
 L["Alpha"] = "Alpha"
 L["scale_desc"] = "\195\132ndere die Skalierung der Weltkarte wenn sie ge\195\182ffnet weniger Platz in Anspruch nehmen soll."
 L["Scale"] = "Skalierung"
+-- L["Hide Map Button"] = true
 
 -- Coords
 L["Coordinates"] = "Koordinaten" -- name of the module

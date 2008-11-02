@@ -10,6 +10,7 @@ if not L then return end
 -- L["Alpha"] = true
 -- L["scale_desc"] = "Change the scale of the world map if you do not want the whole screen filled while the map is open."
 -- L["Scale"] = true
+-- L["Hide Map Button"] = true
 
 -- Coords
 -- L["Coordinates"] = true -- name of the module

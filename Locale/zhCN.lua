@@ -10,6 +10,7 @@ L["alpha_desc"] = "改变世界地图的透明度, 使你在打开大地图的�
 L["Alpha"] = "透明度"
 L["scale_desc"] = "调整世界地图的显示比例. 它可以让你的世界地图不会再覆盖整个屏幕"
 L["Scale"] = "缩放"
+-- L["Hide Map Button"] = true
 
 -- Coords
 L["Coordinates"] = "坐标" -- name of the module

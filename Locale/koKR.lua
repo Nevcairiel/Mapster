@@ -10,6 +10,7 @@ L["alpha_desc"] = "월드맵의 투명도를 변경합니다."
 L["Alpha"] = "투명도"
 L["scale_desc"] = "월드맵의 크기를 변경합니다."
 L["Scale"] = "크기"
+-- L["Hide Map Button"] = true
 
 -- Coords
 L["Coordinates"] = "좌표" -- name of the module
