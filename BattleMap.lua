@@ -88,23 +88,37 @@ end
 function BattleMap:OnEnable()
 	db = self.db.profile
 	
+	if not IsAddOnLoaded("Blizzard_BattlefieldMinimap") then
+		self:RegisterEvent("ADDON_LOADED", function(event, addon)
+			if addon == "Blizzard_BattlefieldMinimap" then
+				BattleMap:UnregisterEvent("ADDON_LOADED")
+				BattleMap:SetupMap()
+			end
+		end)
+	else
+		self:SetupMap()
+	end
+end
+
+function BattleMap:OnDisable()
+	if BattlefieldMinimap then
+		BattlefieldMinimapCorner:Show()
+		BattlefieldMinimapBackground:Show()
+		BattlefieldMinimapCloseButton:Show()
+		BattlefieldMinimapTab:Show()
+	end
+	
+	self:Refresh()
+end
+
+function BattleMap:SetupMap()
 	BattlefieldMinimapCorner:Hide()
 	BattlefieldMinimapBackground:Hide()
 	BattlefieldMinimapCloseButton:Hide()
 	BattlefieldMinimapTab:Hide()
 
 	self:RegisterEvent("WORLD_MAP_UPDATE", "UpdateTextureVisibility")
-	
-	self:Refresh()
-end
-
-function BattleMap:OnDisable()
-	BattlefieldMinimapCorner:Show()
-	BattlefieldMinimapBackground:Show()
-	BattlefieldMinimapCloseButton:Show()
-	BattlefieldMinimapTab:Show()
-	
-	self:Refresh()
+	self:UpdateTextureVisibility()
 end
 
 function BattleMap:Refresh()
@@ -114,6 +128,7 @@ function BattleMap:Refresh()
 end
 
 function BattleMap:UpdateTextureVisibility()
+	if not BattlefieldMinimap then return end
 	local hasOverlays
 	if FogClear and FogClear:IsEnabled() then hasOverlays = FogClear:RealHasOverlays() else hasOverlays = GetNumMapOverlays() > 0 end
 	if hasOverlays and db.hideTextures and self:IsEnabled() then
