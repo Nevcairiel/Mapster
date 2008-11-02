@@ -15,7 +15,7 @@ local GetNumMapOverlays = GetNumMapOverlays
 local db
 local defaults = { 
 	profile = {
-		hideTextures = true,
+		hideTextures = false,
 	}
 }
 
