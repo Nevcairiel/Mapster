@@ -89,6 +89,8 @@ function Coords:OnInitialize()
 end
 
 function Coords:OnEnable()
+	db = self.db.profile
+	
 	if not display then
 		display = CreateFrame("Frame", "Mapster_CoordsFrame", WorldMapFrame)
 		

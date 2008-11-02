@@ -1116,6 +1116,8 @@ function FogClear:OnInitialize()
 end
 
 function FogClear:OnEnable()
+	db = self.db.profile
+	
 	self.overlays = self.db.global.errata
 	
 	self:RawHook("GetNumMapOverlays", true)

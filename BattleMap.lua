@@ -83,16 +83,25 @@ function BattleMap:OnInitialize()
 end
 
 function BattleMap:OnEnable()
+	db = self.db.profile
+	
 	BattlefieldMinimapCorner:Hide()
 	BattlefieldMinimapBackground:Hide()
 	BattlefieldMinimapCloseButton:Hide()
 	BattlefieldMinimapTab:Hide()
 
 	self:RegisterEvent("WORLD_MAP_UPDATE", "UpdateTextureVisibility")
+	
+	self:Refresh()
 end
 
 function BattleMap:OnDisable()
-	self:UpdateTextureVisibility()
+	BattlefieldMinimapCorner:Show()
+	BattlefieldMinimapBackground:Show()
+	BattlefieldMinimapCloseButton:Show()
+	BattlefieldMinimapTab:Show()
+	
+	self:Refresh()
 end
 
 function BattleMap:Refresh()
