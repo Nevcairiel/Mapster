@@ -27,6 +27,13 @@ L["Group Icons"] = "隊伍標記" -- name of the module
 L["groupicons_desc"] = "在世界地圖和區域/戰場地圖上增加功能更強大的標記.它們可以詳細的顯示出職業以及隊伍"
 L["Enable Group Icons"] = "啟用隊伍標記"
 
+-- BattleMap
+-- L["BattleMap"] = true -- name of the module
+-- L["battlemap_desc"] = "The BattleMap module allows you to change the style of the BattlefieldMinimap, removing unnecessary textures or PvP Objectives."
+-- L["Enable BattleMap"] = true
+-- L["battlemap_textures_desc"] = "\nHide the surrounding textures around the BattleMap, only leaving you with the pure map overlays."
+-- L["Hide Textures"] = true
+
 -- FogClear
 L["FogClear"] = "地圖全亮" -- name of the module
 L["fogclear_desc"] = "地圖全亮,顯示你沒去過的區域."

@@ -27,6 +27,13 @@ L["Group Icons"] = "파티원" -- name of the module
 L["groupicons_desc"] = "월드맵에 파티원의 위치를 아이콘으로 표시합니다. 공격대에서는 직업과 파티도 표시합니다."
 L["Enable Group Icons"] = "파티원 표시"
 
+-- BattleMap
+-- L["BattleMap"] = true -- name of the module
+-- L["battlemap_desc"] = "The BattleMap module allows you to change the style of the BattlefieldMinimap, removing unnecessary textures or PvP Objectives."
+-- L["Enable BattleMap"] = true
+-- L["battlemap_textures_desc"] = "\nHide the surrounding textures around the BattleMap, only leaving you with the pure map overlays."
+-- L["Hide Textures"] = true
+
 -- FogClear
 L["FogClear"] = "미확인 지역 탐색" -- name of the module
 L["fogclear_desc"] = "월드맵에 가보지 않은 미확인 지역을 보여줍니다."

@@ -27,6 +27,13 @@ L["Group Icons"] = "Gruppensymbole" -- name of the module
 L["groupicons_desc"] = "Das Gruppensymbole-Modul konvertiert die Spielersymbole auf der Weltkarte in aussagekr\195\164ftigere Symbole, welche die Klasse und (in Schlachtz\195\188gen) die Sub-Gruppe anzeigen."
 L["Enable Group Icons"] = "Gruppensymbole aktivieren"
 
+-- BattleMap
+-- L["BattleMap"] = true -- name of the module
+-- L["battlemap_desc"] = "The BattleMap module allows you to change the style of the BattlefieldMinimap, removing unnecessary textures or PvP Objectives."
+-- L["Enable BattleMap"] = true
+-- L["battlemap_textures_desc"] = "\nHide the surrounding textures around the BattleMap, only leaving you with the pure map overlays."
+-- L["Hide Textures"] = true
+
 -- FogClear
 L["FogClear"] = "FogClear" -- name of the module
 L["fogclear_desc"] = "Das FogClear-Modul entfernt den Nebel des Krieges auf der Weltkarte, womit alle bisher unentdeckten Gebiete automatisch aufgedeckt werden."

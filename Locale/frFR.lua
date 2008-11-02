@@ -27,6 +27,13 @@ L["Group Icons"] = "Icônes de groupe" -- name of the module
 L["groupicons_desc"] = "Le module des icônes de groupe converti les icônes des joueurs affichés sur la carte du monde et sur la carte locale en des icônes plus significatives, indiquant leurs classes et (si en raid) leurs groupes."
 L["Enable Group Icons"] = "Activer icônes de groupe"
 
+-- BattleMap
+-- L["BattleMap"] = true -- name of the module
+-- L["battlemap_desc"] = "The BattleMap module allows you to change the style of the BattlefieldMinimap, removing unnecessary textures or PvP Objectives."
+-- L["Enable BattleMap"] = true
+-- L["battlemap_textures_desc"] = "\nHide the surrounding textures around the BattleMap, only leaving you with the pure map overlays."
+-- L["Hide Textures"] = true
+
 -- FogClear
 L["FogClear"] = "Antibrouillard" -- name of the module
 L["fogclear_desc"] = "Le module d'antibrouillard enlève le brouillard de guerre de la carte du monde, affichant ainsi tout ce qui se trouve dans les zones qui vous sont inconnues."

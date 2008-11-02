@@ -27,6 +27,13 @@ L["Group Icons"] = "Иконки группы" -- name of the module
 L["groupicons_desc"] = "Модуль иконок группы преобразует обычные значки игроков на мировой карте и картах зоны/полей битв в более понятные иконки, с указанием класса персонажа и (в рейдах) его подгруппы."
 L["Enable Group Icons"] = "Включить иконки группы"
 
+-- BattleMap
+-- L["BattleMap"] = true -- name of the module
+-- L["battlemap_desc"] = "The BattleMap module allows you to change the style of the BattlefieldMinimap, removing unnecessary textures or PvP Objectives."
+-- L["Enable BattleMap"] = true
+-- L["battlemap_textures_desc"] = "\nHide the surrounding textures around the BattleMap, only leaving you with the pure map overlays."
+-- L["Hide Textures"] = true
+
 -- FogClear
 L["FogClear"] = "Туман войны" -- name of the module
 L["fogclear_desc"] = "Модуль очистки тумана войны делает скрытые (неисследованные) зоны видимыми, подсвечивая их особым цветом."

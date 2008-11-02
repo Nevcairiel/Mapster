@@ -27,6 +27,13 @@ L["Group Icons"] = true -- name of the module
 L["groupicons_desc"] = "The Group Icons module converts the player icons on the World Map and the Zone/Battlefield map to more meaningful icons, showing their class and (in raids) their sub-group."
 L["Enable Group Icons"] = true
 
+-- BattleMap
+L["BattleMap"] = true -- name of the module
+L["battlemap_desc"] = "The BattleMap module allows you to change the style of the BattlefieldMinimap, removing unnecessary textures or PvP Objectives."
+L["Enable BattleMap"] = true
+L["battlemap_textures_desc"] = "\nHide the surrounding textures around the BattleMap, only leaving you with the pure map overlays."
+L["Hide Textures"] = true
+
 -- FogClear
 L["FogClear"] = true -- name of the module
 L["fogclear_desc"] = "The FogClear module removes the Fog of War from the World map, thus displaying the artwork for all the undiscovered zones, optionally with a color overlay on undiscovered areas."
