@@ -1286,11 +1286,11 @@ local function updateOverlayTextures(frame, frameName, scale, alphaMod)
 				if discoveredOverlays[texName] then
 					texture:SetVertexColor(1, 1, 1)
 					texture:SetAlpha(1 - (alphaMod or 0))
-					texture:SetDrawLayer("OVERLAY")
+					texture:SetDrawLayer("ARTWORK")
 				else
 					texture:SetVertexColor(self.db.profile.colorR, self.db.profile.colorG, self.db.profile.colorB)
 					texture:SetAlpha(self.db.profile.colorA * ( 1 - (alphaMod or 0)))
-					texture:SetDrawLayer("ARTWORK")
+					texture:SetDrawLayer("BORDER")
 					if db.debug then
 						DEFAULT_CHAT_FRAME:AddMessage(format("|cff33ff99Mapster|r: Subzone: %s in zone: %s", texName, mapFileName))
 					end
