@@ -1116,8 +1116,6 @@ function FogClear:OnInitialize()
 end
 
 function FogClear:OnEnable()
-	db = self.db.profile
-	
 	self.overlays = self.db.global.errata
 	
 	self:RawHook("GetNumMapOverlays", true)
@@ -1170,6 +1168,7 @@ end
 
 function FogClear:Refresh()
 	db = self.db.profile
+	if not self:IsEnabled() then return end
 	
 	self:UpdateWorldMapOverlays()
 	self:UpdateBattlefieldMinimapOverlays()

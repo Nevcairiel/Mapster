@@ -76,8 +76,7 @@ end
 
 function BattleMap:OnInitialize()
 	self.db = Mapster.db:RegisterNamespace(MODNAME, defaults)
-	
-	self:Refresh()
+	db = self.db.profile
 	
 	self:SetEnabledState(Mapster:GetModuleEnabled(MODNAME))
 	Mapster:RegisterModuleOptions(MODNAME, getOptions, L["BattleMap"])
@@ -86,8 +85,6 @@ function BattleMap:OnInitialize()
 end
 
 function BattleMap:OnEnable()
-	db = self.db.profile
-	
 	if not IsAddOnLoaded("Blizzard_BattlefieldMinimap") then
 		self:RegisterEvent("ADDON_LOADED", function(event, addon)
 			if addon == "Blizzard_BattlefieldMinimap" then
@@ -123,6 +120,7 @@ end
 
 function BattleMap:Refresh()
 	db = self.db.profile
+	if not self:IsEnabled() then return end
 	
 	self:UpdateTextureVisibility()
 end

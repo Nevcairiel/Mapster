@@ -81,16 +81,13 @@ end
 
 function Coords:OnInitialize()
 	self.db = Mapster.db:RegisterNamespace(MODNAME, defaults)
-	
-	self:Refresh()
+	db = self.db.profile
 	
 	self:SetEnabledState(Mapster:GetModuleEnabled(MODNAME))
 	Mapster:RegisterModuleOptions(MODNAME, getOptions, L["Coordinates"])
 end
 
 function Coords:OnEnable()
-	db = self.db.profile
-	
 	if not display then
 		display = CreateFrame("Frame", "Mapster_CoordsFrame", WorldMapFrame)
 		
@@ -102,6 +99,8 @@ function Coords:OnEnable()
 	end
 	display:SetScript("OnUpdate", OnUpdate)
 	display:Show()
+	
+	self:Refresh()
 end
 
 function Coords:OnDisable()
@@ -111,6 +110,7 @@ end
 
 function Coords:Refresh()
 	db = self.db.profile
+	if not self:IsEnabled() then return end
 	
 	local acc = tonumber(db.accuracy) or 1
 	text = texttemplate:format(acc, acc)

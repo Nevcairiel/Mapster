@@ -107,7 +107,7 @@ function Mapster:Refresh()
 		elseif not self:GetModuleEnabled(k) and v:IsEnabled() then
 			self:DisableModule(k)
 		end
-		if type(v.Refresh) == "function" and v:IsEnabled() then
+		if type(v.Refresh) == "function" then
 			v:Refresh()
 		end
 	end
@@ -166,7 +166,7 @@ function wmfStopMoving(frame)
 	db.x = x - GetScreenWidth() * z
 	db.y = y - GetScreenHeight() * z
 	frame:ClearAllPoints()
-	frame:SetPoint("CENTER", "UIParent", "CENTER", db.x, db.y)
+	frame:SetPoint("CENTER", UIParent, "CENTER", db.x, db.y)
 end
 
 function dropdownScaleFix(self)
