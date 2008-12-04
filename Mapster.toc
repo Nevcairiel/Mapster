@@ -6,7 +6,7 @@
 ## Author: Nevcairiel
 ## SavedVariables: MapsterDB
 ## X-Category: Map
-## Version: 1.1.0-Alpha
+## Version: 1.1.0
 ## X-License: All rights reserved.
 
 ## LoadManagers: AddonLoader
