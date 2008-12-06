@@ -10,10 +10,10 @@ L["alpha_desc"] = "改變世界地圖的透明度, 使你在打開地圖的情�
 L["Alpha"] = "透明度"
 L["scale_desc"] = "調整世界地圖的大小.它可以讓你的世界地圖不再覆蓋整個螢幕."
 L["Scale"] = "縮放"
--- L["Hide Map Button"] = true
+L["Hide Map Button"] = "隱藏地圖按鈕"
 
 -- Coords
-L["Coordinates"] = "座標" -- name of the module
+L["Coordinates"] = "座標功能" -- name of the module
 L["coords_desc"] = "在世界地圖上加入你當前位置座標和滑鼠位置座標."
 L["Enable Coordinates"] = "啟用座標"
 L["Accuracy"] = "精准"
@@ -28,11 +28,11 @@ L["groupicons_desc"] = "在世界地圖和區域/戰場地圖上增加功能更�
 L["Enable Group Icons"] = "啟用隊伍標記"
 
 -- BattleMap
--- L["BattleMap"] = true -- name of the module
--- L["battlemap_desc"] = "The BattleMap module allows you to change the style of the BattlefieldMinimap, removing unnecessary textures or PvP Objectives."
--- L["Enable BattleMap"] = true
--- L["battlemap_textures_desc"] = "\nHide the surrounding textures around the BattleMap, only leaving you with the pure map overlays."
--- L["Hide Textures"] = true
+L["BattleMap"] = "戰鬥地圖" -- name of the module
+L["battlemap_desc"] = "戰鬥地圖模組可讓您變更戰鬥地圖的樣式, 消除不必要的紋理或PVP目標."
+L["Enable BattleMap"] = "啟用戰鬥地圖"
+L["battlemap_textures_desc"] = "\n隱藏周圍戰鬥地圖的紋理, 只留下地圖的必要部份."
+L["Hide Textures"] = "隱藏紋理"
 
 -- FogClear
 L["FogClear"] = "地圖全亮" -- name of the module
