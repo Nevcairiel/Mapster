@@ -71,7 +71,7 @@ local function getOptions()
 						arrowScale = {
 							order = 11,
 							name = L["PlayerArrow Scale"],
-							description = L["Adjust the size of the Player Arrow on the Map for better visibility."],
+							desc = L["Adjust the size of the Player Arrow on the Map for better visibility."],
 							type = "range",
 							min = 0.5, max = 2, step = 0.01,
 							isPercent = true,
