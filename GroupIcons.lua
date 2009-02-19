@@ -38,7 +38,7 @@ local function getOptions()
 				intro = {
 					order = 1,
 					type = "description",
-					name = L["groupicons_desc"],
+					name = L["The Group Icons module converts the player icons on the World Map and the Zone/Battlefield map to more meaningful icons, showing their class and (in raids) their sub-group."],
 				},
 				enabled = {
 					order = 2,

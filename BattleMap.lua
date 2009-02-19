@@ -48,7 +48,7 @@ local function getOptions()
 				intro = {
 					order = 1,
 					type = "description",
-					name = L["battlemap_desc"],
+					name = L["The BattleMap module allows you to change the style of the BattlefieldMinimap, removing unnecessary textures or PvP Objectives."],
 				},
 				enabled = {
 					order = 2,
@@ -60,7 +60,7 @@ local function getOptions()
 				texturesdesc = {
 					order = 3,
 					type = "description",
-					name = L["battlemap_textures_desc"],
+					name = "\n" .. L["Hide the surrounding textures around the BattleMap, only leaving you with the pure map overlays."],
 				},
 				hideTextures = {
 					order = 4,

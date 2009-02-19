@@ -1056,7 +1056,7 @@ local function getOptions()
 				intro = {
 					order = 1,
 					type = "description",
-					name = L["fogclear_desc"] .. "\n",
+					name = L["The FogClear module removes the Fog of War from the World map, thus displaying the artwork for all the undiscovered zones, optionally with a color overlay on undiscovered areas."] .. "\n",
 				},
 				enabled = {
 					order = 2,
@@ -1083,14 +1083,14 @@ local function getOptions()
 					order = 5,
 					type = "execute",
 					name = L["Reset FogClear Data"],
-					desc = L["reset_desc"],
+					desc = L["FogClear collects new Data in your own SavedVariables, but that data might get corrupted (or simply old) with a new patch. Reset the data if you see corruption in the world map."],
 					func = function() for k,v in pairs(FogClear.db.global.errata) do FogClear.db.global.errata[k] = nil end end,
 				},
 				debug = {
 					order = 6,
 					type = "toggle",
 					name = L["Debug"],
-					desc = L["debug_desc"],
+					desc = L["Turn on debugging for the FogClear Module."],
 					get = function() return db.debug end,
 					set = function(_, value) db.debug = value end,
 				},

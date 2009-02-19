@@ -52,7 +52,7 @@ local function getOptions()
 				intro = {
 					order = 1,
 					type = "description",
-					name = L["coords_desc"],
+					name = L["The Coordinates module adds a display of your current location, and the coordinates of your mouse cursor to the World Map frame."],
 				},
 				enabled = {
 					order = 2,
@@ -64,7 +64,7 @@ local function getOptions()
 				accuracydesc = {
 					order = 3,
 					type = "description",
-					name = L["coords_accuracy_desc"],
+					name = "\n" .. L["You can control the accuracy of the coordinates, e.g. if you need very exact coordinates you can set this to 2."],
 				},
 				accuracy = {
 					order = 4,

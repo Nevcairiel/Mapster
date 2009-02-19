@@ -37,12 +37,12 @@ local function getOptions()
 						intro = {
 							order = 1,
 							type = "description",
-							name = L["intro_desc"],
+							name = L["Mapster allows you to control various aspects of your World Map. You can change the style of the map, control the plugins that extend the map with new functionality, and configure different profiles for every of your characters."],
 						},
 						alphadesc = {
 							order = 2,
 							type = "description",
-							name = L["alpha_desc"],
+							name = L["You can change the transparency of the world map to allow you to continue seeing the world environment while your map is open for navigation."],
 						},
 						alpha = {
 							order = 3,
@@ -54,7 +54,7 @@ local function getOptions()
 						scaledesc = {
 							order = 4,
 							type = "description",
-							name = L["scale_desc"],
+							name = L["Change the scale of the world map if you do not want the whole screen filled while the map is open."],
 						},
 						scale = {
 							order = 5,
@@ -71,7 +71,7 @@ local function getOptions()
 						arrowScale = {
 							order = 11,
 							name = L["PlayerArrow Scale"],
-							description = L["arrow_desc"],
+							description = L["Adjust the size of the Player Arrow on the Map for better visibility."],
 							type = "range",
 							min = 0.5, max = 2, step = 0.01,
 							isPercent = true,
