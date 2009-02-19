@@ -1,48 +1,8 @@
--- Please make sure to save the file as UTF-8; ¶
---
+-- Mapster Locale
+-- Please use the Localization App on WoWAce to Update this
+-- http://www.wowace.com/projects/mapster/localization/ ;¶
+
 local L = LibStub("AceLocale-3.0"):NewLocale("Mapster", "koKR")
 if not L then return end
 
--- Mapster Config
-L["intro_desc"] = "Mapster는 월드맵에 여러 가지 추가 기능을 부여합니다. 맵의 스타일 변경 등 확장 플러그인에 대한 설정이 가능합니다."
-L["Style"] = "스타일"
-L["alpha_desc"] = "월드맵의 투명도를 변경합니다."
-L["Alpha"] = "투명도"
-L["scale_desc"] = "월드맵의 크기를 변경합니다."
-L["Scale"] = "크기"
--- L["Hide Map Button"] = true
--- L["PlayerArrow Scale"] = true
--- L["arrow_desc"] = "Adjust the size of the Player Arrow on the Map for better visibility."
-
--- Coords
-L["Coordinates"] = "좌표" -- name of the module
-L["coords_desc"] = "좌표 모듈은 현재 캐릭터의 위치에 좌표를 표시합니다. 또한 마우스 커서가 위치한 곳의 좌표도 표시합니다."
-L["Enable Coordinates"] = "좌표 모듈 사용"
-L["Accuracy"] = "좌표 자릿수"
-L["coords_accuracy_desc"] = "\n좌표의 소수점 자릿수를 결정합니다."
-
-L["Cursor"] = "커서"
-L["Player"] = "캐릭터"
-
--- Group Icons
-L["Group Icons"] = "파티원" -- name of the module
-L["groupicons_desc"] = "월드맵에 파티원의 위치를 아이콘으로 표시합니다. 공격대에서는 직업과 파티도 표시합니다."
-L["Enable Group Icons"] = "파티원 표시"
-
--- BattleMap
--- L["BattleMap"] = true -- name of the module
--- L["battlemap_desc"] = "The BattleMap module allows you to change the style of the BattlefieldMinimap, removing unnecessary textures or PvP Objectives."
--- L["Enable BattleMap"] = true
--- L["battlemap_textures_desc"] = "\nHide the surrounding textures around the BattleMap, only leaving you with the pure map overlays."
--- L["Hide Textures"] = true
-
--- FogClear
-L["FogClear"] = "미확인 지역 탐색" -- name of the module
-L["fogclear_desc"] = "월드맵에 가보지 않은 미확인 지역을 보여줍니다."
-L["Enable FogClear"] = "미확인 지역 탐색 가능"
-L["Overlay Color"] = "미확인 지역 색상"
-L["Reset FogClear Data"] = "미탐색 지역 데이터 초기화"
-L["reset_desc"] = "미탐색 지역데이터 수집을 초기화합니다."
-L["Note: You need to reload your UI after reseting the data!"] = "주의: 데이터 초기화를 위해서 UI를 재시작해야 합니다."
---L["Debug"] = true
---L["debug_desc"] = "Turn on debugging for the FogClear Module."
+--@localization(locale="koKR", format="lua_additive_table", handle-unlocalized="comment")@

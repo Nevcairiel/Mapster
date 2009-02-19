@@ -1,48 +1,8 @@
--- Please make sure to save the file as UTF-8; ¶
---
+-- Mapster Locale
+-- Please use the Localization App on WoWAce to Update this
+-- http://www.wowace.com/projects/mapster/localization/ ;¶
+
 local L = LibStub("AceLocale-3.0"):NewLocale("Mapster", "zhTW")
 if not L then return end
 
--- Mapster Config
-L["intro_desc"] = "Mapster讓你改變世界地圖的各種樣式. 通過擴展插件來新增地圖功能,並可以為每個角色設置不同的配置."
-L["Style"] = "樣式"
-L["alpha_desc"] = "改變世界地圖的透明度, 使你在打開地圖的情況下繼續操作你的人物."
-L["Alpha"] = "透明度"
-L["scale_desc"] = "調整世界地圖的大小.它可以讓你的世界地圖不再覆蓋整個螢幕."
-L["Scale"] = "縮放"
-L["Hide Map Button"] = "隱藏地圖按鈕"
--- L["PlayerArrow Scale"] = true
--- L["arrow_desc"] = "Adjust the size of the Player Arrow on the Map for better visibility."
-
--- Coords
-L["Coordinates"] = "座標功能" -- name of the module
-L["coords_desc"] = "在世界地圖上加入你當前位置座標和滑鼠位置座標."
-L["Enable Coordinates"] = "啟用座標"
-L["Accuracy"] = "精准"
-L["coords_accuracy_desc"] = "\n那你的座標顯示的更精確.例如:如果你需要精確的位置座標,那麼請設置到2."
-
-L["Cursor"] = "鼠標"
-L["Player"] = "玩家"
-
--- Group Icons
-L["Group Icons"] = "隊伍標記" -- name of the module
-L["groupicons_desc"] = "在世界地圖和區域/戰場地圖上增加功能更強大的標記.它們可以詳細的顯示出職業以及隊伍"
-L["Enable Group Icons"] = "啟用隊伍標記"
-
--- BattleMap
-L["BattleMap"] = "戰鬥地圖" -- name of the module
-L["battlemap_desc"] = "戰鬥地圖模組可讓您變更戰鬥地圖的樣式, 消除不必要的紋理或PVP目標."
-L["Enable BattleMap"] = "啟用戰鬥地圖"
-L["battlemap_textures_desc"] = "\n隱藏周圍戰鬥地圖的紋理, 只留下地圖的必要部份."
-L["Hide Textures"] = "隱藏紋理"
-
--- FogClear
-L["FogClear"] = "地圖全亮" -- name of the module
-L["fogclear_desc"] = "地圖全亮,顯示你沒去過的區域."
-L["Enable FogClear"] = "啟用地圖全亮"
-L["Overlay Color"] = "覆蓋顏色"
-L["Reset FogClear Data"] = "重置地圖全亮數據"
-L["reset_desc"] = "地圖全亮會在你的SavedVariables收集新的數據,但可能在一個新的升級程序後會損壞(或過時的)數據.如果您在世界地圖上看到破損現象, 請重置數據."
-L["Note: You need to reload your UI after reseting the data!"] = "注意:您需要重新載入你的用戶界面後數據才會重置!"
-L["Debug"] = "除錯模式"
-L["debug_desc"] = "開啟地圖全亮的除錯模式." 
+--@localization(locale="zhTW", format="lua_additive_table", handle-unlocalized="comment")@

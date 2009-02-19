@@ -32,14 +32,7 @@ Libs\AceConsole-3.0\AceConsole-3.0.xml
 Libs\AceConfig-3.0\AceConfig-3.0.xml
 #@end-no-lib-strip@
 
-Locale\enUS.lua
-Locale\frFR.lua
-Locale\deDE.lua
-Locale\esES.lua
-Locale\zhCN.lua
-Locale\zhTW.lua
-Locale\koKR.lua
-Locale\ruRU.lua
+Locale\locale.xml
 
 Mapster.lua
 Config.lua
