@@ -11,6 +11,8 @@ L["Alpha"] = "투명도"
 L["scale_desc"] = "월드맵의 크기를 변경합니다."
 L["Scale"] = "크기"
 -- L["Hide Map Button"] = true
+-- L["PlayerArrow Scale"] = true
+-- L["arrow_desc"] = "Adjust the size of the Player Arrow on the Map for better visibility."
 
 -- Coords
 L["Coordinates"] = "좌표" -- name of the module

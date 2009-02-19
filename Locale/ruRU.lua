@@ -11,6 +11,8 @@ L["Alpha"] = "Прозрачность"
 L["scale_desc"] = "Изменените масштаб карты, если не хотите видеть её развёрнутой на весь экран."
 L["Scale"] = "Масштаб"
 -- L["Hide Map Button"] = true
+-- L["PlayerArrow Scale"] = true
+-- L["arrow_desc"] = "Adjust the size of the Player Arrow on the Map for better visibility."
 
 -- Coords
 L["Coordinates"] = "Координаты" -- name of the module

@@ -64,12 +64,25 @@ local function getOptions()
 							isPercent = true,
 						},
 						nl = {
-							order = 6,
+							order = 10,
+							type = "description",
+							name = "",
+						},
+						arrowScale = {
+							order = 11,
+							name = L["PlayerArrow Scale"],
+							description = L["arrow_desc"],
+							type = "range",
+							min = 0.5, max = 2, step = 0.01,
+							isPercent = true,
+						},
+						nl2 = {
+							order = 20,
 							type = "description",
 							name = "",
 						},
 						hideMapButton = {
-							order = 7,
+							order = 21,
 							type = "toggle",
 							name = L["Hide Map Button"],
 						},

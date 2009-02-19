@@ -11,6 +11,8 @@ if not L then return end
 -- L["scale_desc"] = "Change the scale of the world map if you do not want the whole screen filled while the map is open."
 -- L["Scale"] = true
 -- L["Hide Map Button"] = true
+-- L["PlayerArrow Scale"] = true
+-- L["arrow_desc"] = "Adjust the size of the Player Arrow on the Map for better visibility."
 
 -- Coords
 -- L["Coordinates"] = true -- name of the module

@@ -12,6 +12,7 @@ local defaults = {
 		alpha = 1,
 		strata = "HIGH",
 		hideMapButton = false,
+		arrowScale = 0.88,
 		modules = {
 			['*'] = true,
 		},
@@ -78,6 +79,8 @@ function Mapster:OnEnable()
 	
 	self:RegisterEvent("ZONE_CHANGED_NEW_AREA")
 	
+	self:SetArrow()
+	
 	if vis then
 		ShowUIPanel(WorldMapFrame)
 	end
@@ -97,6 +100,7 @@ function Mapster:Refresh()
 	
 	self:SetStrata()
 	self:SetAlpha()
+	self:SetArrow()
 	if WorldMapFrame:IsShown() then
 		WorldMapFrame:SetScale(db.scale)
 	end
@@ -181,6 +185,11 @@ end
 
 function Mapster:SetAlpha()
 	WorldMapFrame:SetAlpha(db.alpha)
+end
+
+function Mapster:SetArrow()
+	PlayerArrowFrame:SetModelScale(db.arrowScale)
+	PlayerArrowEffectFrame:SetModelScale(db.arrowScale)
 end
 
 function Mapster:GetModuleEnabled(module)

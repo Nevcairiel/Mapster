@@ -11,6 +11,8 @@ L["Alpha"] = "透明度"
 L["scale_desc"] = "调整世界地图的显示比例. 它可以让你的世界地图不会再覆盖整个屏幕"
 L["Scale"] = "缩放"
 -- L["Hide Map Button"] = true
+-- L["PlayerArrow Scale"] = true
+-- L["arrow_desc"] = "Adjust the size of the Player Arrow on the Map for better visibility."
 
 -- Coords
 L["Coordinates"] = "坐标" -- name of the module
