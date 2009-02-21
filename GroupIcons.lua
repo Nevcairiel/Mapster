@@ -15,8 +15,7 @@ local find = string.find
 
 local _G = _G
 
--- Support for !Class Colors
-local RAID_CLASS_COLORS = CUSTOM_CLASS_COLORS or RAID_CLASS_COLORS
+local RAID_CLASS_COLORS = RAID_CLASS_COLORS
 
 local UnitClass = UnitClass
 local GetRaidRosterInfo = GetRaidRosterInfo
@@ -63,6 +62,11 @@ function GroupIcons:OnInitialize()
 end
 
 function GroupIcons:OnEnable()
+	-- Support for !Class Colors
+	if CUSTOM_CLASS_COLORS then
+		RAID_CLASS_COLORS = CUSTOM_CLASS_COLORS
+	end
+	
 	if not IsAddOnLoaded("Blizzard_BattlefieldMinimap") then
 		self:RegisterEvent("ADDON_LOADED", function(event, addon)
 			if addon == "Blizzard_BattlefieldMinimap" then
