@@ -12,8 +12,11 @@ local GroupIcons = Mapster:NewModule(MODNAME, "AceEvent-3.0")
 local fmt = string.format
 local sub = string.sub
 local find = string.find
-local RAID_CLASS_COLORS = RAID_CLASS_COLORS
+
 local _G = _G
+
+-- Support for !Class Colors
+local RAID_CLASS_COLORS = CUSTOM_CLASS_COLORS or RAID_CLASS_COLORS
 
 local UnitClass = UnitClass
 local GetRaidRosterInfo = GetRaidRosterInfo
