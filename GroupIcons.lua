@@ -151,11 +151,9 @@ function UpdateUnitIcon(tex, unit)
 		tex:SetTexture(fmt(grouptex, subgroup))
 	end
 	
-	tex.color = RAID_CLASS_COLORS[fileName]
-	
 	-- color the texture
 	-- either by flash color
-	local t = tex.color
+	local t = RAID_CLASS_COLORS[fileName]
 	if (GetTime() % 1 < 0.5) then
 		if UnitAffectingCombat(unit) then
 			-- red flash for units in combat
