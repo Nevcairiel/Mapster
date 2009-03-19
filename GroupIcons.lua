@@ -92,13 +92,15 @@ function FixUnit(unit, state, isNormal)
 	if state then
 		frame.elapsed = 0.5
 		frame:SetScript("OnUpdate", OnUpdate)
+		frame:SetScript("OnEvent", nil)
 		if isNormal then
 			icon:SetTexture(path .. "Normal")
 		end
 		frame.icon = icon
 	else
 		frame.elapsed = nil
-		frame:SetScript("OnUpdate", MapUnit_OnUpdate)
+		frame:SetScript("OnUpdate", nil)
+		frame:SetScript("OnEvent", WorldMapUnit_OnEvent)
 		icon:SetVertexColor(1, 1, 1)
 		icon:SetTexture("Interface\\WorldMap\\WorldMapPartyIcon")
 		frame.icon = nil
@@ -138,9 +140,6 @@ function UpdateUnitIcon(tex, unit)
 	-- sanity check
 	if not (tex and unit) then return end
 	
-	--Don't flash or color inactive
-	if MapUnit_IsInactive(unit) then return end
-	
 	-- grab the class filename
 	local _, fileName = UnitClass(unit)
 	if not fileName then return end
@@ -164,6 +163,8 @@ function UpdateUnitIcon(tex, unit)
 		elseif UnitIsDeadOrGhost(unit) then
 			-- dark grey flash for dead units
 			tex:SetVertexColor(0.2, 0.2, 0.2)
+		elseif PlayerIsPVPInactive(unit) then
+			tex:SetVertexColor(0.5, 0.2, 0.8)
 		end
 	-- or class color
 	elseif t then
