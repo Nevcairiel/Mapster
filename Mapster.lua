@@ -117,7 +117,7 @@ function Mapster:Refresh()
 	end
 	
 	if self.optionsButton then
-		if db.hideMapButton or (QuestHelperWorldMapButton and QuestHelperWorldMapButton:IsShown()) then
+		if db.hideMapButton then
 			self.optionsButton:Hide()
 		else
 			self.optionsButton:Show()
