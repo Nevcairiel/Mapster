@@ -16,6 +16,7 @@ local files = {
 	"Coords.lua",
 	"FogClear.lua",
 	"GroupIcons.lua",
+	"InstanceMaps.lua",
 	"Mapster.lua",
 }
 
