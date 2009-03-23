@@ -16,58 +16,58 @@ local data = {
 	{
 		["Ahn'kahet: The Old Kingdom"] = {
 			"AhnKahet",
-			{"Area 1", "Area 2"},
+			2,
 		},
 		["Azjol-Nerub"] = {
 			"AzjolNerub",
-			{"Area 1", "Area 2", "Area 3"},
+			3,
 		},
 		["The Culling of Stratholme"] = {
 			"CoTStratholme",
 			--"TheCullingofStratholme",
-			{"Area 1", "Area 2"},
+			2,
 		},
 		["Drak'Tharon Keep"] = {
 			"DrakTharonKeep",
 			--"DrakTheron",
-			{"Area 1", "Area 2"},
+			2,
 		},
 		--["Gundrak"] = "GunDrak",
 		["Gundrak"] = {
 			"GunDrak",
-			{"Area 1"},
+			1,
 		},
 		["The Nexus"] = {
 			"TheNexus",
-			{"Area 1"},
+			1,
 		},
 		--["The Nexus"] = "TheNexus",
 		["The Oculus"] = {
 			"Nexus80",
 			--"TheOculus",
-			{"Area 1", "Area 2", "Area 3", "Area 4"},
+			4,
 		},
 		["Ulduar: Halls of Lightning"] = {
 			"HallsofLightning",
-			{"Area 1", "Area 2"},
+			2,
 		},
 		["Ulduar: Halls of Stone"] = {
 			"Ulduar77",
 			--"HallsofStone",
-			{"Area 1"},
+			1,
 		},
 		["Utgarde Keep"] = {
 			"UtgardeKeep",
-			{"Area 1", "Area 2", "Area 3"},
+			3,
 		},
 		["Utgarde Pinnacle"] = {
 			"UtgardePinnacle",
-			{"Area 1", "Area 2"},
+			2,
 		},
 		--["Violet Hold"] = "VioletHold",
 		["Violet Hold"] = {
 			"VioletHold",
-			{"Area 1"},
+			1,
 		},
 	},
 
@@ -75,12 +75,13 @@ local data = {
 	{
 		["Naxxramas"] = {
 			"Naxxramas",
+			6,
 			{"The Construct Quarter", "The Arachnid Quarter", "The Military Quarter", "The Plague Quarter", "Naxxramas Overview", "Sapphiron and Kel'Thuzad"},
 		},
 		--["The Eye of Eternity"] = "EyeOfEternity",
 		["The Eye of Eternity"] = {
 			"EyeOfEternity",
-			{"Area 1"},
+			1,
 		},
 		["The Obsidian Sanctum"] = "TheObsidianSanctum",
 --		["The Obsidian Sanctum"] = {
@@ -89,11 +90,12 @@ local data = {
 --		},
 		["Ulduar"] = {
 			"Ulduar",
-			{[0] = "Area Base", "Area 1", "Area 2", "Area 3", "Area 4"},
+			4,
+			--{[0] = "Area Base", "Area 1", "Area 2", "Area 3", "Area 4"},
 		},
 		["Vault of Archavon"] = {
 			"VaultofArchavon",
-			{"Area 1"},
+			1,
 		},
 	},
 	{
@@ -200,6 +202,10 @@ function Maps:OnDisable()
 	WorldMapLevelDownButton:SetScript("OnClick", WorldMapLevelDown_OnClick)
 end
 
+function Maps:GetZoneData()
+	return self.zone_data[self.mapCont][self.mapZone]
+end
+
 function Maps:WorldMapContinentsDropDown_Update()
 	self.hooks.WorldMapContinentsDropDown_Update()
 	if self.mapCont then
@@ -266,14 +272,16 @@ function Maps:WorldMapLevelDropDown_Initialize()
 		local info = UIDropDownMenu_CreateInfo()
 		local level = self.dungeonLevel
 
-		local mapname = strupper(GetMapInfo() or "");
+		local mapname = strupper(self:GetMapInfo() or "")
 
+		local zone_data = self:GetZoneData()
 		for i=1, self:GetNumDungeonMapLevels() do
-			local floorname =_G["DUNGEON_FLOOR_" .. mapname .. i];
-			info.text = floorname or string.format(FLOOR_NUMBER, i);
-			info.func = WorldMapLevelButton_OnClick;
-			info.checked = (i == level);
-			UIDropDownMenu_AddButton(info);
+			local floorname =_G["DUNGEON_FLOOR_" .. mapname .. i]
+			local floorname_mapster = zone_data[3] and zone_data[3][i]
+			info.text = floorname or floorname_mapster or string.format(FLOOR_NUMBER, i)
+			info.func = WorldMapLevelButton_OnClick
+			info.checked = (i == level)
+			UIDropDownMenu_AddButton(info)
 		end
 	else
 		self.hooks.WorldMapLevelDropDown_Initialize()
@@ -321,9 +329,9 @@ end
 
 function Maps:GetNumDungeonMapLevels()
 	if self.mapCont and self.mapZone then
-		local zone_data = self.zone_data[self.mapCont][self.mapZone]
+		local zone_data = self:GetZoneData()
 		if type(zone_data) == "table" then
-			return #(zone_data[2])
+			return zone_data[2]
 		else
 			return 0
 		end
@@ -345,18 +353,25 @@ function Maps:SetMapToCurrentZone()
 	self.mapCont, self.mapZone, self.dungeonLevel = nil, nil, nil
 end
 
+function Maps:GetMapInfo()
+	if self.mapCont and self.mapZone then
+		local zone_data = self:GetZoneData()
+		if type(zone_data) == "table" then
+			return zone_data[1]
+		else
+			return zone_data
+		end
+	else
+		return GetMapInfo()
+	end
+end
+
 function Maps:WorldMapFrame_Update()
 	if self.mapCont and self.mapZone then
 		OutlandButton:Hide()
 		AzerothButton:Hide()
 
-		local mapFileName
-		local zone_data = self.zone_data[self.mapCont][self.mapZone]
-		if type(zone_data) == "table" then
-			mapFileName = zone_data[1]
-		else
-			mapFileName = zone_data
-		end
+		local mapFileName = self:GetMapInfo()
 
 		local texName
 		local dungeonLevel = self.dungeonLevel or 0
