@@ -9,6 +9,8 @@ local L = LibStub("AceLocale-3.0"):GetLocale("Mapster")
 local MODNAME = "InstanceMaps"
 local Maps = Mapster:NewModule(MODNAME, "AceHook-3.0")
 
+-- Credit for the initial data goes to Xinhuan
+-- for the effort in gathering
 local data = {
 	-- Northrend Instances
 	{
@@ -143,17 +145,27 @@ function Maps:OnInitialize()
 
 	cont_offset = select('#', GetMapContinents())
 
-	self.zones = {}
+	self.zone_names = {}
+	self.zone_data = {}
 
-	for i, data in pairs(data) do
+	for i, idata in pairs(data) do
 		local id = i + cont_offset
-		self.zones[id] = {}
-		for name in pairs(data) do
+
+		local names = {}
+		for name in pairs(idata) do
 			-- Todo: translate with babble-zone here, maybe?
-			tinsert(self.zones[id], name)
+			tinsert(names, name)
 		end
-		table.sort(self.zones[id])
+		table.sort(names)
+		self.zone_names[id] = names
+
+		zone_data = {}
+		for k,v in pairs(names) do
+			zone_data[k] = idata[v]
+		end
+		self.zone_data[id] = zone_data
 	end
+	data = nil
 end
 
 function Maps:OnEnable()
@@ -224,7 +236,7 @@ end
 
 function Maps:WorldMapZoneDropDown_Initialize()
 	if self.mapCont then
-		WorldMapFrame_LoadZones(unpack(self.zones[self.mapCont]))
+		WorldMapFrame_LoadZones(unpack(self.zone_names[self.mapCont]))
 	else
 		self.hooks.WorldMapZoneDropDown_Initialize()
 	end
@@ -232,8 +244,8 @@ end
 
 function Maps:WorldMapZoneButton_OnClick(frame)
 	if self.mapCont then
-		UIDropDownMenu_SetSelectedID(WorldMapZoneDropDown, frame:GetID());
-		SetMapZoom(self.mapCont, frame:GetID());
+		UIDropDownMenu_SetSelectedID(WorldMapZoneDropDown, frame:GetID())
+		SetMapZoom(self.mapCont, frame:GetID())
 	else
 		self.hooks.WorldMapZoneButton_OnClick(frame)
 	end
@@ -241,7 +253,7 @@ end
 
 function Maps:WorldMapLevelDropDown_Update()
 	self.hooks.WorldMapLevelDropDown_Update()
-	if self.mapCont and self.mapZone and self:GetNumDungeonMapLevels() > 0 then
+	if self.mapCont and self.mapZone and self:GetNumDungeonMapLevels() > 1 then
 		UIDropDownMenu_SetSelectedID(WorldMapLevelDropDown, self.dungeonLevel)
 		WorldMapLevelDropDown:Show()
 		WorldMapLevelUpButton:Show()
@@ -289,7 +301,7 @@ function Maps.WorldMapLevelDown_OnClick(frame)
 end
 
 function Maps:SetMapZoom(cont, zone)
-	if self.zones[cont] then
+	if self.zone_names[cont] then
 		self.mapCont = cont
 		self.mapZone = zone
 		if zone then
@@ -309,7 +321,7 @@ end
 
 function Maps:GetNumDungeonMapLevels()
 	if self.mapCont and self.mapZone then
-		local zone_data = data[self.mapCont - cont_offset][self.zones[self.mapCont][self.mapZone]]
+		local zone_data = self.zone_data[self.mapCont][self.mapZone]
 		if type(zone_data) == "table" then
 			return #(zone_data[2])
 		else
@@ -339,7 +351,7 @@ function Maps:WorldMapFrame_Update()
 		AzerothButton:Hide()
 
 		local mapFileName
-		local zone_data = data[self.mapCont-cont_offset][self.zones[self.mapCont][self.mapZone]]
+		local zone_data = self.zone_data[self.mapCont][self.mapZone]
 		if type(zone_data) == "table" then
 			mapFileName = zone_data[1]
 		else
@@ -360,4 +372,3 @@ function Maps:WorldMapFrame_Update()
 		self.hooks.WorldMapFrame_Update()
 	end
 end
-
