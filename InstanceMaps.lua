@@ -94,7 +94,7 @@ local data = {
 		["Ulduar"] = {
 			"Ulduar",
 			5,
-			{BZ["The Siege"], BZ["The Antechamber"], BZ["The Keepers"], BZ["The Descent into Madness"], BZ["The Spark of Imagination"]},
+			{(select(2, GetAchievementInfo(2886))), (select(2, GetAchievementInfo(2888))), (select(2, GetAchievementInfo(2890))), (select(2, GetAchievementInfo(2892))), BZ["The Spark of Imagination"]},
 		},
 		["Vault of Archavon"] = {
 			"VaultofArchavon",
@@ -324,9 +324,7 @@ function Maps:SetMapZoom(cont, zone)
 		self:WorldMapFrame_Update()
 		self.hooks.SetMapZoom(-1)
 	else
-		self.mapCont = nil
-		self.mapZone = nil
-		self.dungeonLevel = nil
+		self.mapCont, self.mapZone, self.dungeonLevel = nil, nil, nil
 		self.hooks.SetMapZoom(cont, zone)
 	end
 end
