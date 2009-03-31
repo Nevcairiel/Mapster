@@ -9,6 +9,9 @@ local L = LibStub("AceLocale-3.0"):GetLocale("Mapster")
 local MODNAME = "InstanceMaps"
 local Maps = Mapster:NewModule(MODNAME, "AceHook-3.0")
 
+local LBZ = LibStub("LibBabble-Zone-3.0", true)
+local BZ = LBZ and LBZ:GetLookupTable() or setmetatable({}, {__index = function(t,k) return k end})
+
 -- Credit for the initial data goes to Xinhuan
 -- for the effort in gathering
 local data = {
@@ -47,11 +50,11 @@ local data = {
 			--"TheOculus",
 			4,
 		},
-		["Ulduar: Halls of Lightning"] = {
+		["Halls of Lightning"] = {
 			"HallsofLightning",
 			2,
 		},
-		["Ulduar: Halls of Stone"] = {
+		["Halls of Stone"] = {
 			"Ulduar77",
 			--"HallsofStone",
 			1,
@@ -65,7 +68,7 @@ local data = {
 			2,
 		},
 		--["Violet Hold"] = "VioletHold",
-		["Violet Hold"] = {
+		["The Violet Hold"] = {
 			"VioletHold",
 			1,
 		},
@@ -76,7 +79,7 @@ local data = {
 		["Naxxramas"] = {
 			"Naxxramas",
 			6,
-			{"The Construct Quarter", "The Arachnid Quarter", "The Military Quarter", "The Plague Quarter", "Naxxramas Overview", "Sapphiron and Kel'Thuzad"},
+			{BZ["The Construct Quarter"], BZ["The Arachnid Quarter"], BZ["The Military Quarter"], BZ["The Plague Quarter"], BZ["Naxxramas"], BZ["Frostwyrm Lair"]},
 		},
 		--["The Eye of Eternity"] = "EyeOfEternity",
 		["The Eye of Eternity"] = {
@@ -154,16 +157,17 @@ function Maps:OnInitialize()
 		local id = i + cont_offset
 
 		local names = {}
-		for name in pairs(idata) do
-			-- Todo: translate with babble-zone here, maybe?
-			tinsert(names, name)
+		local name_data = {}
+		for name, zdata in pairs(idata) do
+			tinsert(names, BZ[name])
+			name_data[name] = zdata
 		end
 		table.sort(names)
 		self.zone_names[id] = names
 
-		zone_data = {}
+		local zone_data = {}
 		for k,v in pairs(names) do
-			zone_data[k] = idata[v]
+			zone_data[k] = name_data[v]
 		end
 		self.zone_data[id] = zone_data
 	end

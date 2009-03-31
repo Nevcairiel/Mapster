@@ -14,7 +14,7 @@
 ## X-LoadOn-ToggleFrame: if ... == WorldMapFrame and not IsAddOnLoaded("Mapster") then AddonLoader:LoadAddOn("Mapster") end
 ## LoadWith: Blizzard_BattlefieldMinimap
 
-## OptionalDeps: Ace3
+## OptionalDeps: Ace3, LibBabble-Zone-3.0
 
 #@no-lib-strip@
 Libs\LibStub\LibStub.lua
@@ -30,6 +30,8 @@ Libs\AceLocale-3.0\AceLocale-3.0.xml
 Libs\AceGUI-3.0\AceGUI-3.0.xml
 Libs\AceConsole-3.0\AceConsole-3.0.xml
 Libs\AceConfig-3.0\AceConfig-3.0.xml
+
+Libs\LibBabble-Zone-3.0\lib.xml
 #@end-no-lib-strip@
 
 Locale\locale.xml
