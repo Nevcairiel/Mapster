@@ -93,8 +93,8 @@ local data = {
 --		},
 		["Ulduar"] = {
 			"Ulduar",
-			4,
-			--{[0] = "Area Base", "Area 1", "Area 2", "Area 3", "Area 4"},
+			5,
+			{BZ["The Siege"], BZ["The Antechamber"], BZ["The Keepers"], BZ["The Descent into Madness"], BZ["The Spark of Imagination"]},
 		},
 		["Vault of Archavon"] = {
 			"VaultofArchavon",
@@ -378,7 +378,7 @@ function Maps:WorldMapFrame_Update()
 		local mapFileName = self:GetMapInfo()
 
 		local texName
-		local dungeonLevel = self.dungeonLevel or 0
+		local dungeonLevel = self.dungeonLevel and (mapFileName == "Ulduar" and self.dungeonLevel - 1 or self.dungeonLevel) or 0
 		for i=1, NUM_WORLDMAP_DETAIL_TILES do
 			if ( dungeonLevel > 0 ) then
 				texName = "Interface\\WorldMap\\"..mapFileName.."\\"..mapFileName..dungeonLevel.."_"..i;
