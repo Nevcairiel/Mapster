@@ -110,6 +110,12 @@ local data = {
 	},
 }
 
+local db
+local defaults = {
+	profile = {
+	}
+}
+
 local options
 local function getOptions()
 	if not options then
@@ -369,11 +375,10 @@ function Maps:GetMapInfo()
 end
 
 function Maps:WorldMapFrame_Update()
-	if self.mapCont and self.mapZone then
+	local mapFileName = self:GetMapInfo()
+	if self.mapCont and self.mapZone and mapFileName then
 		OutlandButton:Hide()
 		AzerothButton:Hide()
-
-		local mapFileName = self:GetMapInfo()
 
 		local texName
 		local dungeonLevel = self.dungeonLevel and (mapFileName == "Ulduar" and self.dungeonLevel - 1 or self.dungeonLevel) or 0
