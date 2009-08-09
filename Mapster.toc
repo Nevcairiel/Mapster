@@ -8,7 +8,6 @@
 ## X-Category: Map
 ## Version: @project-version@
 ## X-License: All rights reserved.
-
 ## LoadManagers: AddonLoader
 ## X-LoadOn-Hooks: ToggleFrame
 ## X-LoadOn-ToggleFrame: if ... == WorldMapFrame and not IsAddOnLoaded("Mapster") then AddonLoader:LoadAddOn("Mapster") end
