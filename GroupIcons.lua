@@ -7,7 +7,7 @@ local Mapster = LibStub("AceAddon-3.0"):GetAddon("Mapster")
 local L = LibStub("AceLocale-3.0"):GetLocale("Mapster")
 
 local MODNAME = "GroupIcons"
-local GroupIcons = Mapster:NewModule(MODNAME, "AceEvent-3.0")
+local GroupIcons = Mapster:NewModule(MODNAME, "AceEvent-3.0", "AceHook-3.0")
 
 local fmt = string.format
 local sub = string.sub
@@ -79,6 +79,7 @@ function GroupIcons:OnEnable()
 		FixBattlefieldUnits(true)
 	end
 	FixWorldMapUnits(true)
+	self:RawHook("WorldMapUnit_Update", true)
 end
 
 function GroupIcons:OnDisable()
@@ -168,4 +169,8 @@ function UpdateUnitIcon(tex, unit)
 	else --fallback grey, you never know what happens
 		tex:SetVertexColor(0.8, 0.8, 0.8)
 	end
+end
+
+function GroupIcons:WorldMapUnit_Update(unitFrame)
+	UpdateUnitIcon(unitFrame.icon, unitFrame.unit)
 end
