@@ -130,7 +130,7 @@ function Mapster:SetupMapButton()
 	self.optionsButton:SetHeight(20)
 	self.optionsButton:SetText("Mapster")
 	self.optionsButton:ClearAllPoints()
-	self.optionsButton:SetPoint("BOTTOMRIGHT", "WorldMapPositioningGuide", "BOTTOMRIGHT", -5, 7)
+	self.optionsButton:SetPoint("BOTTOMLEFT", "WorldMapPositioningGuide", "BOTTOMLEFT", 5, 7)
 	
 	if self.db.profile.hideMapButton then
 		self.optionsButton:Hide()
