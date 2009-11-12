@@ -206,13 +206,6 @@ function Mapster:SizeUp()
 	-- adjust main frame
 	WorldMapFrame:SetWidth(1024)
 	WorldMapFrame:SetHeight(768)
-	--WorldMapFrame:SetParent(nil)
-	--WorldMapFrame:ClearAllPoints()
-	--WorldMapFrame:SetAllPoints()
-	--UIPanelWindows["WorldMapFrame"].area = "full"
-	--WorldMapFrame:SetAttribute("UIPanelLayout-defined", false)
-	--WorldMapFrame:EnableMouse(true)
-	--WorldMapFrame:EnableKeyboard(true)
 	-- adjust map frames
 	WorldMapPositioningGuide:ClearAllPoints()
 	WorldMapPositioningGuide:SetPoint("CENTER")
@@ -242,6 +235,7 @@ function Mapster:SizeUp()
 	WorldMapFrameTitle:ClearAllPoints()
 	WorldMapFrameTitle:SetPoint("CENTER", 0, 372)
 	WorldMapTooltip:SetFrameStrata("TOOLTIP")
+
 	self.optionsButton:SetPoint("BOTTOMLEFT", "WorldMapPositioningGuide", "BOTTOMLEFT", 5, 7)
 end
 
@@ -252,10 +246,6 @@ function Mapster:SizeDown()
 	-- adjust main frame
 	WorldMapFrame:SetWidth(575)
 	WorldMapFrame:SetHeight(437)
-	--WorldMapFrame:SetParent(UIParent)
-	--WorldMapFrame:SetScale(0.9)
-	--WorldMapFrame:EnableMouse(false);
-	--WorldMapFrame:EnableKeyboard(false);
 	-- adjust map frames
 	WorldMapPositioningGuide:ClearAllPoints()
 	WorldMapPositioningGuide:SetAllPoints()
@@ -287,6 +277,7 @@ function Mapster:SizeDown()
 	WorldMapFrameTitle:ClearAllPoints()
 	WorldMapFrameTitle:SetPoint("TOP", WorldMapDetailFrame, 0, 20)
 	WorldMapTooltip:SetFrameStrata("TOOLTIP")
+
 	self.optionsButton:SetPoint("BOTTOMLEFT", "WorldMapPositioningGuide", "BOTTOMLEFT", 19, -21)
 end
 
