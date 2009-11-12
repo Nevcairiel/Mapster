@@ -66,6 +66,16 @@ local data = {
 			tag = "VioletHold",
 			maxLevel = 1,
 		},
+		-- 3.3 instances
+		["Halls of Reflection"] = {
+			tag = "HallsofReflection",
+			maxLevel = 1,
+		},
+		["Pit of Saron"] = "PitofSaron",
+		["The Forge of Souls"] = {
+			tag = "TheForgeofSouls",
+			maxLevel = 1,
+		},
 	},
 
 	-- Northrend Raids
@@ -92,6 +102,11 @@ local data = {
 		["The Argent Coliseum"] = {
 			tag = "TheArgentColiseum",
 			maxLevel = 2,
+		},
+		-- 3.3
+		["Icecrown Citadel"] = {
+			tag = "IcecrownCitadel",
+			maxLevel = 8,
 		},
 	},
 	{
