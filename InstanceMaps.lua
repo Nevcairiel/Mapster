@@ -87,7 +87,12 @@ local data = {
 		["Vault of Archavon"] = {
 			tag = "VaultofArchavon",
 			maxLevel = 1,
-		}
+		},
+		-- 3.2
+		["The Argent Coliseum"] = {
+			tag = "TheArgentColiseum",
+			maxLevel = 2,
+		},
 	},
 	{
 		["Alterac Valley"] = "AlteracValley",
