@@ -62,6 +62,8 @@ function Mapster:OnEnable()
 	WorldMapFrame:ClearAllPoints()
 	WorldMapFrame:SetPoint("CENTER", UIParent, "CENTER", db.x or 0, db.y or 0)
 	WorldMapFrame:SetToplevel(true)
+	WorldMapFrame:SetWidth(1024)
+	WorldMapFrame:SetHeight(768)
 	
 	WorldMapContinentDropDownButton:SetScript("OnClick", dropdownScaleFix)
 	WorldMapZoneDropDownButton:SetScript("OnClick", dropdownScaleFix)
@@ -73,6 +75,16 @@ function Mapster:OnEnable()
 
 	hooksecurefunc(WorldMapTooltip, "Show", function(self)
 		self:SetFrameStrata("TOOLTIP")
+	end)
+
+	-- fix hard-coded frame levels
+	hooksecurefunc("QuestPOI_DisplayButton", function(parentName, buttonType, buttonIndex)
+		local buttonName = "poi"..parentName..buttonType.."_"..buttonIndex
+		local poiButton = _G[buttonName]
+		if not poiButton.MapsterLevelFix then
+			poiButton.SetRealFrameLevel = poiButton.SetFrameLevel
+			poiButton.SetFrameLevel = function() end
+		end
 	end)
 
 	tinsert(UISpecialFrames, "WorldMapFrame")
@@ -140,14 +152,14 @@ end
 local oldBFMOnUpdate
 function wmfOnShow(frame)
 	frame:SetScale(db.scale)
-	frame:SetWidth(1024)
-	frame:SetHeight(768)
 	Mapster:SetStrata()
 	realZone = getZoneId()
 	if BattlefieldMinimap then
 		oldBFMOnUpdate = BattlefieldMinimap:GetScript("OnUpdate")
 		BattlefieldMinimap:SetScript("OnUpdate", nil)
 	end
+
+	WorldMapFrame_SelectQuest(WorldMapQuestScrollChildFrame.selected)
 end
 
 function wmfOnHide(frame)
