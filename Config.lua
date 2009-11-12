@@ -60,7 +60,7 @@ local function getOptions()
 							order = 5,
 							name = L["Scale"],
 							type = "range",
-							min = 0.1, max = 1, step = 0.01,
+							min = 0.1, max = 1.5, step = 0.01,
 							isPercent = true,
 						},
 						nl = {

@@ -9,7 +9,7 @@
 ## Version: @project-version@
 ## X-License: All rights reserved.
 
-## OptionalDeps: Ace3, LibBabble-Zone-3.0
+## OptionalDeps: Ace3, LibBabble-Zone-3.0, LibWindow-1.1
 
 #@no-lib-strip@
 Libs\LibStub\LibStub.lua
@@ -27,6 +27,7 @@ Libs\AceConsole-3.0\AceConsole-3.0.xml
 Libs\AceConfig-3.0\AceConfig-3.0.xml
 
 Libs\LibBabble-Zone-3.0\lib.xml
+Libs\LibWindow-1.1\LibWindow-1.1.lua
 #@end-no-lib-strip@
 
 Locale\locale.xml
