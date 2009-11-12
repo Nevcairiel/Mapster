@@ -18,88 +18,76 @@ local data = {
 	-- Northrend Instances
 	{
 		["Ahn'kahet: The Old Kingdom"] = {
-			"AhnKahet",
-			2,
+			tag = "AhnKahet",
+			maxLevel = 1,
 		},
 		["Azjol-Nerub"] = {
-			"AzjolNerub",
-			3,
+			tag = "AzjolNerub",
+			maxLevel = 3,
 		},
 		["The Culling of Stratholme"] = {
-			"CoTStratholme",
-			--"TheCullingofStratholme",
-			2,
+			tag = "CoTStratholme",
+			minLevel = 0,
+			maxLevel = 1,
 		},
 		["Drak'Tharon Keep"] = {
-			"DrakTharonKeep",
-			--"DrakTheron",
-			2,
+			tag = "DrakTharonKeep",
+			maxLevel = 2,
 		},
-		--["Gundrak"] = "GunDrak",
 		["Gundrak"] = {
-			"GunDrak",
-			1,
+			tag = "GunDrak",
+			maxLevel = 1,
 		},
 		["The Nexus"] = {
-			"TheNexus",
-			1,
+			tag = "TheNexus",
+			maxLevel = 1,
 		},
-		--["The Nexus"] = "TheNexus",
 		["The Oculus"] = {
-			"Nexus80",
-			--"TheOculus",
-			4,
+			tag = "Nexus80",
+			maxLevel = 4,
 		},
 		["Halls of Lightning"] = {
-			"HallsofLightning",
-			2,
+			tag = "HallsofLightning",
+			maxLevel = 2,
 		},
 		["Halls of Stone"] = {
-			"Ulduar77",
-			--"HallsofStone",
-			1,
+			tag = "Ulduar77",
+			maxLevel = 1,
 		},
 		["Utgarde Keep"] = {
-			"UtgardeKeep",
-			3,
+			tag = "UtgardeKeep",
+			maxLevel = 3,
 		},
 		["Utgarde Pinnacle"] = {
-			"UtgardePinnacle",
-			2,
+			tag = "UtgardePinnacle",
+			maxLevel = 2,
 		},
-		--["Violet Hold"] = "VioletHold",
 		["The Violet Hold"] = {
-			"VioletHold",
-			1,
+			tag = "VioletHold",
+			maxLevel = 1,
 		},
 	},
 
 	-- Northrend Raids
 	{
 		["Naxxramas"] = {
-			"Naxxramas",
-			6,
-			{BZ["The Construct Quarter"], BZ["The Arachnid Quarter"], BZ["The Military Quarter"], BZ["The Plague Quarter"], BZ["Naxxramas"], BZ["Frostwyrm Lair"]},
+			tag = "Naxxramas",
+			maxLevel = 6,
 		},
-		--["The Eye of Eternity"] = "EyeOfEternity",
 		["The Eye of Eternity"] = {
-			"EyeOfEternity",
-			1,
+			tag = "EyeOfEternity",
+			maxLevel = 1,
 		},
 		["The Obsidian Sanctum"] = "TheObsidianSanctum",
---		["The Obsidian Sanctum"] = {
---			"TheObsidianSanctum",
---			{"Area 1"},
---		},
 		["Ulduar"] = {
-			"Ulduar",
-			5,
-			{(select(2, GetAchievementInfo(2886))), (select(2, GetAchievementInfo(2888))), (select(2, GetAchievementInfo(2890))), (select(2, GetAchievementInfo(2892))), BZ["The Spark of Imagination"]},
+			tag = "Ulduar",
+			maxLevel = 5,
+			minLevel = 0,
 		},
 		["Vault of Archavon"] = {
-			"VaultofArchavon",
-			1,
-		},
+			tag = "VaultofArchavon",
+			maxLevel = 1,
+		}
 	},
 	{
 		["Alterac Valley"] = "AlteracValley",
@@ -110,11 +98,13 @@ local data = {
 	},
 }
 
+--[[
 local db
 local defaults = {
 	profile = {
 	}
 }
+]]
 
 local options
 local function getOptions()
@@ -148,8 +138,10 @@ end
 local cont_offset
 
 function Maps:OnInitialize()
+	--[[
 	self.db = Mapster.db:RegisterNamespace(MODNAME, defaults)
 	db = self.db.profile
+	]]
 
 	self:SetEnabledState(Mapster:GetModuleEnabled(MODNAME))
 	Mapster:RegisterModuleOptions(MODNAME, getOptions, L["Instance Maps"])
@@ -285,10 +277,11 @@ function Maps:WorldMapLevelDropDown_Initialize()
 		local mapname = strupper(self:GetMapInfo() or "")
 
 		local zone_data = self:GetZoneData()
-		for i=1, self:GetNumDungeonMapLevels() do
-			local floorname =_G["DUNGEON_FLOOR_" .. mapname .. i]
-			local floorname_mapster = zone_data[3] and zone_data[3][i]
-			info.text = floorname or floorname_mapster or string.format(FLOOR_NUMBER, i)
+		local minLevel = zone_data.minLevel or 1
+		for i = 1, self:GetNumDungeonMapLevels(), 1 do
+			local nIdx = i - 1 + minLevel
+			local floorname =_G["DUNGEON_FLOOR_" .. mapname .. nIdx]
+			info.text = floorname or string.format(FLOOR_NUMBER, i)
 			info.func = WorldMapLevelButton_OnClick
 			info.checked = (i == level)
 			UIDropDownMenu_AddButton(info)
@@ -324,7 +317,8 @@ function Maps:SetMapZoom(cont, zone)
 		self.mapZone = zone
 		if zone then
 			if self:GetNumDungeonMapLevels() > 0 then
-				self.dungeonLevel = (self:GetNumDungeonMapLevels() > 0) and 1 or 0
+				local data = self:GetZoneData()
+				self.dungeonLevel = data.startLevel or 1
 			end
 		end
 		self:WorldMapFrame_Update()
@@ -339,7 +333,7 @@ function Maps:GetNumDungeonMapLevels()
 	if self.mapCont and self.mapZone then
 		local zone_data = self:GetZoneData()
 		if type(zone_data) == "table" then
-			return zone_data[2]
+			return (zone_data.maxLevel or 1) - (zone_data.minLevel or 1) + 1
 		else
 			return 0
 		end
@@ -350,6 +344,7 @@ end
 
 function Maps:SetDungeonMapLevel(level)
 	if self.mapCont and self.mapZone then
+		local data = self:GetZoneData()
 		self.dungeonLevel = max(1, min(level, self:GetNumDungeonMapLevels()))
 		self:WorldMapFrame_Update()
 	else
@@ -365,7 +360,7 @@ function Maps:GetMapInfo()
 	if self.mapCont and self.mapZone then
 		local zone_data = self:GetZoneData()
 		if type(zone_data) == "table" then
-			return zone_data[1]
+			return zone_data.tag or ""
 		else
 			return zone_data
 		end
@@ -380,10 +375,15 @@ function Maps:WorldMapFrame_Update()
 		OutlandButton:Hide()
 		AzerothButton:Hide()
 
+		local data = self:GetZoneData()
+		local dungeonLevel
+		if self:GetNumDungeonMapLevels() > 0 then
+			dungeonLevel = self.dungeonLevel - 1 + (data.minLevel or 1)
+		end
+
 		local texName
-		local dungeonLevel = self.dungeonLevel and (mapFileName == "Ulduar" and self.dungeonLevel - 1 or self.dungeonLevel) or 0
 		for i=1, NUM_WORLDMAP_DETAIL_TILES do
-			if ( dungeonLevel > 0 ) then
+			if dungeonLevel and dungeonLevel > 0 then
 				texName = "Interface\\WorldMap\\"..mapFileName.."\\"..mapFileName..dungeonLevel.."_"..i;
 			else
 				texName = "Interface\\WorldMap\\"..mapFileName.."\\"..mapFileName..i;
