@@ -92,10 +92,10 @@ function Coords:OnEnable()
 		display = CreateFrame("Frame", "Mapster_CoordsFrame", WorldMapFrame)
 		
 		cursortext = display:CreateFontString(nil, "ARTWORK", "GameFontNormal")
-		cursortext:SetPoint("RIGHT", WorldMapFrame, "CENTER", -50, -367)
+		cursortext:SetPoint("BOTTOMLEFT", WorldMapPositioningGuide, "BOTTOM", 50, 10)
 		
 		playertext = display:CreateFontString(nil, "ARTWORK", "GameFontNormal")
-		playertext:SetPoint("LEFT", WorldMapFrame, "CENTER", 50, -367)
+		playertext:SetPoint("BOTTOMRIGHT", WorldMapPositioningGuide, "BOTTOM", -50, 10)
 	end
 	display:SetScript("OnUpdate", OnUpdate)
 	display:Show()
@@ -114,6 +114,17 @@ function Coords:Refresh()
 	
 	local acc = tonumber(db.accuracy) or 1
 	text = texttemplate:format(acc, acc)
+end
+
+function Coords:UpdateMapsize(mini)
+	-- map was minimized, fix display position
+	if mini then
+		cursortext:SetPoint("BOTTOMLEFT", WorldMapPositioningGuide, "BOTTOM", 60, -17)
+		playertext:SetPoint("BOTTOMRIGHT", WorldMapPositioningGuide, "BOTTOM", -40, -17)
+	else
+		cursortext:SetPoint("BOTTOMLEFT", WorldMapPositioningGuide, "BOTTOM", 50, 10)
+		playertext:SetPoint("BOTTOMRIGHT", WorldMapPositioningGuide, "BOTTOM", -50, 10)
+	end
 end
 
 function MouseXY()

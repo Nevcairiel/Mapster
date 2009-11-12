@@ -174,6 +174,7 @@ function Mapster:Refresh()
 	end
 end
 
+
 function Mapster:ToggleMapSize()
 	self.miniMap = not self.miniMap
 	ToggleFrame(WorldMapFrame)
@@ -184,8 +185,19 @@ function Mapster:ToggleMapSize()
 	end
 	self:SetAlpha()
 	self:SetPosition()
+
+	self:UpdateModuleMapsizes()
+
 	ToggleFrame(WorldMapFrame)
 	WorldMapFrame_UpdateQuests()
+end
+
+function Mapster:UpdateModuleMapsizes()
+	for k,v in self:IterateModules() do
+		if v:IsEnabled() and type(v.UpdateMapsize) == "function" then
+			v:UpdateMapsize(self.miniMap)
+		end
+	end
 end
 
 function Mapster:SizeUp()
@@ -230,6 +242,7 @@ function Mapster:SizeUp()
 	WorldMapFrameTitle:ClearAllPoints()
 	WorldMapFrameTitle:SetPoint("CENTER", 0, 372)
 	WorldMapTooltip:SetFrameStrata("TOOLTIP")
+	self.optionsButton:SetPoint("BOTTOMLEFT", "WorldMapPositioningGuide", "BOTTOMLEFT", 5, 7)
 end
 
 function Mapster:SizeDown()
@@ -274,6 +287,7 @@ function Mapster:SizeDown()
 	WorldMapFrameTitle:ClearAllPoints()
 	WorldMapFrameTitle:SetPoint("TOP", WorldMapDetailFrame, 0, 20)
 	WorldMapTooltip:SetFrameStrata("TOOLTIP")
+	self.optionsButton:SetPoint("BOTTOMLEFT", "WorldMapPositioningGuide", "BOTTOMLEFT", 19, -21)
 end
 
 local function getZoneId()
