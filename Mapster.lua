@@ -30,7 +30,6 @@ local defaults = {
 	}
 }
 
-
 -- Variables that are changed on "mini" mode
 local miniList = { x = true, y = true, point = true, scale = true, alpha = true }
 
@@ -186,6 +185,8 @@ function Mapster:ToggleMapSize()
 	self:SetAlpha()
 	self:SetPosition()
 
+	-- Notify the modules about the map size change,
+	-- so they can re-anchor frames or stuff like that.
 	self:UpdateModuleMapsizes()
 
 	ToggleFrame(WorldMapFrame)
@@ -234,7 +235,6 @@ function Mapster:SizeUp()
 	WorldMapFrameSizeDownButton:SetPoint("TOPRIGHT", WorldMapPositioningGuide, -16, 4)
 	WorldMapFrameTitle:ClearAllPoints()
 	WorldMapFrameTitle:SetPoint("CENTER", 0, 372)
-	WorldMapTooltip:SetFrameStrata("TOOLTIP")
 
 	self.optionsButton:SetPoint("BOTTOMLEFT", "WorldMapPositioningGuide", "BOTTOMLEFT", 5, 7)
 end
@@ -276,7 +276,6 @@ function Mapster:SizeDown()
 	WorldMapFrameSizeDownButton:SetPoint("TOPRIGHT", WorldMapFrameMiniBorderRight, "TOPRIGHT", -66, 5)
 	WorldMapFrameTitle:ClearAllPoints()
 	WorldMapFrameTitle:SetPoint("TOP", WorldMapDetailFrame, 0, 20)
-	WorldMapTooltip:SetFrameStrata("TOOLTIP")
 
 	self.optionsButton:SetPoint("BOTTOMLEFT", "WorldMapPositioningGuide", "BOTTOMLEFT", 19, -21)
 end
