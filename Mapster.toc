@@ -40,3 +40,4 @@ GroupIcons.lua
 BattleMap.lua
 FogClear.lua
 InstanceMaps.lua
+Scaling.lua
