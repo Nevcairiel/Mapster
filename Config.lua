@@ -9,13 +9,21 @@ local L = LibStub("AceLocale-3.0"):GetLocale("Mapster")
 local optGetter, optSetter
 do
 	function optGetter(info)
-		local key = info[#info] 
-		return Mapster.db.profile[key]
+		local key = info[#info]
+		if key:sub(0,5) == "mini_" then
+			return Mapster.db.profile.mini[key:sub(6)]
+		else
+			return Mapster.db.profile[key]
+		end
 	end
 	
 	function optSetter(info, value)
 		local key = info[#info]
-		Mapster.db.profile[key] = value
+		if key:sub(0,5) == "mini_" then
+			Mapster.db.profile.mini[key:sub(6)] = value
+		else
+			Mapster.db.profile[key] = value
+		end
 		Mapster:Refresh()
 	end
 end
@@ -47,20 +55,38 @@ local function getOptions()
 						alpha = {
 							order = 3,
 							name = L["Alpha"],
+							desc = L["The transparency of the big map."],
+							type = "range",
+							min = 0, max = 1, step = 0.01,
+							isPercent = true,
+						},
+						mini_alpha = {
+							order = 4,
+							name = L["Minimized Alpha"],
+							desc = L["The transparency of the minimized map."],
 							type = "range",
 							min = 0, max = 1, step = 0.01,
 							isPercent = true,
 						},
 						scaledesc = {
-							order = 4,
+							order = 5,
 							type = "description",
 							name = L["Change the scale of the world map if you do not want the whole screen filled while the map is open."],
 						},
 						scale = {
-							order = 5,
+							order = 6,
 							name = L["Scale"],
+							desc = L["Scale of the big map."],
 							type = "range",
-							min = 0.1, max = 1.5, step = 0.01,
+							min = 0.2, max = 1.5, step = 0.01,
+							isPercent = true,
+						},
+						mini_scale = {
+							order = 7,
+							name = L["Minimized Scale"],
+							desc = L["Scale of the minimized map."],
+							type = "range",
+							min = 0.2, max = 1.5, step = 0.01,
 							isPercent = true,
 						},
 						nl = {
@@ -85,6 +111,24 @@ local function getOptions()
 							order = 21,
 							type = "toggle",
 							name = L["Hide Map Button"],
+						},
+						nl3 = {
+							order = 30,
+							type = "description",
+							name = "",
+						},
+						hideBorder = {
+							order = 31,
+							type = "toggle",
+							name = L["Hide Border"],
+							desc = L["Hide the borders of the big map."],
+							disabled = true,
+						},
+						mini_hideBorder = {
+							order = 32,
+							type = "toggle",
+							name = L["Hide Minimized Border"],
+							desc = L["Hide the borders of the minimized map."],
 						},
 					},
 				},

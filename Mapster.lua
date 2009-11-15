@@ -20,18 +20,20 @@ local defaults = {
 		points = "CENTER",
 		scale = 0.75,
 		alpha = 1,
+		hideBorder = false,
 		mini = {
 			x = 0,
 			y = 0,
 			point = "CENTER",
 			scale = 1,
 			alpha = 0.9,
+			hideBorder = true,
 		}
 	}
 }
 
 -- Variables that are changed on "mini" mode
-local miniList = { x = true, y = true, point = true, scale = true, alpha = true }
+local miniList = { x = true, y = true, point = true, scale = true, alpha = true, hideBorder = true }
 
 local db_
 local db = setmetatable({}, {
@@ -129,6 +131,7 @@ function Mapster:OnEnable()
 	self:RegisterEvent("ZONE_CHANGED_NEW_AREA")
 
 	self:SetArrow()
+	self:UpdateBorderVisibility()
 
 	if vis then
 		ShowUIPanel(WorldMapFrame)
@@ -146,13 +149,13 @@ end
 
 function Mapster:Refresh()
 	db_ = self.db.profile
-	
+
 	self:SetStrata()
 	self:SetAlpha()
 	self:SetArrow()
 	self:SetScale()
 	self:SetPosition()
-	
+
 	for k,v in self:IterateModules() do
 		if self:GetModuleEnabled(k) and not v:IsEnabled() then
 			self:EnableModule(k)
@@ -171,6 +174,8 @@ function Mapster:Refresh()
 			self.optionsButton:Show()
 		end
 	end
+
+	self:UpdateBorderVisibility()
 end
 
 
@@ -188,6 +193,8 @@ function Mapster:ToggleMapSize()
 	-- Notify the modules about the map size change,
 	-- so they can re-anchor frames or stuff like that.
 	self:UpdateModuleMapsizes()
+
+	self:UpdateBorderVisibility()
 
 	ToggleFrame(WorldMapFrame)
 	WorldMapFrame_UpdateQuests()
@@ -353,6 +360,50 @@ end
 
 function Mapster:GetModuleEnabled(module)
 	return db.modules[module]
+end
+
+function Mapster:UpdateBorderVisibility()
+	if db.hideBorder then
+		Mapster.bordersVisible = false
+		if self.miniMap then
+			WorldMapFrameMiniBorderLeft:Hide()
+			WorldMapFrameMiniBorderRight:Hide()
+		end
+		WorldMapFrameTitle:Hide()
+		self:RegisterEvent("WORLD_MAP_UPDATE", "UpdateDetailTiles")
+		self:UpdateDetailTiles()
+		self.optionsButton:Hide()
+	else
+		Mapster.bordersVisible = true
+		if self.miniMap then
+			WorldMapFrameMiniBorderLeft:Show()
+			WorldMapFrameMiniBorderRight:Show()
+		end
+		WorldMapFrameTitle:Show()
+		self:UnregisterEvent("WORLD_MAP_UPDATE")
+		self:UpdateDetailTiles()
+		if not db.hideMapButton then
+			self.optionsButton:Show()
+		end
+	end
+
+	for k,v in self:IterateModules() do
+		if v:IsEnabled() and type(v.BorderVisibilityChanged) == "function" then
+			v:BorderVisibilityChanged(not db.hideBorder)
+		end
+	end
+end
+
+function Mapster:UpdateDetailTiles()
+	if db.hideBorder and GetCurrentMapZone() > 0 then
+		for i=1, NUM_WORLDMAP_DETAIL_TILES do
+			_G["WorldMapDetailTile"..i]:Hide()
+		end
+	else
+		for i=1, NUM_WORLDMAP_DETAIL_TILES do
+			_G["WorldMapDetailTile"..i]:Show()
+		end
+	end
 end
 
 function Mapster:SetModuleEnabled(module, value)

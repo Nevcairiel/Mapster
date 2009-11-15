@@ -92,13 +92,16 @@ function Coords:OnEnable()
 		display = CreateFrame("Frame", "Mapster_CoordsFrame", WorldMapFrame)
 		
 		cursortext = display:CreateFontString(nil, "ARTWORK", "GameFontNormal")
-		cursortext:SetPoint("BOTTOMLEFT", WorldMapPositioningGuide, "BOTTOM", 50, 10)
-		
 		playertext = display:CreateFontString(nil, "ARTWORK", "GameFontNormal")
-		playertext:SetPoint("BOTTOMRIGHT", WorldMapPositioningGuide, "BOTTOM", -50, 10)
+
+		self:UpdateMapsize(Mapster.miniMap)
 	end
 	display:SetScript("OnUpdate", OnUpdate)
-	display:Show()
+	if Mapster.bordersVisible then
+		display:Show()
+	else
+		display:Hide()
+	end
 	
 	self:Refresh()
 end
@@ -124,6 +127,15 @@ function Coords:UpdateMapsize(mini)
 	else
 		cursortext:SetPoint("BOTTOMLEFT", WorldMapPositioningGuide, "BOTTOM", 50, 10)
 		playertext:SetPoint("BOTTOMRIGHT", WorldMapPositioningGuide, "BOTTOM", -50, 10)
+	end
+end
+
+function Coords:BorderVisibilityChanged(visible)
+	if not display then return end
+	if visible then
+		display:Show()
+	else
+		display:Hide()
 	end
 end
 
