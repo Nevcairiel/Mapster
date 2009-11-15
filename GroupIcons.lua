@@ -52,7 +52,7 @@ local function getOptions()
 			}
 		}
 	end
-	
+
 	return options
 end
 
@@ -66,7 +66,7 @@ function GroupIcons:OnEnable()
 	if CUSTOM_CLASS_COLORS then
 		RAID_CLASS_COLORS = CUSTOM_CLASS_COLORS
 	end
-	
+
 	if not IsAddOnLoaded("Blizzard_BattlefieldMinimap") then
 		self:RegisterEvent("ADDON_LOADED", function(event, addon)
 			if addon == "Blizzard_BattlefieldMinimap" then
@@ -138,7 +138,7 @@ local grouptex = path .. "Group%d"
 function UpdateUnitIcon(tex, unit)
 	-- sanity check
 	if not (tex and unit) then return end
-	
+
 	-- grab the class filename
 	local _, fileName = UnitClass(unit)
 	if not fileName then return end
@@ -149,7 +149,7 @@ function UpdateUnitIcon(tex, unit)
 		if not subgroup then return end
 		tex:SetTexture(fmt(grouptex, subgroup))
 	end
-	
+
 	-- color the texture
 	-- either by flash color
 	local t = RAID_CLASS_COLORS[fileName]

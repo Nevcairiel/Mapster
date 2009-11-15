@@ -37,7 +37,7 @@ function Scale:OnEnable()
 		scaler:SetTexture([[Interface\BUTTONS\UI-AutoCastableOverlay]])
 		scaler:SetTexCoord(0.619, 0.760, 0.612, 0.762)
 		scaler:SetDesaturated(true)
-		
+
 		mousetracker = CreateFrame("Frame", nil ,UIParent)
 		mousetracker:SetFrameStrata("TOOLTIP")
 		mousetracker:SetAllPoints(scaler)

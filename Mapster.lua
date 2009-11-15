@@ -166,7 +166,7 @@ function Mapster:Refresh()
 			v:Refresh()
 		end
 	end
-	
+
 	if self.optionsButton then
 		if db.hideMapButton then
 			self.optionsButton:Hide()
@@ -325,7 +325,6 @@ end
 
 function wmfStopMoving(frame)
 	frame:StopMovingOrSizing()
-
 	LibWindow.SavePosition(frame)
 end
 

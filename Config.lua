@@ -16,7 +16,7 @@ do
 			return Mapster.db.profile[key]
 		end
 	end
-	
+
 	function optSetter(info, value)
 		local key = info[#info]
 		if key:sub(0,5) == "mini_" then
@@ -150,15 +150,15 @@ end
 
 function Mapster:SetupOptions()
 	InterfaceOptionsFrame:SetFrameStrata("DIALOG") 
-	
+
 	self.optionsFrames = {}
-	
+
 	-- setup options table
 	LibStub("AceConfigRegistry-3.0"):RegisterOptionsTable("Mapster", getOptions)
 	self.optionsFrames.Mapster = LibStub("AceConfigDialog-3.0"):AddToBlizOptions("Mapster", nil, nil, "general")
-	
+
 	self:RegisterModuleOptions("Profiles", LibStub("AceDBOptions-3.0"):GetOptionsTable(self.db), "Profiles")
-	
+
 	LibStub("AceConsole-3.0"):RegisterChatCommand( "mapster", optFunc)
 end
 
@@ -175,12 +175,12 @@ function Mapster:SetupMapButton()
 	self.optionsButton:SetText("Mapster")
 	self.optionsButton:ClearAllPoints()
 	self.optionsButton:SetPoint("BOTTOMLEFT", "WorldMapPositioningGuide", "BOTTOMLEFT", 5, 7)
-	
+
 	if self.db.profile.hideMapButton then
 		self.optionsButton:Hide()
 	else
 		self.optionsButton:Show()
 	end
-	
+
 	self.optionsButton:SetScript("OnClick", optFunc)
 end

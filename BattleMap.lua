@@ -70,17 +70,17 @@ local function getOptions()
 			},
 		}
 	end
-	
+
 	return options
 end
 
 function BattleMap:OnInitialize()
 	self.db = Mapster.db:RegisterNamespace(MODNAME, defaults)
 	db = self.db.profile
-	
+
 	self:SetEnabledState(Mapster:GetModuleEnabled(MODNAME))
 	Mapster:RegisterModuleOptions(MODNAME, getOptions, L["BattleMap"])
-	
+
 	FogClear = Mapster:GetModule("FogClear", true)
 end
 
@@ -104,7 +104,7 @@ function BattleMap:OnDisable()
 		BattlefieldMinimapCloseButton:Show()
 		BattlefieldMinimapTab:Show()
 	end
-	
+
 	self:Refresh()
 end
 
@@ -121,7 +121,7 @@ end
 function BattleMap:Refresh()
 	db = self.db.profile
 	if not self:IsEnabled() then return end
-	
+
 	self:UpdateTextureVisibility()
 end
 
