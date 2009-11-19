@@ -66,6 +66,10 @@ function Mapster:OnInitialize()
 	self.db.RegisterCallback(self, "OnProfileReset", "Refresh")
 
 	self:SetupOptions()
+	SetCVar("miniWorldMap", nil)
+	SetCVar("advancedWorldMap", nil)
+	InterfaceOptionsObjectivesPanelAdvancedWorldMap:Disable()
+	InterfaceOptionsObjectivesPanelAdvancedWorldMapText:SetTextColor(0.5,0.5,0.5)
 end
 
 -- local oldUIPanel,
