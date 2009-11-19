@@ -66,15 +66,24 @@ function Mapster:OnInitialize()
 	self.db.RegisterCallback(self, "OnProfileReset", "Refresh")
 
 	self:SetupOptions()
-	SetCVar("miniWorldMap", nil)
-	SetCVar("advancedWorldMap", nil)
-	InterfaceOptionsObjectivesPanelAdvancedWorldMap:Disable()
-	InterfaceOptionsObjectivesPanelAdvancedWorldMapText:SetTextColor(0.5,0.5,0.5)
 end
 
 -- local oldUIPanel,
 local oldwmfOnKeyDown, realZone
 function Mapster:OnEnable()
+	local advanced, mini = GetCVarBool("advancedWorldMap"), GetCVarBool("miniWorldMap")
+	SetCVar("miniWorldMap", nil)
+	SetCVar("advancedWorldMap", nil)
+	InterfaceOptionsObjectivesPanelAdvancedWorldMap:Disable()
+	InterfaceOptionsObjectivesPanelAdvancedWorldMapText:SetTextColor(0.5,0.5,0.5)
+	-- restore map to its vanilla state
+	if mini then
+		WorldMap_ToggleSizeUp()
+	end
+	if advanced then
+		WorldMapFrame_ToggleAdvanced()
+	end
+
 	self:SetupMapButton()
 
 	LibWindow.RegisterConfig(WorldMapFrame, db)
