@@ -21,6 +21,7 @@ local defaults = {
 		scale = 0.75,
 		alpha = 1,
 		hideBorder = false,
+		disableMouse = false,
 		mini = {
 			x = 0,
 			y = 0,
@@ -28,12 +29,13 @@ local defaults = {
 			scale = 1,
 			alpha = 0.9,
 			hideBorder = true,
+			disableMouse = true,
 		}
 	}
 }
 
 -- Variables that are changed on "mini" mode
-local miniList = { x = true, y = true, point = true, scale = true, alpha = true, hideBorder = true }
+local miniList = { x = true, y = true, point = true, scale = true, alpha = true, hideBorder = true, disableMouse = true }
 
 local db_
 local db = setmetatable({}, {
@@ -146,6 +148,7 @@ function Mapster:OnEnable()
 
 	self:SetArrow()
 	self:UpdateBorderVisibility()
+	self:UpdateMouseInteractivity()
 
 	if vis then
 		ShowUIPanel(WorldMapFrame)
@@ -190,6 +193,7 @@ function Mapster:Refresh()
 	end
 
 	self:UpdateBorderVisibility()
+	self:UpdateMouseInteractivity()
 end
 
 
@@ -209,6 +213,7 @@ function Mapster:ToggleMapSize()
 	self:UpdateModuleMapsizes()
 
 	self:UpdateBorderVisibility()
+	self:UpdateMouseInteractivity()
 
 	ToggleFrame(WorldMapFrame)
 	WorldMapFrame_UpdateQuests()
@@ -419,6 +424,16 @@ function Mapster:UpdateBorderVisibility()
 		if v:IsEnabled() and type(v.BorderVisibilityChanged) == "function" then
 			v:BorderVisibilityChanged(not db.hideBorder)
 		end
+	end
+end
+
+function Mapster:UpdateMouseInteractivity()
+	if db.disableMouse then
+		WorldMapButton:EnableMouse(false)
+		WorldMapFrame:EnableMouse(false)
+	else
+		WorldMapButton:EnableMouse(true)
+		WorldMapFrame:EnableMouse(true)
 	end
 end
 

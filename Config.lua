@@ -127,8 +127,20 @@ local function getOptions()
 						mini_hideBorder = {
 							order = 32,
 							type = "toggle",
-							name = L["Hide Minimized Border"],
+							name = L["(Mini) Hide Border"],
 							desc = L["Hide the borders of the minimized map."],
+						},
+						disableMouse = {
+							order = 33,
+							type = "toggle",
+							name = L["Disable Mouse"],
+							desc = L["Disable the mouse interactivity of the main map, eg. to change zones."],
+						},
+						mini_disableMouse = {
+							order = 34,
+							type = "toggle",
+							name = L["(Mini) Disable Mouse"],
+							desc = L["Disable the mouse interactivity of the main map when in minimized mode, eg. to change zones."],
 						},
 					},
 				},
