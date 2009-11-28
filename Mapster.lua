@@ -390,6 +390,9 @@ function Mapster:UpdateBorderVisibility()
 		if self.miniMap then
 			WorldMapFrameMiniBorderLeft:Hide()
 			WorldMapFrameMiniBorderRight:Hide()
+			WorldMapQuestShowObjectives:SetPoint("BOTTOMRIGHT", WorldMapDetailFrame, "TOPRIGHT", -50 - WorldMapQuestShowObjectivesText:GetWidth(), 2);
+		else
+			-- TODO
 		end
 		WorldMapFrameTitle:Hide()
 		self:RegisterEvent("WORLD_MAP_UPDATE", "UpdateDetailTiles")
@@ -400,7 +403,10 @@ function Mapster:UpdateBorderVisibility()
 		if self.miniMap then
 			WorldMapFrameMiniBorderLeft:Show()
 			WorldMapFrameMiniBorderRight:Show()
+		else
+			-- TODO
 		end
+		WorldMapQuestShowObjectives_AdjustPosition()
 		WorldMapFrameTitle:Show()
 		self:UnregisterEvent("WORLD_MAP_UPDATE")
 		self:UpdateDetailTiles()
