@@ -12,109 +12,48 @@ local Maps = Mapster:NewModule(MODNAME, "AceHook-3.0")
 local LBZ = LibStub("LibBabble-Zone-3.0", true)
 local BZ = LBZ and LBZ:GetLookupTable() or setmetatable({}, {__index = function(t,k) return k end})
 
--- Credit for the initial data goes to Xinhuan
--- for the effort in gathering
+-- Data mostly from http://www.wowwiki.com/API_SetMapByID
 local data = {
 	-- Northrend Instances
 	{
-		["Ahn'kahet: The Old Kingdom"] = {
-			tag = "AhnKahet",
-			maxLevel = 1,
-		},
-		["Azjol-Nerub"] = {
-			tag = "AzjolNerub",
-			maxLevel = 3,
-		},
-		["The Culling of Stratholme"] = {
-			tag = "CoTStratholme",
-			minLevel = 0,
-			maxLevel = 1,
-		},
-		["Drak'Tharon Keep"] = {
-			tag = "DrakTharonKeep",
-			maxLevel = 2,
-		},
-		["Gundrak"] = {
-			tag = "GunDrak",
-			maxLevel = 1,
-		},
-		["The Nexus"] = {
-			tag = "TheNexus",
-			maxLevel = 1,
-		},
-		["The Oculus"] = {
-			tag = "Nexus80",
-			maxLevel = 4,
-		},
-		["Halls of Lightning"] = {
-			tag = "HallsofLightning",
-			maxLevel = 2,
-		},
-		["Halls of Stone"] = {
-			tag = "Ulduar77",
-			maxLevel = 1,
-		},
-		["Utgarde Keep"] = {
-			tag = "UtgardeKeep",
-			maxLevel = 3,
-		},
-		["Utgarde Pinnacle"] = {
-			tag = "UtgardePinnacle",
-			maxLevel = 2,
-		},
-		["The Violet Hold"] = {
-			tag = "VioletHold",
-			maxLevel = 1,
-		},
-		-- 3.3 instances
-		["Halls of Reflection"] = {
-			tag = "HallsofReflection",
-			maxLevel = 1,
-		},
-		["Pit of Saron"] = "PitofSaron",
-		["The Forge of Souls"] = {
-			tag = "TheForgeofSouls",
-			maxLevel = 1,
-		},
+		["The Nexus"] = 520,
+		["The Culling of Stratholme"] = 521,
+		["Ahn'kahet: The Old Kingdom"] = 522,
+		["Utgarde Keep"] = 523,
+		["Utgarde Pinnacle"] = 524,
+		["Halls of Lightning"] = 525,
+		["Halls of Stone"] = 526,
+		["The Oculus"] = 528,
+		["Gundrak"] = 530,
+		["Azjol-Nerub"] = 533,
+		["Drak'Tharon Keep"] = 534,
+		["The Violet Hold"] = 536,
+		-- 3.2
+		["The Argent Coliseum"] = 542,
+		-- 3.3
+		["The Forge of Souls"] = 601,
+		["Pit of Saron"] = 602,
+		["Halls of Reflection"] = 603,
 	},
 
 	-- Northrend Raids
 	{
-		["Naxxramas"] = {
-			tag = "Naxxramas",
-			maxLevel = 6,
-		},
-		["The Eye of Eternity"] = {
-			tag = "EyeOfEternity",
-			maxLevel = 1,
-		},
-		["The Obsidian Sanctum"] = "TheObsidianSanctum",
-		["Ulduar"] = {
-			tag = "Ulduar",
-			maxLevel = 5,
-			minLevel = 0,
-		},
-		["Vault of Archavon"] = {
-			tag = "VaultofArchavon",
-			maxLevel = 1,
-		},
+		["The Eye of Eternity"] = 527,
+		["Ulduar"] = 529,
+		["The Obsidian Sanctum"] = 531,
+		["Vault of Archavon"] = 532,
+		["Naxxramas"] = 535,
 		-- 3.2
-		["The Argent Coliseum"] = {
-			tag = "TheArgentColiseum",
-			maxLevel = 2,
-		},
+		["The Argent Coliseum"] = 543,
 		-- 3.3
-		["Icecrown Citadel"] = {
-			tag = "IcecrownCitadel",
-			maxLevel = 8,
-		},
+		["Icecrown Citadel"] = 604,
 	},
 	{
-		["Alterac Valley"] = "AlteracValley",
-		["Arathi Basin"] = "ArathiBasin",
-		["Eye of the Storm"] = "NetherstormArena",
-		["Strand of the Ancients"] = "StrandoftheAncients",
-		["Warsong Gulch"] = "WarsongGulch",
+		["Alterac Valley"] = 401,
+		["Warsong Gulch"] = 443,
+		["Arathi Basin"] = 461,
+		["Eye of the Storm"] = 482,
+		["Strand of the Ancients"] = 512,
 	},
 }
 
@@ -199,29 +138,16 @@ function Maps:OnEnable()
 	self:RawHook("WorldMapZoneDropDown_Update", true)
 	self:RawHook("WorldMapZoneDropDown_Initialize", true)
 	self:RawHook("WorldMapZoneButton_OnClick", true)
-
-	self:RawHook("WorldMapLevelDropDown_Update", true)
-	self:RawHook("WorldMapLevelDropDown_Initialize", true)
-	WorldMapLevelUpButton:SetScript("OnClick", self.WorldMapLevelUp_OnClick)
-	WorldMapLevelDownButton:SetScript("OnClick", self.WorldMapLevelDown_OnClick)
-
+	
 	self:RawHook("SetMapZoom", true)
-	self:RawHook("SetDungeonMapLevel", true)
 	self:Hook("SetMapToCurrentZone", true)
-
-	self:RawHook("WorldMapFrame_Update", true)
 end
 
 function Maps:OnDisable()
 	self:UnhookAll()
-	self.mapCont, self.mapZone, self.dungeonLevel = nil, nil, nil
-	WorldMapFrame_Update()
+	self.mapCont, self.mapZone = nil, nil
 	WorldMapContinentsDropDown_Update()
 	WorldMapZoneDropDown_Update()
-	WorldMapLevelDropDown_Update()
-
-	WorldMapLevelUpButton:SetScript("OnClick", WorldMapLevelUp_OnClick)
-	WorldMapLevelDownButton:SetScript("OnClick", WorldMapLevelDown_OnClick)
 end
 
 function Maps:GetZoneData()
@@ -272,145 +198,24 @@ end
 
 function Maps:WorldMapZoneButton_OnClick(frame)
 	if self.mapCont then
-		UIDropDownMenu_SetSelectedID(WorldMapZoneDropDown, frame:GetID())
-		SetMapZoom(self.mapCont, frame:GetID())
+		self.mapZone = frame:GetID()
+		UIDropDownMenu_SetSelectedID(WorldMapZoneDropDown, self.mapZone)
+		SetMapByID(self:GetZoneData())
 	else
 		self.hooks.WorldMapZoneButton_OnClick(frame)
-	end
-end
-
-function Maps:WorldMapLevelDropDown_Update()
-	self.hooks.WorldMapLevelDropDown_Update()
-	if self.mapCont and self.mapZone and self:GetNumDungeonMapLevels() > 1 then
-		UIDropDownMenu_SetSelectedID(WorldMapLevelDropDown, self.dungeonLevel)
-		WorldMapLevelDropDown:Show()
-		WorldMapLevelUpButton:Show()
-		WorldMapLevelDownButton:Show()
-	end
-end
-
-function Maps:WorldMapLevelDropDown_Initialize()
-	if self.mapCont and self.mapZone then
-		local info = UIDropDownMenu_CreateInfo()
-		local level = self.dungeonLevel
-
-		local mapname = strupper(self:GetMapInfo() or "")
-
-		local zone_data = self:GetZoneData()
-		local minLevel = zone_data.minLevel or 1
-		for i = 1, self:GetNumDungeonMapLevels(), 1 do
-			local nIdx = i - 1 + minLevel
-			local floorname =_G["DUNGEON_FLOOR_" .. mapname .. nIdx]
-			info.text = floorname or string.format(FLOOR_NUMBER, i)
-			info.func = WorldMapLevelButton_OnClick
-			info.checked = (i == level)
-			UIDropDownMenu_AddButton(info)
-		end
-	else
-		self.hooks.WorldMapLevelDropDown_Initialize()
-	end
-end
-
-function Maps.WorldMapLevelUp_OnClick(frame)
-	if Maps.mapCont and Maps.mapZone then
-		Maps:SetDungeonMapLevel(Maps.dungeonLevel - 1)
-		UIDropDownMenu_SetSelectedID(WorldMapLevelDropDown, Maps.dungeonLevel)
-		PlaySound("UChatScrollButton")
-	else
-		WorldMapLevelUp_OnClick(frame)
-	end
-end
-
-function Maps.WorldMapLevelDown_OnClick(frame)
-	if Maps.mapCont and Maps.mapZone then
-		Maps:SetDungeonMapLevel(Maps.dungeonLevel + 1)
-		UIDropDownMenu_SetSelectedID(WorldMapLevelDropDown, Maps.dungeonLevel)
-		PlaySound("UChatScrollButton")
-	else
-		WorldMapLevelDown_OnClick(frame)
 	end
 end
 
 function Maps:SetMapZoom(cont, zone)
 	if self.zone_names[cont] then
 		self.mapCont = cont
-		self.mapZone = zone
-		if zone then
-			if self:GetNumDungeonMapLevels() > 0 then
-				local data = self:GetZoneData()
-				self.dungeonLevel = data.startLevel or 1
-			end
-		end
-		self:WorldMapFrame_Update()
 		self.hooks.SetMapZoom(-1)
 	else
-		self.mapCont, self.mapZone, self.dungeonLevel = nil, nil, nil
+		self.mapCont, self.mapZone = nil, nil
 		self.hooks.SetMapZoom(cont, zone)
 	end
 end
 
-function Maps:GetNumDungeonMapLevels()
-	if self.mapCont and self.mapZone then
-		local zone_data = self:GetZoneData()
-		if type(zone_data) == "table" then
-			return (zone_data.maxLevel or 1) - (zone_data.minLevel or 1) + 1
-		else
-			return 0
-		end
-	else
-		return GetNumDungeonMapLevels()
-	end
-end
-
-function Maps:SetDungeonMapLevel(level)
-	if self.mapCont and self.mapZone then
-		local data = self:GetZoneData()
-		self.dungeonLevel = max(1, min(level, self:GetNumDungeonMapLevels()))
-		self:WorldMapFrame_Update()
-	else
-		self.hooks.SetDungeonMapLevel(level)
-	end
-end
-
 function Maps:SetMapToCurrentZone()
-	self.mapCont, self.mapZone, self.dungeonLevel = nil, nil, nil
-end
-
-function Maps:GetMapInfo()
-	if self.mapCont and self.mapZone then
-		local zone_data = self:GetZoneData()
-		if type(zone_data) == "table" then
-			return zone_data.tag or ""
-		else
-			return zone_data
-		end
-	else
-		return GetMapInfo()
-	end
-end
-
-function Maps:WorldMapFrame_Update()
-	local mapFileName = self:GetMapInfo()
-	if self.mapCont and self.mapZone and mapFileName then
-		OutlandButton:Hide()
-		AzerothButton:Hide()
-
-		local data = self:GetZoneData()
-		local dungeonLevel
-		if self:GetNumDungeonMapLevels() > 0 then
-			dungeonLevel = self.dungeonLevel - 1 + (data.minLevel or 1)
-		end
-
-		local texName
-		for i=1, NUM_WORLDMAP_DETAIL_TILES do
-			if dungeonLevel and dungeonLevel > 0 then
-				texName = "Interface\\WorldMap\\"..mapFileName.."\\"..mapFileName..dungeonLevel.."_"..i;
-			else
-				texName = "Interface\\WorldMap\\"..mapFileName.."\\"..mapFileName..i;
-			end
-			_G["WorldMapDetailTile"..i]:SetTexture(texName);
-		end
-	else
-		self.hooks.WorldMapFrame_Update()
-	end
+	self.mapCont, self.mapZone = nil, nil
 end
