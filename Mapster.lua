@@ -274,18 +274,19 @@ function Mapster:SizeDown()
 	WorldMapFrame.scale = WORLDMAP_RATIO_MINI
 	WorldMapFrame.bigMap = nil
 	-- adjust main frame
-	WorldMapFrame:SetWidth(575)
+	WorldMapFrame:SetWidth(623)
 	WorldMapFrame:SetHeight(437)
 	-- adjust map frames
 	WorldMapPositioningGuide:ClearAllPoints()
 	WorldMapPositioningGuide:SetAllPoints()
 	WorldMapDetailFrame:SetScale(WORLDMAP_RATIO_MINI)
-	WorldMapDetailFrame:SetPoint("TOPLEFT", 39, -92)
+	WorldMapDetailFrame:SetPoint("TOPLEFT", 37, -66)
 	WorldMapButton:SetScale(WORLDMAP_RATIO_MINI)
 	WorldMapFrameAreaFrame:SetScale(WORLDMAP_RATIO_MINI)
 	WorldMapPOIFrame.ratio = WORLDMAP_RATIO_MINI
 	WorldMapBlobFrame:SetScale(WORLDMAP_RATIO_MINI)
 	WorldMapBlobFrame.xRatio = nil		-- force hit recalculations
+	WorldMapFrameMiniBorderLeft:SetPoint("TOPLEFT", 10, -14)
 	-- hide big window elements
 	WorldMapZoneMinimapDropDown:Hide()
 	WorldMapZoomOutButton:Hide()
@@ -311,7 +312,7 @@ function Mapster:SizeDown()
 	WorldMapFrame_SetPOIMaxBounds()
 	WorldMapQuestShowObjectives_AdjustPosition()
 
-	self.optionsButton:SetPoint("BOTTOMLEFT", "WorldMapPositioningGuide", "BOTTOMLEFT", 19, -21)
+	self.optionsButton:SetPoint("BOTTOMLEFT", "WorldMapPositioningGuide", "BOTTOMLEFT", 16, -8)
 end
 
 local function getZoneId()

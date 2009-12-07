@@ -106,9 +106,9 @@ function Scale:UpdateMapsize(mini)
 	-- map was minimized, fix display position
 	if mini then
 		if Mapster.bordersVisible then
-			scaler:SetPoint("BOTTOMRIGHT", 25, -25)
+			scaler:SetPoint("BOTTOMRIGHT", -23, -12)
 		else
-			scaler:SetPoint("BOTTOMRIGHT", 23, 0)
+			scaler:SetPoint("BOTTOMRIGHT", -26, 16)
 		end
 	else
 		if Mapster.bordersVisible then
