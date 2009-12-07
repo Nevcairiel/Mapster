@@ -102,10 +102,23 @@ function OnUpdate(self)
 end
 
 function Scale:UpdateMapsize(mini)
+	if not scaler then return end
 	-- map was minimized, fix display position
 	if mini then
-		scaler:SetPoint("BOTTOMRIGHT", 25, -25)
+		if Mapster.bordersVisible then
+			scaler:SetPoint("BOTTOMRIGHT", 25, -25)
+		else
+			scaler:SetPoint("BOTTOMRIGHT", 23, 0)
+		end
 	else
-		scaler:SetPoint("BOTTOMRIGHT", -4, 4)
+		if Mapster.bordersVisible then
+			scaler:SetPoint("BOTTOMRIGHT", -4, 4)
+		else
+			-- TODO
+		end
 	end
+end
+
+function Scale:BorderVisibilityChanged()
+	self:UpdateMapsize(Mapster.miniMap)
 end
