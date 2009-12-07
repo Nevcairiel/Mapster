@@ -437,8 +437,17 @@ function Mapster:UpdateMouseInteractivity()
 	end
 end
 
+
+local function hasOverlays()
+	if Mapster:GetModuleEnabled("FogClear") then
+		return Mapster:GetModule("FogClear"):RealHasOverlays()
+	else
+		return GetNumMapOverlays() > 0
+	end
+end
+
 function Mapster:UpdateDetailTiles()
-	if db.hideBorder and GetCurrentMapZone() > 0 then
+	if db.hideBorder and GetCurrentMapZone() > 0 and hasOverlays() then
 		for i=1, NUM_WORLDMAP_DETAIL_TILES do
 			_G["WorldMapDetailTile"..i]:Hide()
 		end
