@@ -62,6 +62,7 @@ function Scale:OnEnable()
 			self:SetScript("OnUpdate", OnUpdate)
 			self:SetAllPoints(UIParent)
 		end)
+		tinsert(Mapster.elementsToHide, scaler)
 	end
 	scaler:Show()
 	mousetracker:Show()

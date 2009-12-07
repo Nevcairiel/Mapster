@@ -3,7 +3,7 @@ Copyright (c) 2009, Hendrik "Nevcairiel" Leppkes < h.leppkes@gmail.com >
 All rights reserved.
 ]]
 
-local Mapster = LibStub("AceAddon-3.0"):NewAddon("Mapster", "AceEvent-3.0")
+local Mapster = LibStub("AceAddon-3.0"):NewAddon("Mapster", "AceEvent-3.0", "AceHook-3.0")
 
 local LibWindow = LibStub("LibWindow-1.1")
 
@@ -66,6 +66,8 @@ function Mapster:OnInitialize()
 	self.db.RegisterCallback(self, "OnProfileChanged", "Refresh")
 	self.db.RegisterCallback(self, "OnProfileCopied", "Refresh")
 	self.db.RegisterCallback(self, "OnProfileReset", "Refresh")
+
+	self.elementsToHide = {}
 
 	self:SetupOptions()
 end
@@ -404,6 +406,8 @@ function Mapster:UpdateBorderVisibility()
 		self:RegisterEvent("WORLD_MAP_UPDATE", "UpdateDetailTiles")
 		self:UpdateDetailTiles()
 		self.optionsButton:Hide()
+		self:HookScript(WorldMapFrame, "OnUpdate", "UpdateMapElements")
+		self:UpdateMapElements()
 	else
 		Mapster.bordersVisible = true
 		if self.miniMap then
@@ -419,11 +423,35 @@ function Mapster:UpdateBorderVisibility()
 		if not db.hideMapButton then
 			self.optionsButton:Show()
 		end
+		self:Unhook(WorldMapFrame, "OnUpdate")
+		self:UpdateMapElements()
 	end
 
 	for k,v in self:IterateModules() do
 		if v:IsEnabled() and type(v.BorderVisibilityChanged) == "function" then
 			v:BorderVisibilityChanged(not db.hideBorder)
+		end
+	end
+end
+
+function Mapster:UpdateMapElements()
+	local mouseOver = WorldMapFrame:IsMouseOver()
+	if self.elementsHidden and (mouseOver or not db.hideBorder) then
+		self.elementsHidden = nil
+		(self.miniMap and WorldMapFrameSizeUpButton or WorldMapFrameSizeDownButton):Show()
+		WorldMapFrameCloseButton:Show()
+		WorldMapQuestShowObjectives:Show()
+		for _, frame in pairs(self.elementsToHide) do
+			frame:Show()
+		end
+	elseif not self.elementsHidden and not mouseOver and db.hideBorder then
+		self.elementsHidden = true
+		WorldMapFrameSizeUpButton:Hide()
+		WorldMapFrameSizeDownButton:Hide()
+		WorldMapFrameCloseButton:Hide()
+		WorldMapQuestShowObjectives:Hide()
+		for _, frame in pairs(self.elementsToHide) do
+			frame:Hide()
 		end
 	end
 end
