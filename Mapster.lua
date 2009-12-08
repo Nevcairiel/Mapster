@@ -22,6 +22,7 @@ local defaults = {
 		alpha = 1,
 		hideBorder = false,
 		disableMouse = false,
+		miniMap = false,
 		mini = {
 			x = 0,
 			y = 0,
@@ -117,7 +118,6 @@ function Mapster:OnEnable()
 	WorldMapFrame:SetToplevel(true)
 	WorldMapFrame:SetWidth(1024)
 	WorldMapFrame:SetHeight(768)
-	self:SetPosition()
 
 	WorldMapContinentDropDownButton:SetScript("OnClick", dropdownScaleFix)
 	WorldMapZoneDropDownButton:SetScript("OnClick", dropdownScaleFix)
@@ -126,7 +126,6 @@ function Mapster:OnEnable()
 	WorldMapFrameSizeDownButton:SetScript("OnClick", function() Mapster:ToggleMapSize() end)
 	WorldMapFrameSizeUpButton:SetScript("OnClick", function() Mapster:ToggleMapSize() end)
 
-	self:SetAlpha()
 	-- Apply all frame settings
 	wmfOnShow(WorldMapFrame)
 
@@ -148,6 +147,15 @@ function Mapster:OnEnable()
 
 	self:RegisterEvent("ZONE_CHANGED_NEW_AREA")
 
+	if (db.miniMap and not self.miniMap) then
+		self:SizeDown()
+	elseif (not db.miniMap and self.miniMap) then
+		self:SizeUp()
+	end
+	self.miniMap = db.miniMap
+
+	self:SetPosition()
+	self:SetAlpha()
 	self:SetArrow()
 	self:UpdateBorderVisibility()
 	self:UpdateMouseInteractivity()
@@ -169,12 +177,6 @@ end
 function Mapster:Refresh()
 	db_ = self.db.profile
 
-	self:SetStrata()
-	self:SetAlpha()
-	self:SetArrow()
-	self:SetScale()
-	self:SetPosition()
-
 	for k,v in self:IterateModules() do
 		if self:GetModuleEnabled(k) and not v:IsEnabled() then
 			self:EnableModule(k)
@@ -186,6 +188,19 @@ function Mapster:Refresh()
 		end
 	end
 
+	if (db.miniMap and not self.miniMap) then
+		self:SizeDown()
+	elseif (not db.miniMap and self.miniMap) then
+		self:SizeUp()
+	end
+	self.miniMap = db.miniMap
+
+	self:SetStrata()
+	self:SetAlpha()
+	self:SetArrow()
+	self:SetScale()
+	self:SetPosition()
+
 	if self.optionsButton then
 		if db.hideMapButton then
 			self.optionsButton:Hide()
@@ -196,11 +211,13 @@ function Mapster:Refresh()
 
 	self:UpdateBorderVisibility()
 	self:UpdateMouseInteractivity()
+	self:UpdateModuleMapsizes()
 end
 
 
 function Mapster:ToggleMapSize()
 	self.miniMap = not self.miniMap
+	db.miniMap = self.miniMap
 	ToggleFrame(WorldMapFrame)
 	if self.miniMap then
 		self:SizeDown()
