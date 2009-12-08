@@ -158,11 +158,10 @@ local function optFunc()
 	-- open the profiles tab before, so the menu expands
 	InterfaceOptionsFrame_OpenToCategory(Mapster.optionsFrames.Profiles)
 	InterfaceOptionsFrame_OpenToCategory(Mapster.optionsFrames.Mapster)
+	InterfaceOptionsFrame:Raise()
 end
 
 function Mapster:SetupOptions()
-	InterfaceOptionsFrame:SetFrameStrata("DIALOG") 
-
 	self.optionsFrames = {}
 
 	-- setup options table
