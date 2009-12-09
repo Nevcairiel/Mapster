@@ -1113,14 +1113,13 @@ end
 function FogClear:OnInitialize()
 	self.db = Mapster.db:RegisterNamespace(MODNAME, defaults)
 	db = self.db.profile
+	self.overlays = self.db.global.errata
 
 	self:SetEnabledState(Mapster:GetModuleEnabled(MODNAME))
 	Mapster:RegisterModuleOptions(MODNAME, getOptions, L["FogClear"])
 end
 
 function FogClear:OnEnable()
-	self.overlays = self.db.global.errata
-
 	self:RawHook("GetNumMapOverlays", true)
 	self:RawHook("WorldMapFrame_Update", true)
 
@@ -1186,7 +1185,7 @@ end
 
 function FogClear:RealHasOverlays()
 	local mapFileName = GetMapInfo()
-	if not mapFileName then return false end
+	if not mapFileName or not self.overlays then return false end
 
 	local overlayMap = self.overlays[mapFileName]
 	if overlayMap and next(overlayMap) then return true end
