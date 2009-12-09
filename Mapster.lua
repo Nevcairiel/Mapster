@@ -423,7 +423,10 @@ function Mapster:UpdateBorderVisibility()
 		self:RegisterEvent("WORLD_MAP_UPDATE", "UpdateDetailTiles")
 		self:UpdateDetailTiles()
 		self.optionsButton:Hide()
-		self:HookScript(WorldMapFrame, "OnUpdate", "UpdateMapElements")
+		if not self.hookedOnUpdate then
+			self:HookScript(WorldMapFrame, "OnUpdate", "UpdateMapElements")
+			self.hookedOnUpdate = true
+		end
 		self:UpdateMapElements()
 	else
 		Mapster.bordersVisible = true
@@ -440,7 +443,10 @@ function Mapster:UpdateBorderVisibility()
 		if not db.hideMapButton then
 			self.optionsButton:Show()
 		end
-		self:Unhook(WorldMapFrame, "OnUpdate")
+		if self.hookedOnUpdate then
+			self:Unhook(WorldMapFrame, "OnUpdate")
+			self.hookedOnUpdate = nil
+		end
 		self:UpdateMapElements()
 	end
 
