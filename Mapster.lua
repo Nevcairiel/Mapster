@@ -149,11 +149,14 @@ function Mapster:OnEnable()
 	end
 end
 
+local blobWasVisible
 function Mapster:PLAYER_REGEN_DISABLED()
+	blobWasVisible = WorldMapBlobFrame:IsShown()
 	WorldMapBlobFrame:SetParent(nil)
 	WorldMapBlobFrame:ClearAllPoints()
-	WorldMapBlobFrame.Hide = function() end
-	WorldMapBlobFrame.Show = function() end
+	WorldMapBlobFrame:Hide()
+	WorldMapBlobFrame.Hide = function() blobWasVisible = nil end
+	WorldMapBlobFrame.Show = function() blobWasVisible = true end
 end
 
 function Mapster:PLAYER_REGEN_ENABLED()
@@ -161,6 +164,9 @@ function Mapster:PLAYER_REGEN_ENABLED()
 	WorldMapBlobFrame:SetAllPoints(WorldMapDetailFrame)
 	WorldMapBlobFrame.Hide = nil
 	WorldMapBlobFrame.Show = nil
+	if blobWasVisible then
+		WorldMapBlobFrame:Show()
+	end
 end
 
 function Mapster:Refresh()
@@ -337,6 +343,8 @@ end
 
 local oldBFMOnUpdate
 function wmfOnShow(frame)
+	Mapster:SetStrata()
+	Mapster:SetScale()
 	realZone = getZoneId()
 	if BattlefieldMinimap then
 		oldBFMOnUpdate = BattlefieldMinimap:GetScript("OnUpdate")
