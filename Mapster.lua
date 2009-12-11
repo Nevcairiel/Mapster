@@ -73,8 +73,7 @@ function Mapster:OnInitialize()
 	self:SetupOptions()
 end
 
--- local oldUIPanel,
-local oldwmfOnKeyDown, realZone
+local realZone
 function Mapster:OnEnable()
 	local advanced, mini = GetCVarBool("advancedWorldMap"), GetCVarBool("miniWorldMap")
 	SetCVar("miniWorldMap", nil)
@@ -98,7 +97,6 @@ function Mapster:OnEnable()
 		HideUIPanel(WorldMapFrame)
 	end
 
-	--oldUIPanel = UIPanelWindows["WorldMapFrame"]
 	UIPanelWindows["WorldMapFrame"] = nil
 	WorldMapFrame:SetAttribute("UIPanelLayout-enabled", false)
 	WorldMapFrame:HookScript("OnShow", wmfOnShow)
@@ -106,7 +104,6 @@ function Mapster:OnEnable()
 	BlackoutWorld:Hide()
 	WorldMapTitleButton:Hide()
 
-	oldwmfOnKeyDown = WorldMapFrame:GetScript("OnKeyDown")
 	WorldMapFrame:SetScript("OnKeyDown", nil)
 
 	WorldMapFrame:SetMovable(true)
@@ -126,31 +123,18 @@ function Mapster:OnEnable()
 	WorldMapFrameSizeDownButton:SetScript("OnClick", function() Mapster:ToggleMapSize() end)
 	WorldMapFrameSizeUpButton:SetScript("OnClick", function() Mapster:ToggleMapSize() end)
 
-	-- Apply all frame settings
-	wmfOnShow(WorldMapFrame)
-
 	hooksecurefunc(WorldMapTooltip, "Show", function(self)
 		self:SetFrameStrata("TOOLTIP")
 	end)
 
-	-- fix hard-coded frame levels
-	--[[hooksecurefunc("QuestPOI_DisplayButton", function(parentName, buttonType, buttonIndex)
-		local buttonName = "poi"..parentName..buttonType.."_"..buttonIndex
-		local poiButton = _G[buttonName]
-		if not poiButton.MapsterLevelFix then
-			poiButton.SetRealFrameLevel = poiButton.SetFrameLevel
-			poiButton.SetFrameLevel = function() end
-		end
-	end)]]
-
 	tinsert(UISpecialFrames, "WorldMapFrame")
 
 	self:RegisterEvent("ZONE_CHANGED_NEW_AREA")
+	self:RegisterEvent("PLAYER_REGEN_DISABLED")
+	self:RegisterEvent("PLAYER_REGEN_ENABLED")
 
-	if (db.miniMap and not self.miniMap) then
+	if db.miniMap then
 		self:SizeDown()
-	elseif (not db.miniMap and self.miniMap) then
-		self:SizeUp()
 	end
 	self.miniMap = db.miniMap
 
@@ -165,14 +149,19 @@ function Mapster:OnEnable()
 	end
 end
 
---[[
-function Mapster:OnDisable()
-	UIPanelWindows["WorldMapFrame"] = oldUIPanel
-	WorldMapFrame:SetAttribute("UIPanelLayout-enabled", true)
-	WorldMapFrame:SetScript("OnKeyDown", oldwmfOnKeyDown)
-	BlackoutWorld:Show()
+function Mapster:PLAYER_REGEN_DISABLED()
+	WorldMapBlobFrame:SetParent(nil)
+	WorldMapBlobFrame:ClearAllPoints()
+	WorldMapBlobFrame.Hide = function() end
+	WorldMapBlobFrame.Show = function() end
 end
-]]
+
+function Mapster:PLAYER_REGEN_ENABLED()
+	WorldMapBlobFrame:SetParent(WorldMapFrame)
+	WorldMapBlobFrame:SetAllPoints(WorldMapDetailFrame)
+	WorldMapBlobFrame.Hide = nil
+	WorldMapBlobFrame.Show = nil
+end
 
 function Mapster:Refresh()
 	db_ = self.db.profile
@@ -348,15 +337,12 @@ end
 
 local oldBFMOnUpdate
 function wmfOnShow(frame)
-	Mapster:SetScale()
-	Mapster:SetStrata()
 	realZone = getZoneId()
 	if BattlefieldMinimap then
 		oldBFMOnUpdate = BattlefieldMinimap:GetScript("OnUpdate")
 		BattlefieldMinimap:SetScript("OnUpdate", nil)
 	end
 
-	WORLDMAP_POI_FRAMELEVEL = WorldMapPOIFrame:GetFrameLevel() + 5
 	WorldMapFrame_SelectQuest(WorldMapQuestScrollChildFrame.selected)
 end
 
@@ -368,12 +354,20 @@ function wmfOnHide(frame)
 end
 
 function wmfStartMoving(frame)
+	if WorldMapQuestScrollChildFrame.selected then
+		WorldMapBlobFrame:DrawQuestBlob(WorldMapQuestScrollChildFrame.selected.questId, false)
+	end
 	frame:StartMoving()
 end
 
 function wmfStopMoving(frame)
 	frame:StopMovingOrSizing()
 	LibWindow.SavePosition(frame)
+
+	WorldMapBlobFrame_CalculateHitTranslations()
+	if WorldMapQuestScrollChildFrame.selected and not WorldMapQuestScrollChildFrame.selected.completed then
+		WorldMapBlobFrame:DrawQuestBlob(WorldMapQuestScrollChildFrame.selected.questId, true)
+	end
 end
 
 function dropdownScaleFix(self)
@@ -383,7 +377,6 @@ end
 
 function Mapster:SetStrata()
 	WorldMapFrame:SetFrameStrata(db.strata)
-	WorldMapDetailFrame:SetFrameStrata(db.strata)
 end
 
 function Mapster:SetAlpha()
@@ -396,9 +389,7 @@ function Mapster:SetArrow()
 end
 
 function Mapster:SetScale()
-	if WorldMapFrame:IsShown() then
-		WorldMapFrame:SetScale(db.scale)
-	end
+	WorldMapFrame:SetScale(db.scale)
 end
 
 function Mapster:SetPosition()
