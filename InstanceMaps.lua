@@ -129,10 +129,10 @@ function Maps:OnInitialize()
 end
 
 function Maps:OnEnable()
-	self:RawHook("WorldMapContinentsDropDown_Update", true)
-	self:RawHook("WorldMapFrame_LoadContinents", true)
+	self:SecureHook("WorldMapContinentsDropDown_Update")
+	self:SecureHook("WorldMapFrame_LoadContinents")
 
-	self:RawHook("WorldMapZoneDropDown_Update", true)
+	self:SecureHook("WorldMapZoneDropDown_Update")
 	self:RawHook("WorldMapZoneDropDown_Initialize", true)
 	
 	self:SecureHook("SetMapZoom")
@@ -151,7 +151,6 @@ function Maps:GetZoneData()
 end
 
 function Maps:WorldMapContinentsDropDown_Update()
-	self.hooks.WorldMapContinentsDropDown_Update()
 	if self.mapCont then
 		UIDropDownMenu_SetSelectedID(WorldMapContinentDropDown, self.mapContId)
 	end
@@ -166,9 +165,7 @@ local function MapsterContinentButton_OnClick(frame)
 	zoomOverride = nil
 end
 
-function Maps:WorldMapFrame_LoadContinents(...)
-	self.hooks.WorldMapFrame_LoadContinents(...)
-
+function Maps:WorldMapFrame_LoadContinents()
 	local info = UIDropDownMenu_CreateInfo()
 	info.text =  L["Northrend Instances"]
 	info.func = MapsterContinentButton_OnClick
@@ -190,7 +187,6 @@ function Maps:WorldMapFrame_LoadContinents(...)
 end
 
 function Maps:WorldMapZoneDropDown_Update()
-	self.hooks.WorldMapZoneDropDown_Update()
 	if self.mapZone then
 		UIDropDownMenu_SetSelectedID(WorldMapZoneDropDown, self.mapZone)
 	end
