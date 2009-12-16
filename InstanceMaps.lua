@@ -54,6 +54,7 @@ local data = {
 		["Arathi Basin"] = 461,
 		["Eye of the Storm"] = 482,
 		["Strand of the Ancients"] = 512,
+		["Isle of Conquest"] = 540,
 	},
 }
 
