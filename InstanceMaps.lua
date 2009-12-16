@@ -15,7 +15,7 @@ local BZ = LBZ and LBZ:GetLookupTable() or setmetatable({}, {__index = function(
 -- Data mostly from http://www.wowwiki.com/API_SetMapByID
 local data = {
 	-- Northrend Instances
-	{
+	instances = {
 		["The Nexus"] = 520,
 		["The Culling of Stratholme"] = 521,
 		["Ahn'kahet: The Old Kingdom"] = 522,
@@ -37,7 +37,7 @@ local data = {
 	},
 
 	-- Northrend Raids
-	{
+	raids = {
 		["The Eye of Eternity"] = 527,
 		["Ulduar"] = 529,
 		["The Obsidian Sanctum"] = 531,
@@ -48,7 +48,7 @@ local data = {
 		-- 3.3
 		["Icecrown Citadel"] = 604,
 	},
-	{
+	bgs = {
 		["Alterac Valley"] = 401,
 		["Warsong Gulch"] = 443,
 		["Arathi Basin"] = 461,
@@ -94,7 +94,7 @@ local function getOptions()
 	return options
 end
 
-local cont_offset
+local zoomOverride
 
 function Maps:OnInitialize()
 	--[[
@@ -105,14 +105,10 @@ function Maps:OnInitialize()
 	self:SetEnabledState(Mapster:GetModuleEnabled(MODNAME))
 	Mapster:RegisterModuleOptions(MODNAME, getOptions, L["Instance Maps"])
 
-	cont_offset = select('#', GetMapContinents())
-
 	self.zone_names = {}
 	self.zone_data = {}
 
-	for i, idata in pairs(data) do
-		local id = i + cont_offset
-
+	for key, idata in pairs(data) do
 		local names = {}
 		local name_data = {}
 		for name, zdata in pairs(idata) do
@@ -120,13 +116,13 @@ function Maps:OnInitialize()
 			name_data[name] = zdata
 		end
 		table.sort(names)
-		self.zone_names[id] = names
+		self.zone_names[key] = names
 
 		local zone_data = {}
 		for k,v in pairs(names) do
 			zone_data[k] = name_data[v]
 		end
-		self.zone_data[id] = zone_data
+		self.zone_data[key] = zone_data
 	end
 	data = nil
 end
@@ -137,15 +133,14 @@ function Maps:OnEnable()
 
 	self:RawHook("WorldMapZoneDropDown_Update", true)
 	self:RawHook("WorldMapZoneDropDown_Initialize", true)
-	self:RawHook("WorldMapZoneButton_OnClick", true)
 	
-	self:RawHook("SetMapZoom", true)
-	self:Hook("SetMapToCurrentZone", true)
+	self:SecureHook("SetMapZoom")
+	self:SecureHook("SetMapToCurrentZone", "SetMapZoom")
 end
 
 function Maps:OnDisable()
 	self:UnhookAll()
-	self.mapCont, self.mapZone = nil, nil
+	self.mapCont, self.mapContId, self.mapZone = nil, nil, nil
 	WorldMapContinentsDropDown_Update()
 	WorldMapZoneDropDown_Update()
 end
@@ -157,8 +152,17 @@ end
 function Maps:WorldMapContinentsDropDown_Update()
 	self.hooks.WorldMapContinentsDropDown_Update()
 	if self.mapCont then
-		UIDropDownMenu_SetSelectedID(WorldMapContinentDropDown, self.mapCont)
+		UIDropDownMenu_SetSelectedID(WorldMapContinentDropDown, self.mapContId)
 	end
+end
+
+local function MapsterContinentButton_OnClick(frame)
+	UIDropDownMenu_SetSelectedID(WorldMapContinentDropDown, frame:GetID())
+	Maps.mapCont = frame.arg1
+	Maps.mapContId = frame:GetID()
+	zoomOverride = true
+	SetMapZoom(-1)
+	zoomOverride = nil
 end
 
 function Maps:WorldMapFrame_LoadContinents(...)
@@ -166,18 +170,21 @@ function Maps:WorldMapFrame_LoadContinents(...)
 
 	local info = UIDropDownMenu_CreateInfo()
 	info.text =  L["Northrend Instances"]
-	info.func = WorldMapContinentButton_OnClick;
-	info.checked = nil;
+	info.func = MapsterContinentButton_OnClick
+	info.checked = nil
+	info.arg1 = "instances"
 	UIDropDownMenu_AddButton(info)
 
 	info.text =  L["Northrend Raids"]
-	info.func = WorldMapContinentButton_OnClick;
-	info.checked = nil;
+	info.func = MapsterContinentButton_OnClick
+	info.checked = nil
+	info.arg1 = "raids"
 	UIDropDownMenu_AddButton(info)
 
 	info.text =  L["Battlegrounds"]
-	info.func = WorldMapContinentButton_OnClick;
-	info.checked = nil;
+	info.func = MapsterContinentButton_OnClick
+	info.checked = nil
+	info.arg1 = "bgs"
 	UIDropDownMenu_AddButton(info)
 end
 
@@ -188,34 +195,32 @@ function Maps:WorldMapZoneDropDown_Update()
 	end
 end
 
+local function MapsterZoneButton_OnClick(frame)
+	UIDropDownMenu_SetSelectedID(WorldMapZoneDropDown, frame:GetID())
+	Maps.mapZone = frame:GetID()
+	SetMapByID(Maps:GetZoneData())
+end
+
+local function Mapster_LoadZones(...)
+	local info = UIDropDownMenu_CreateInfo()
+	for i=1, select("#", ...), 1 do
+		info.text = select(i, ...)
+		info.func = MapsterZoneButton_OnClick
+		info.checked = nil
+		UIDropDownMenu_AddButton(info)
+	end
+end
+
 function Maps:WorldMapZoneDropDown_Initialize()
 	if self.mapCont then
-		WorldMapFrame_LoadZones(unpack(self.zone_names[self.mapCont]))
+		Mapster_LoadZones(unpack(self.zone_names[self.mapCont]))
 	else
 		self.hooks.WorldMapZoneDropDown_Initialize()
 	end
 end
 
-function Maps:WorldMapZoneButton_OnClick(frame)
-	if self.mapCont then
-		self.mapZone = frame:GetID()
-		UIDropDownMenu_SetSelectedID(WorldMapZoneDropDown, self.mapZone)
-		SetMapByID(self:GetZoneData())
-	else
-		self.hooks.WorldMapZoneButton_OnClick(frame)
+function Maps:SetMapZoom()
+	if not zoomOverride then
+		self.mapCont, self.mapContId, self.mapZone = nil, nil, nil
 	end
-end
-
-function Maps:SetMapZoom(cont, zone)
-	if self.zone_names[cont] then
-		self.mapCont = cont
-		self.hooks.SetMapZoom(-1)
-	else
-		self.mapCont, self.mapZone = nil, nil
-		self.hooks.SetMapZoom(cont, zone)
-	end
-end
-
-function Maps:SetMapToCurrentZone()
-	self.mapCont, self.mapZone = nil, nil
 end
