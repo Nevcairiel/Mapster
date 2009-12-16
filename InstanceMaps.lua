@@ -29,7 +29,7 @@ local data = {
 		["Drak'Tharon Keep"] = 534,
 		["The Violet Hold"] = 536,
 		-- 3.2
-		["The Argent Coliseum"] = 542,
+		["Trial of the Champion"] = 542,
 		-- 3.3
 		["The Forge of Souls"] = 601,
 		["Pit of Saron"] = 602,
@@ -44,7 +44,7 @@ local data = {
 		["Vault of Archavon"] = 532,
 		["Naxxramas"] = 535,
 		-- 3.2
-		["The Argent Coliseum"] = 543,
+		["Trial of the Crusader"] = 543,
 		-- 3.3
 		["Icecrown Citadel"] = 604,
 	},
