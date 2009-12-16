@@ -114,7 +114,7 @@ function Maps:OnInitialize()
 		local name_data = {}
 		for name, zdata in pairs(idata) do
 			tinsert(names, BZ[name])
-			name_data[name] = zdata
+			name_data[BZ[name]] = zdata
 		end
 		table.sort(names)
 		self.zone_names[key] = names
