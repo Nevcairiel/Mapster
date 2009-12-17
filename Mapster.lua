@@ -199,10 +199,14 @@ function Mapster:PLAYER_REGEN_ENABLED()
 end
 
 function Mapster:WorldMapFrame_DisplayQuestPOI(questFrame, isComplete)
-	local point, parent, relPoint, x, y = questFrame.poiIcon:GetPoint()
-	x, y = x/db.poiScale, y/db.poiScale
-	questFrame.poiIcon:SetPoint(point, "WorldMapDetailFrame", relPoint, x, y)
-	questFrame.poiIcon:SetScale(db.poiScale)
+	-- Recalculate Position to adjust for Scale
+	local _, posX, posY = QuestPOIGetIconInfo(questFrame.questId)
+	if posX and posY then
+		local point, parent, relPoint, x, y = questFrame.poiIcon:GetPoint()
+		x, y = x / db.poiScale, y / db.poiScale
+		questFrame.poiIcon:SetPoint(point, "WorldMapDetailFrame", relPoint, x, y)
+		questFrame.poiIcon:SetScale(db.poiScale)
+	end
 end
 
 function Mapster:Refresh()
