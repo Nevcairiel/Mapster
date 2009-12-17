@@ -19,6 +19,7 @@ local defaults = {
 		y = 0,
 		points = "CENTER",
 		scale = 0.75,
+		poiScale = 0.8,
 		alpha = 1,
 		hideBorder = false,
 		disableMouse = false,
@@ -199,7 +200,9 @@ end
 
 function Mapster:WorldMapFrame_DisplayQuestPOI(questFrame, isComplete)
 	local point, parent, relPoint, x, y = questFrame.poiIcon:GetPoint()
+	x, y = x/db.poiScale, y/db.poiScale
 	questFrame.poiIcon:SetPoint(point, "WorldMapDetailFrame", relPoint, x, y)
+	questFrame.poiIcon:SetScale(db.poiScale)
 end
 
 function Mapster:Refresh()
@@ -240,8 +243,8 @@ function Mapster:Refresh()
 	self:UpdateBorderVisibility()
 	self:UpdateMouseInteractivity()
 	self:UpdateModuleMapsizes()
+	WorldMapFrame_UpdateQuests()
 end
-
 
 function Mapster:ToggleMapSize()
 	self.miniMap = not self.miniMap

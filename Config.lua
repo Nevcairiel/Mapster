@@ -57,7 +57,7 @@ local function getOptions()
 							name = L["Alpha"],
 							desc = L["The transparency of the big map."],
 							type = "range",
-							min = 0, max = 1, step = 0.01,
+							min = 0, max = 1, bigStep = 0.01,
 							isPercent = true,
 						},
 						mini_alpha = {
@@ -65,7 +65,7 @@ local function getOptions()
 							name = L["Minimized Alpha"],
 							desc = L["The transparency of the minimized map."],
 							type = "range",
-							min = 0, max = 1, step = 0.01,
+							min = 0, max = 1, bigStep = 0.01,
 							isPercent = true,
 						},
 						scaledesc = {
@@ -78,7 +78,7 @@ local function getOptions()
 							name = L["Scale"],
 							desc = L["Scale of the big map."],
 							type = "range",
-							min = 0.2, max = 1.5, step = 0.01,
+							min = 0.2, max = 1.5, bigStep = 0.01,
 							isPercent = true,
 						},
 						mini_scale = {
@@ -86,7 +86,7 @@ local function getOptions()
 							name = L["Minimized Scale"],
 							desc = L["Scale of the minimized map."],
 							type = "range",
-							min = 0.2, max = 1.5, step = 0.01,
+							min = 0.2, max = 1.5, bigStep = 0.01,
 							isPercent = true,
 						},
 						nl = {
@@ -99,7 +99,15 @@ local function getOptions()
 							name = L["PlayerArrow Scale"],
 							desc = L["Adjust the size of the Player Arrow on the Map for better visibility."],
 							type = "range",
-							min = 0.5, max = 2, step = 0.01,
+							min = 0.5, max = 2, bigStep = 0.01,
+							isPercent = true,
+						},
+						poiScale = {
+							order = 12,
+							type = "range",
+							name = L["POI Scale"],
+							desc = L["Scale of the POI Icons on the Map."],
+							min = 0.2, max = 2, bigStep = 0.01,
 							isPercent = true,
 						},
 						nl2 = {
