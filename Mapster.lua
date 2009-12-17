@@ -144,6 +144,8 @@ function Mapster:OnEnable()
 	self:UpdateBorderVisibility()
 	self:UpdateMouseInteractivity()
 
+	self:SecureHook("WorldMapFrame_DisplayQuestPOI")
+
 	if vis then
 		ShowUIPanel(WorldMapFrame)
 	end
@@ -165,20 +167,39 @@ function Mapster:PLAYER_REGEN_DISABLED()
 	WorldMapBlobFrame.SetScale = blobScaleFunc
 end
 
+local updateFrame = CreateFrame("Frame")
+local function restoreBlobs()
+	WorldMapBlobFrame_CalculateHitTranslations()
+	if WorldMapQuestScrollChildFrame.selected and not WorldMapQuestScrollChildFrame.selected.completed then
+		WorldMapBlobFrame:DrawQuestBlob(WorldMapQuestScrollChildFrame.selected.questId, true)
+	end
+	updateFrame:SetScript("OnUpdate", nil)
+end
+
 function Mapster:PLAYER_REGEN_ENABLED()
 	WorldMapBlobFrame:SetParent(WorldMapFrame)
-	WorldMapBlobFrame:SetAllPoints(WorldMapDetailFrame)
+	WorldMapBlobFrame:SetPoint("TOPLEFT", "WorldMapDetailFrame")
 	WorldMapBlobFrame.Hide = nil
 	WorldMapBlobFrame.Show = nil
 	WorldMapBlobFrame.SetScale = nil
 	if blobWasVisible then
 		WorldMapBlobFrame:Show()
+		updateFrame:SetScript("OnUpdate", restoreBlobs)
 	end
 	if blobNewScale then
 		WorldMapBlobFrame:SetScale(blobNewScale)
 		WorldMapBlobFrame.xRatio = nil
 		blobNewScale = nil
 	end
+
+	if WorldMapQuestScrollChildFrame.selected then
+		WorldMapBlobFrame:DrawQuestBlob(WorldMapQuestScrollChildFrame.selected.questId, false)
+	end
+end
+
+function Mapster:WorldMapFrame_DisplayQuestPOI(questFrame, isComplete)
+	local point, parent, relPoint, x, y = questFrame.poiIcon:GetPoint()
+	questFrame.poiIcon:SetPoint(point, "WorldMapDetailFrame", relPoint, x, y)
 end
 
 function Mapster:Refresh()
