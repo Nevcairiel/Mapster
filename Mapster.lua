@@ -149,14 +149,20 @@ function Mapster:OnEnable()
 	end
 end
 
-local blobWasVisible
+local blobWasVisible, blobNewScale
+local blobHideFunc = function() blobWasVisible = nil end
+local blobShowFunc = function() blobWasVisible = true end
+local blobScaleFunc = function(self, scale) blobNewScale = scale end
+
 function Mapster:PLAYER_REGEN_DISABLED()
 	blobWasVisible = WorldMapBlobFrame:IsShown()
+	blobNewScale = nil
 	WorldMapBlobFrame:SetParent(nil)
 	WorldMapBlobFrame:ClearAllPoints()
 	WorldMapBlobFrame:Hide()
-	WorldMapBlobFrame.Hide = function() blobWasVisible = nil end
-	WorldMapBlobFrame.Show = function() blobWasVisible = true end
+	WorldMapBlobFrame.Hide = blobHideFunc
+	WorldMapBlobFrame.Show = blobShowFunc
+	WorldMapBlobFrame.SetScale = blobScaleFunc
 end
 
 function Mapster:PLAYER_REGEN_ENABLED()
@@ -164,8 +170,14 @@ function Mapster:PLAYER_REGEN_ENABLED()
 	WorldMapBlobFrame:SetAllPoints(WorldMapDetailFrame)
 	WorldMapBlobFrame.Hide = nil
 	WorldMapBlobFrame.Show = nil
+	WorldMapBlobFrame.SetScale = nil
 	if blobWasVisible then
 		WorldMapBlobFrame:Show()
+	end
+	if blobNewScale then
+		WorldMapBlobFrame:SetScale(blobNewScale)
+		WorldMapBlobFrame.xRatio = nil
+		blobNewScale = nil
 	end
 end
 
