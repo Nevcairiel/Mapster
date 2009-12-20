@@ -18,6 +18,7 @@ local files = {
 	"GroupIcons.lua",
 	"InstanceMaps.lua",
 	"Mapster.lua",
+	"Scaling.lua",
 }
 
 local out = "Strings.lua"
