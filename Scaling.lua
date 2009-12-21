@@ -38,7 +38,7 @@ function Scale:OnEnable()
 		scaler:SetTexCoord(0.619, 0.760, 0.612, 0.762)
 		scaler:SetDesaturated(true)
 
-		mousetracker = CreateFrame("Frame", nil ,UIParent)
+		mousetracker = CreateFrame("Frame", nil, WorldMapPositioningGuide)
 		mousetracker:SetFrameStrata("TOOLTIP")
 		mousetracker:SetAllPoints(scaler)
 		mousetracker:EnableMouse(true)
