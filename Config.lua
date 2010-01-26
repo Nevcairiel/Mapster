@@ -78,7 +78,7 @@ local function getOptions()
 							name = L["Scale"],
 							desc = L["Scale of the big map."],
 							type = "range",
-							min = 0.2, max = 1.5, bigStep = 0.01,
+							min = 0.1, max = 2, bigStep = 0.01,
 							isPercent = true,
 						},
 						mini_scale = {
@@ -86,7 +86,7 @@ local function getOptions()
 							name = L["Minimized Scale"],
 							desc = L["Scale of the minimized map."],
 							type = "range",
-							min = 0.2, max = 1.5, bigStep = 0.01,
+							min = 0.1, max = 2, bigStep = 0.01,
 							isPercent = true,
 						},
 						nl = {
@@ -107,7 +107,7 @@ local function getOptions()
 							type = "range",
 							name = L["POI Scale"],
 							desc = L["Scale of the POI Icons on the Map."],
-							min = 0.2, max = 2, bigStep = 0.01,
+							min = 0.1, max = 2, bigStep = 0.01,
 							isPercent = true,
 						},
 						nl2 = {
