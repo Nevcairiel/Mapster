@@ -133,11 +133,11 @@ function Mapster:OnEnable()
 	WorldMapQuestShowObjectives:SetChecked(db.questObjectives ~= 0)
 	WorldMapQuestShowObjectives_Toggle()
 	local questObj = CreateFrame("Frame", "MapsterQuestObjectivesDropDown", WorldMapFrame, "UIDropDownMenuTemplate")
-	questObj:SetPoint("TOPRIGHT", "WorldMapPositioningGuide", "TOPRIGHT", -20, -35)
+	questObj:SetPoint("BOTTOMRIGHT", "WorldMapPositioningGuide", "BOTTOMRIGHT", -5, -2)
 	
 	local text = questObj:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
 	text:SetText(L["Quest Objectives"])
-	text:SetPoint("TOPLEFT", 20, 10)
+	text:SetPoint("RIGHT", questObj, "LEFT", 5, 3)
 	-- Init DropDown
 	UIDropDownMenu_Initialize(questObj, questObjDropDownInit)
 	UIDropDownMenu_SetWidth(questObj, 150)
