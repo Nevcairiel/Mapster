@@ -181,6 +181,8 @@ function Mapster:PLAYER_REGEN_DISABLED()
 	blobNewScale = nil
 	WorldMapBlobFrame:SetParent(nil)
 	WorldMapBlobFrame:ClearAllPoints()
+	-- dummy position, off screen, so calculations don't go boom
+	WorldMapBlobFrame:SetPoint("TOP", UIParent, "BOTTOM")
 	WorldMapBlobFrame:Hide()
 	WorldMapBlobFrame.Hide = blobHideFunc
 	WorldMapBlobFrame.Show = blobShowFunc
@@ -198,6 +200,7 @@ end
 
 function Mapster:PLAYER_REGEN_ENABLED()
 	WorldMapBlobFrame:SetParent(WorldMapFrame)
+	WorldMapBlobFrame:ClearAllPoints()
 	WorldMapBlobFrame:SetPoint("TOPLEFT", "WorldMapDetailFrame")
 	WorldMapBlobFrame.Hide = nil
 	WorldMapBlobFrame.Show = nil
