@@ -128,8 +128,10 @@ function Mapster:OnEnable()
 	WorldMapFrameSizeDownButton:SetScript("OnClick", function() Mapster:ToggleMapSize() end)
 	WorldMapFrameSizeUpButton:SetScript("OnClick", function() Mapster:ToggleMapSize() end)
 	
-	-- Hide Quest Objectives CheckBox and replace with Drop Down
+	-- Hide Quest Objectives CheckBox and replace it with a DropDown
 	WorldMapQuestShowObjectives:Hide()
+	WorldMapQuestShowObjectives:SetChecked(db.questObjectives ~= 0)
+	WorldMapQuestShowObjectives_Toggle()
 	local questObj = CreateFrame("Frame", "MapsterQuestObjectivesDropDown", WorldMapFrame, "UIDropDownMenuTemplate")
 	questObj:SetPoint("TOPRIGHT", "WorldMapPositioningGuide", "TOPRIGHT", -20, -35)
 	
