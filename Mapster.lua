@@ -119,6 +119,7 @@ function Mapster:OnEnable()
 	WorldMapFrame:SetToplevel(true)
 	WorldMapFrame:SetWidth(1024)
 	WorldMapFrame:SetHeight(768)
+	WorldMapFrame:SetClampedToScreen(false)
 
 	WorldMapContinentDropDownButton:SetScript("OnClick", dropdownScaleFix)
 	WorldMapZoneDropDownButton:SetScript("OnClick", dropdownScaleFix)
