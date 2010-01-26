@@ -631,7 +631,7 @@ local function questObjDropDownOnClick(button)
 end
 
 local questObjTexts = {
-	[0] = L["Hide Completly"],
+	[0] = L["Hide Completely"],
 	[1] = L["Only WorldMap Blobs"],
 	[2] = L["Blobs & Panels"],
 }
