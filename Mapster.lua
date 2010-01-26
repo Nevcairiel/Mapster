@@ -628,8 +628,8 @@ end
 
 local questObjTexts = {
 	[0] = L["Hide Completly"],
-	[1] = L["Only WorldMap Blips"],
-	[2] = L["Blips & Panels"],
+	[1] = L["Only WorldMap Blobs"],
+	[2] = L["Blobs & Panels"],
 }
 
 function questObjDropDownInit()
