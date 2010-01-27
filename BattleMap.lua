@@ -105,7 +105,7 @@ function BattleMap:OnDisable()
 		BattlefieldMinimapTab:Show()
 	end
 
-	self:Refresh()
+	self:UpdateTextureVisibility()
 end
 
 function BattleMap:SetupMap()
