@@ -430,9 +430,8 @@ function wmfOnHide(frame)
 end
 
 function wmfStartMoving(frame)
-	if WorldMapQuestScrollChildFrame.selected then
-		WorldMapBlobFrame:DrawQuestBlob(WorldMapQuestScrollChildFrame.selected.questId, false)
-	end
+	Mapster:HideBlobs()
+
 	frame:StartMoving()
 end
 
@@ -440,15 +439,25 @@ function wmfStopMoving(frame)
 	frame:StopMovingOrSizing()
 	LibWindow.SavePosition(frame)
 
+	Mapster:ShowBlobs()
+end
+
+function dropdownScaleFix(self)
+	ToggleDropDownMenu(nil, nil, self:GetParent())
+	DropDownList1:SetScale(db.scale)
+end
+
+function Mapster:ShowBlobs()
 	WorldMapBlobFrame_CalculateHitTranslations()
 	if WorldMapQuestScrollChildFrame.selected and not WorldMapQuestScrollChildFrame.selected.completed then
 		WorldMapBlobFrame:DrawQuestBlob(WorldMapQuestScrollChildFrame.selected.questId, true)
 	end
 end
 
-function dropdownScaleFix(self)
-	ToggleDropDownMenu(nil, nil, self:GetParent())
-	DropDownList1:SetScale(db.scale)
+function Mapster:HideBlobs()
+	if WorldMapQuestScrollChildFrame.selected then
+		WorldMapBlobFrame:DrawQuestBlob(WorldMapQuestScrollChildFrame.selected.questId, false)
+	end
 end
 
 function Mapster:SetStrata()
