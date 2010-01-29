@@ -203,7 +203,7 @@ end
 function Mapster:PLAYER_REGEN_ENABLED()
 	WorldMapBlobFrame:SetParent(WorldMapFrame)
 	WorldMapBlobFrame:ClearAllPoints()
-	WorldMapBlobFrame:SetPoint("TOPLEFT", "WorldMapDetailFrame")
+	WorldMapBlobFrame:SetPoint("TOPLEFT", WorldMapDetailFrame)
 	WorldMapBlobFrame.Hide = nil
 	WorldMapBlobFrame.Show = nil
 	WorldMapBlobFrame.SetScale = nil
@@ -581,6 +581,7 @@ function Mapster:WorldMapFrame_AdjustMapAndQuestList()
 			WorldMapBlobFrame:SetScale(WORLDMAP_RATIO_FULL)
 			WorldMapBlobFrame.xRatio = nil		-- force hit recalculations
 			
+			WorldMapFrame_SetPOIMaxBounds()
 			WorldMapFrame_UpdateQuests()
 		end
 	elseif db.questObjectives == 2 and ( WatchFrame.showObjectives and WorldMapFrame.numQuests > 0 ) then
@@ -589,6 +590,7 @@ function Mapster:WorldMapFrame_AdjustMapAndQuestList()
 			WorldMapBlobFrame:SetScale(WORLDMAP_RATIO_SMALL)
 			WorldMapBlobFrame.xRatio = nil		-- force hit recalculations
 			
+			WorldMapFrame_SetPOIMaxBounds()
 			WorldMapFrame_UpdateQuests()
 		end
 	end
