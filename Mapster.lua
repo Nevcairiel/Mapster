@@ -371,6 +371,7 @@ function Mapster:SizeUp()
 
 	WorldMapFrame_SetPOIMaxBounds()
 	--WorldMapQuestShowObjectives_AdjustPosition()
+	self:WorldMapFrame_DisplayQuests()
 
 	self.optionsButton:SetPoint("TOPRIGHT", WorldMapPositioningGuide, "TOPRIGHT", -43, -2)
 end
@@ -600,19 +601,17 @@ function Mapster:RefreshQuestObjectivesDisplay()
 	WorldMapQuestShowObjectives:GetScript("OnClick")(WorldMapQuestShowObjectives)
 end
 
-local mapSizedUp = nil
 function Mapster:WorldMapFrame_DisplayQuests()
+	if WORLDMAP_SETTINGS.size == WORLDMAP_WINDOWED_SIZE then return end
 	if WatchFrame.showObjectives and WorldMapFrame.numQuests > 0 then
-		if db.questObjectives == 1 and WORLDMAP_SETTINGS.size == WORLDMAP_QUESTLIST_SIZE then
-			mapSizedUp = true
+		if db.questObjectives == 1 then
 			WorldMapFrame_SetFullMapView()
 			
 			WorldMapBlobFrame:SetScale(WORLDMAP_FULLMAP_SIZE)
 			WorldMapBlobFrame.xRatio = nil		-- force hit recalculations
 			WorldMapFrame_SetPOIMaxBounds()
 			WorldMapFrame_UpdateQuests()
-		elseif db.questObjectives == 2 and mapSizedUp then
-			mapSizedUp = nil
+		elseif db.questObjectives == 2 then
 			WorldMapFrame_SetQuestMapView()
 			
 			WorldMapBlobFrame:SetScale(WORLDMAP_QUESTLIST_SIZE)
