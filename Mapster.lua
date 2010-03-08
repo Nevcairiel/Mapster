@@ -166,7 +166,9 @@ function Mapster:OnEnable()
 	self:UpdateMouseInteractivity()
 
 	self:SecureHook("WorldMapFrame_DisplayQuestPOI")
-	self:SecureHook("WorldMapFrame_AdjustMapAndQuestList")
+	self:SecureHook("WorldMapFrame_DisplayQuests")
+	self:SecureHook("WorldMapFrame_SetPOIMaxBounds")
+	WorldMapFrame_SetPOIMaxBounds()
 
 	if vis then
 		ShowUIPanel(WorldMapFrame)
@@ -222,15 +224,38 @@ function Mapster:PLAYER_REGEN_ENABLED()
 	end
 end
 
+local WORLDMAP_POI_MIN_X = 12
+local WORLDMAP_POI_MIN_Y = -12
+local WORLDMAP_POI_MAX_X     -- changes based on current scale, see WorldMapFrame_SetPOIMaxBounds
+local WORLDMAP_POI_MAX_Y     -- changes based on current scale, see WorldMapFrame_SetPOIMaxBounds
+
 function Mapster:WorldMapFrame_DisplayQuestPOI(questFrame, isComplete)
 	-- Recalculate Position to adjust for Scale
 	local _, posX, posY = QuestPOIGetIconInfo(questFrame.questId)
 	if posX and posY then
-		local point, parent, relPoint, x, y = questFrame.poiIcon:GetPoint()
-		x, y = x / db.poiScale, y / db.poiScale
-		questFrame.poiIcon:SetPoint(point, "WorldMapDetailFrame", relPoint, x, y)
+		local POIscale = WORLDMAP_SETTINGS.size
+		posX = posX * WorldMapDetailFrame:GetWidth() * POIscale
+		posY = -posY * WorldMapDetailFrame:GetHeight() * POIscale
+
+		-- keep outlying POIs within map borders
+		if ( posY > WORLDMAP_POI_MIN_Y ) then
+			posY = WORLDMAP_POI_MIN_Y
+		elseif ( posY < WORLDMAP_POI_MAX_Y ) then
+			posY = WORLDMAP_POI_MAX_Y
+		end
+		if ( posX < WORLDMAP_POI_MIN_X ) then
+			posX = WORLDMAP_POI_MIN_X
+		elseif ( posX > WORLDMAP_POI_MAX_X ) then
+			posX = WORLDMAP_POI_MAX_X
+		end
+		questFrame.poiIcon:SetPoint("CENTER", "WorldMapPOIFrame", "TOPLEFT", posX / db.poiScale, posY / db.poiScale)
 		questFrame.poiIcon:SetScale(db.poiScale)
 	end
+end
+
+function Mapster:WorldMapFrame_SetPOIMaxBounds()
+	WORLDMAP_POI_MAX_Y = WorldMapDetailFrame:GetHeight() * -WORLDMAP_SETTINGS.size + 12;
+	WORLDMAP_POI_MAX_X = WorldMapDetailFrame:GetWidth() * WORLDMAP_SETTINGS.size + 12;
 end
 
 function Mapster:Refresh()
@@ -306,27 +331,24 @@ function Mapster:UpdateModuleMapsizes()
 end
 
 function Mapster:SizeUp()
-	WorldMapFrame.sizedDown = false
-	WorldMapFrame.scale = WORLDMAP_RATIO_SMALL
+	WORLDMAP_SETTINGS.size = WORLDMAP_QUESTLIST_SIZE
 	-- adjust main frame
 	WorldMapFrame:SetWidth(1024)
 	WorldMapFrame:SetHeight(768)
 	-- adjust map frames
 	WorldMapPositioningGuide:ClearAllPoints()
 	WorldMapPositioningGuide:SetPoint("CENTER")
-	WorldMapDetailFrame:SetScale(WORLDMAP_RATIO_SMALL);
+	WorldMapDetailFrame:SetScale(WORLDMAP_QUESTLIST_SIZE)
 	WorldMapDetailFrame:SetPoint("TOPLEFT", WorldMapPositioningGuide, "TOP", -726, -99)
-	WorldMapButton:SetScale(WORLDMAP_RATIO_SMALL)
-	WorldMapFrameAreaFrame:SetScale(WORLDMAP_RATIO_SMALL)
-	WorldMapPOIFrame.ratio = WORLDMAP_RATIO_SMALL
-	WorldMapBlobFrame:SetScale(WORLDMAP_RATIO_SMALL)
+	WorldMapButton:SetScale(WORLDMAP_QUESTLIST_SIZE)
+	WorldMapFrameAreaFrame:SetScale(WORLDMAP_QUESTLIST_SIZE)
+	WorldMapBlobFrame:SetScale(WORLDMAP_QUESTLIST_SIZE)
 	WorldMapBlobFrame.xRatio = nil		-- force hit recalculations
 	-- show big window elements
 	WorldMapZoneMinimapDropDown:Show()
 	WorldMapZoomOutButton:Show()
 	WorldMapZoneDropDown:Show()
 	WorldMapContinentDropDown:Show()
-	WorldMapLevelDropDown:Show()
 	WorldMapQuestScrollFrame:Show()
 	WorldMapQuestDetailScrollFrame:Show()
 	WorldMapQuestRewardScrollFrame:Show()
@@ -335,9 +357,13 @@ function Mapster:SizeUp()
 	WorldMapFrameMiniBorderLeft:Hide()
 	WorldMapFrameMiniBorderRight:Hide()
 	WorldMapFrameSizeUpButton:Hide()
+	-- floor dropdown
+	WorldMapLevelDropDown:SetPoint("TOPRIGHT", WorldMapPositioningGuide, "TOPRIGHT", -50, -35)
+	WorldMapLevelDropDown.header:Show()
 	-- tiny adjustments
 	WorldMapFrameCloseButton:SetPoint("TOPRIGHT", WorldMapPositioningGuide, 4, 4)
 	WorldMapFrameSizeDownButton:SetPoint("TOPRIGHT", WorldMapPositioningGuide, -16, 4)
+	WorldMapTrackQuest:SetPoint("BOTTOMLEFT", WorldMapPositioningGuide, "BOTTOMLEFT", 16, 4)
 	WorldMapFrameTitle:ClearAllPoints()
 	WorldMapFrameTitle:SetPoint("CENTER", 0, 372)
 
@@ -350,23 +376,19 @@ function Mapster:SizeUp()
 end
 
 function Mapster:SizeDown()
-	WorldMapFrame.sizedDown = true
-	WorldMapFrame.scale = WORLDMAP_RATIO_MINI
-	WorldMapFrame.bigMap = nil
+	WORLDMAP_SETTINGS.size = WORLDMAP_WINDOWED_SIZE
 	-- adjust main frame
 	WorldMapFrame:SetWidth(623)
 	WorldMapFrame:SetHeight(437)
 	-- adjust map frames
 	WorldMapPositioningGuide:ClearAllPoints()
 	WorldMapPositioningGuide:SetAllPoints()
-	WorldMapDetailFrame:SetScale(WORLDMAP_RATIO_MINI)
-	WorldMapDetailFrame:SetPoint("TOPLEFT", 37, -66)
-	WorldMapButton:SetScale(WORLDMAP_RATIO_MINI)
-	WorldMapFrameAreaFrame:SetScale(WORLDMAP_RATIO_MINI)
-	WorldMapPOIFrame.ratio = WORLDMAP_RATIO_MINI
-	WorldMapBlobFrame:SetScale(WORLDMAP_RATIO_MINI)
+	WorldMapDetailFrame:SetScale(WORLDMAP_WINDOWED_SIZE)
+	WorldMapButton:SetScale(WORLDMAP_WINDOWED_SIZE)
+	WorldMapFrameAreaFrame:SetScale(WORLDMAP_WINDOWED_SIZE)
+	WorldMapBlobFrame:SetScale(WORLDMAP_WINDOWED_SIZE)
 	WorldMapBlobFrame.xRatio = nil		-- force hit recalculations
-	WorldMapFrameMiniBorderLeft:SetPoint("TOPLEFT", 10, -14)
+	--WorldMapFrameMiniBorderLeft:SetPoint("TOPLEFT", 10, -14)
 	-- hide big window elements
 	WorldMapZoneMinimapDropDown:Hide()
 	WorldMapZoomOutButton:Hide()
@@ -383,9 +405,14 @@ function Mapster:SizeDown()
 	WorldMapFrameMiniBorderLeft:Show()
 	WorldMapFrameMiniBorderRight:Show()
 	WorldMapFrameSizeUpButton:Show()
+	-- floor dropdown
+	WorldMapLevelDropDown:SetPoint("TOPRIGHT", WorldMapPositioningGuide, "TOPRIGHT", -441, -35)
+	WorldMapLevelDropDown:SetFrameLevel(WORLDMAP_POI_FRAMELEVEL + 2)
+	WorldMapLevelDropDown.header:Hide()
 	-- tiny adjustments
 	WorldMapFrameCloseButton:SetPoint("TOPRIGHT", WorldMapFrameMiniBorderRight, "TOPRIGHT", -44, 5)
 	WorldMapFrameSizeDownButton:SetPoint("TOPRIGHT", WorldMapFrameMiniBorderRight, "TOPRIGHT", -66, 5)
+	WorldMapTrackQuest:SetPoint("BOTTOMLEFT", WorldMapDetailFrame, "BOTTOMLeft", 2, -26)
 	WorldMapFrameTitle:ClearAllPoints()
 	WorldMapFrameTitle:SetPoint("TOP", WorldMapDetailFrame, 0, 20)
 
@@ -419,7 +446,9 @@ function wmfOnShow(frame)
 		BattlefieldMinimap:SetScript("OnUpdate", nil)
 	end
 
-	WorldMapFrame_SelectQuest(WorldMapQuestScrollChildFrame.selected)
+	if WORLDMAP_SETTINGS.selectedQuest then
+		WorldMapFrame_SelectQuestFrame(WORLDMAP_SETTINGS.selectedQuest)
+	end
 end
 
 function wmfOnHide(frame)
@@ -449,14 +478,14 @@ end
 
 function Mapster:ShowBlobs()
 	WorldMapBlobFrame_CalculateHitTranslations()
-	if WorldMapQuestScrollChildFrame.selected and not WorldMapQuestScrollChildFrame.selected.completed then
-		WorldMapBlobFrame:DrawQuestBlob(WorldMapQuestScrollChildFrame.selected.questId, true)
+	if WORLDMAP_SETTINGS.selectedQuest and not WORLDMAP_SETTINGS.selectedQuest.completed then
+		WorldMapBlobFrame:DrawQuestBlob(WORLDMAP_SETTINGS.selectedQuest.questId, true)
 	end
 end
 
 function Mapster:HideBlobs()
-	if WorldMapQuestScrollChildFrame.selected then
-		WorldMapBlobFrame:DrawQuestBlob(WorldMapQuestScrollChildFrame.selected.questId, false)
+	if WORLDMAP_SETTINGS.selectedQuest then
+		WorldMapBlobFrame:DrawQuestBlob(WORLDMAP_SETTINGS.selectedQuest.questId, false)
 	end
 end
 
@@ -570,35 +599,23 @@ function Mapster:RefreshQuestObjectivesDisplay()
 	WorldMapQuestShowObjectives:GetScript("OnClick")(WorldMapQuestShowObjectives)
 end
 
-function Mapster:WorldMapFrame_AdjustMapAndQuestList()
-	if db.questObjectives == 1 and ( WatchFrame.showObjectives and WorldMapFrame.numQuests > 0 ) then
-		if ( not WorldMapFrame.bigMap and not WorldMapFrame.sizedDown ) then
-			WorldMapFrame.bigMap = true
-			WorldMapDetailFrame:SetScale(WORLDMAP_RATIO_FULL)
-			WorldMapButton:SetScale(WORLDMAP_RATIO_FULL)
-			WorldMapFrameAreaFrame:SetScale(WORLDMAP_RATIO_FULL)
-			WorldMapFrame.scale = 1
-			WorldMapDetailFrame:SetPoint("TOPLEFT", WorldMapPositioningGuide, "TOP", -502, -69)
-			WorldMapQuestDetailScrollFrame:Hide()
-			WorldMapQuestRewardScrollFrame:Hide()
-			WorldMapQuestScrollFrame:Hide()
-			for i = NUM_WORLDMAP_DETAIL_TILES + 1, NUM_WORLDMAP_DETAIL_TILES + NUM_WORLDMAP_PATCH_TILES do
-				_G["WorldMapFrameTexture"..i]:Show()
-			end
+local mapSizedUp = nil
+function Mapster:WorldMapFrame_DisplayQuests()
+	if WatchFrame.showObjectives and WorldMapFrame.numQuests > 0 then
+		if db.questObjectives == 1 and WORLDMAP_SETTINGS.size == WORLDMAP_QUESTLIST_SIZE then
+			mapSizedUp = true
+			WorldMapFrame_SetFullMapView()
 			
-			WorldMapPOIFrame.ratio = WORLDMAP_RATIO_FULL
-			WorldMapBlobFrame:SetScale(WORLDMAP_RATIO_FULL)
+			WorldMapBlobFrame:SetScale(WORLDMAP_FULLMAP_SIZE)
 			WorldMapBlobFrame.xRatio = nil		-- force hit recalculations
-			
 			WorldMapFrame_SetPOIMaxBounds()
 			WorldMapFrame_UpdateQuests()
-		end
-	elseif db.questObjectives == 2 and ( WatchFrame.showObjectives and WorldMapFrame.numQuests > 0 ) then
-		if ( not WorldMapFrame.bigMap and not WorldMapFrame.sizedDown ) then
-			WorldMapPOIFrame.ratio = WORLDMAP_RATIO_SMALL
-			WorldMapBlobFrame:SetScale(WORLDMAP_RATIO_SMALL)
-			WorldMapBlobFrame.xRatio = nil		-- force hit recalculations
+		elseif db.questObjectives == 2 and mapSizedUp then
+			mapSizedUp = nil
+			WorldMapFrame_SetQuestMapView()
 			
+			WorldMapBlobFrame:SetScale(WORLDMAP_QUESTLIST_SIZE)
+			WorldMapBlobFrame.xRatio = nil		-- force hit recalculations
 			WorldMapFrame_SetPOIMaxBounds()
 			WorldMapFrame_UpdateQuests()
 		end
@@ -666,7 +683,6 @@ function questObjDropDownInit()
 		UIDropDownMenu_AddButton(info)
 	end
 end
-
 
 function questObjDropDownUpdate()
 	UIDropDownMenu_SetSelectedValue(MapsterQuestObjectivesDropDown, db.questObjectives)
