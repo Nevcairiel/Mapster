@@ -65,7 +65,7 @@ local wmfOnShow, wmfStartMoving, wmfStopMoving, dropdownScaleFix
 local questObjDropDownInit, questObjDropDownUpdate
 
 function Mapster:OnInitialize()
-	self.db = LibStub("AceDB-3.0"):New("MapsterDB", defaults, "Default")
+	self.db = LibStub("AceDB-3.0"):New("MapsterDB", defaults, true)
 	db_ = self.db.profile
 
 	self.db.RegisterCallback(self, "OnProfileChanged", "Refresh")
