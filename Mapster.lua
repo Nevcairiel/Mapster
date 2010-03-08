@@ -372,7 +372,7 @@ function Mapster:SizeUp()
 	WorldMapFrame_SetPOIMaxBounds()
 	--WorldMapQuestShowObjectives_AdjustPosition()
 
-	self.optionsButton:SetPoint("BOTTOMLEFT", "WorldMapPositioningGuide", "BOTTOMLEFT", 5, 7)
+	self.optionsButton:SetPoint("TOPRIGHT", WorldMapPositioningGuide, "TOPRIGHT", -43, -2)
 end
 
 function Mapster:SizeDown()
@@ -422,7 +422,7 @@ function Mapster:SizeDown()
 	WorldMapFrame_SetPOIMaxBounds()
 	--WorldMapQuestShowObjectives_AdjustPosition()
 
-	self.optionsButton:SetPoint("BOTTOMLEFT", "WorldMapPositioningGuide", "BOTTOMLEFT", 16, -8)
+	self.optionsButton:SetPoint("TOPRIGHT", WorldMapFrameMiniBorderRight, "TOPRIGHT", -93, -2)
 end
 
 local function getZoneId()

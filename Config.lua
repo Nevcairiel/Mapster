@@ -190,10 +190,10 @@ function Mapster:SetupMapButton()
 	-- create button on the worldmap to toggle the options
 	self.optionsButton = CreateFrame("Button", "MapsterOptionsButton", WorldMapFrame, "UIPanelButtonTemplate")
 	self.optionsButton:SetWidth(95)
-	self.optionsButton:SetHeight(20)
+	self.optionsButton:SetHeight(18)
 	self.optionsButton:SetText("Mapster")
 	self.optionsButton:ClearAllPoints()
-	self.optionsButton:SetPoint("BOTTOMLEFT", "WorldMapPositioningGuide", "BOTTOMLEFT", 5, 7)
+	self.optionsButton:SetPoint("TOPRIGHT", WorldMapPositioningGuide, "TOPRIGHT", -43, -2)
 
 	if self.db.profile.hideMapButton then
 		self.optionsButton:Hide()
