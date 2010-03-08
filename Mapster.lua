@@ -388,7 +388,8 @@ function Mapster:SizeDown()
 	WorldMapFrameAreaFrame:SetScale(WORLDMAP_WINDOWED_SIZE)
 	WorldMapBlobFrame:SetScale(WORLDMAP_WINDOWED_SIZE)
 	WorldMapBlobFrame.xRatio = nil		-- force hit recalculations
-	--WorldMapFrameMiniBorderLeft:SetPoint("TOPLEFT", 10, -14)
+	WorldMapFrameMiniBorderLeft:SetPoint("TOPLEFT", 10, -14)
+	WorldMapDetailFrame:SetPoint("TOPLEFT", 37, -66)
 	-- hide big window elements
 	WorldMapZoneMinimapDropDown:Hide()
 	WorldMapZoomOutButton:Hide()
