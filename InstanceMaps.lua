@@ -47,6 +47,8 @@ local data = {
 		["Trial of the Crusader"] = 543,
 		-- 3.3
 		["Icecrown Citadel"] = 604,
+		-- 3.3.5
+		["The Ruby Sanctum"] = 609,
 	},
 	bgs = {
 		["Alterac Valley"] = 401,
