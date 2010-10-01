@@ -180,6 +180,10 @@ local blobHideFunc = function() blobWasVisible = nil end
 local blobShowFunc = function() blobWasVisible = true end
 local blobScaleFunc = function(self, scale) blobNewScale = scale end
 
+local archBlobWasVisible
+local archBlobHideFunc = function() archBlobWasVisible = nil end
+local archBlobShowFunc = function() archBlobWasVisible = true end
+
 function Mapster:PLAYER_REGEN_DISABLED()
 	blobWasVisible = WorldMapBlobFrame:IsShown()
 	blobNewScale = nil
@@ -191,6 +195,15 @@ function Mapster:PLAYER_REGEN_DISABLED()
 	WorldMapBlobFrame.Hide = blobHideFunc
 	WorldMapBlobFrame.Show = blobShowFunc
 	WorldMapBlobFrame.SetScale = blobScaleFunc
+
+	archBlobWasVisible = WorldMapArchaeologyDigSites:IsShown()
+	WorldMapArchaeologyDigSites:SetParent(nil)
+	WorldMapArchaeologyDigSites:ClearAllPoints()
+	-- dummy position, off screen, so calculations don't go boom
+	WorldMapArchaeologyDigSites:SetPoint("TOP", UIParent, "BOTTOM")
+	WorldMapArchaeologyDigSites:Hide()
+	WorldMapArchaeologyDigSites.Hide = archBlobHideFunc
+	WorldMapArchaeologyDigSites.Show = archBlobShowFunc
 end
 
 local updateFrame = CreateFrame("Frame")
@@ -217,6 +230,15 @@ function Mapster:PLAYER_REGEN_ENABLED()
 		WorldMapBlobFrame:SetScale(blobNewScale)
 		WorldMapBlobFrame.xRatio = nil
 		blobNewScale = nil
+	end
+
+	WorldMapArchaeologyDigSites:SetParent(WorldMapFrame)
+	WorldMapArchaeologyDigSites:ClearAllPoints()
+	WorldMapArchaeologyDigSites:SetPoint("TOPLEFT", WorldMapDetailFrame)
+	WorldMapArchaeologyDigSites.Hide = nil
+	WorldMapArchaeologyDigSites.Show = nil
+	if archBlobWasVisible then
+		WorldMapArchaeologyDigSites:Show()
 	end
 
 	if WorldMapQuestScrollChildFrame.selected then
