@@ -1,4 +1,4 @@
-﻿-- Mapster Locale
+-- Mapster Locale
 -- Please use the Localization App on WoWAce to Update this
 -- http://www.wowace.com/projects/mapster/localization/ ;¶
 
