@@ -197,7 +197,7 @@ local updateFrame = CreateFrame("Frame")
 local function restoreBlobs()
 	WorldMapBlobFrame_CalculateHitTranslations()
 	if WorldMapQuestScrollChildFrame.selected and not WorldMapQuestScrollChildFrame.selected.completed then
-		WorldMapBlobFrame:DrawQuestBlob(WorldMapQuestScrollChildFrame.selected.questId, true)
+		WorldMapBlobFrame:DrawBlob(WorldMapQuestScrollChildFrame.selected.questId, true)
 	end
 	updateFrame:SetScript("OnUpdate", nil)
 end
@@ -220,7 +220,7 @@ function Mapster:PLAYER_REGEN_ENABLED()
 	end
 
 	if WorldMapQuestScrollChildFrame.selected then
-		WorldMapBlobFrame:DrawQuestBlob(WorldMapQuestScrollChildFrame.selected.questId, false)
+		WorldMapBlobFrame:DrawBlob(WorldMapQuestScrollChildFrame.selected.questId, false)
 	end
 end
 
@@ -481,13 +481,13 @@ end
 function Mapster:ShowBlobs()
 	WorldMapBlobFrame_CalculateHitTranslations()
 	if WORLDMAP_SETTINGS.selectedQuest and not WORLDMAP_SETTINGS.selectedQuest.completed then
-		WorldMapBlobFrame:DrawQuestBlob(WORLDMAP_SETTINGS.selectedQuest.questId, true)
+		WorldMapBlobFrame:DrawBlob(WORLDMAP_SETTINGS.selectedQuest.questId, true)
 	end
 end
 
 function Mapster:HideBlobs()
 	if WORLDMAP_SETTINGS.selectedQuest then
-		WorldMapBlobFrame:DrawQuestBlob(WORLDMAP_SETTINGS.selectedQuest.questId, false)
+		WorldMapBlobFrame:DrawBlob(WORLDMAP_SETTINGS.selectedQuest.questId, false)
 	end
 end
 
