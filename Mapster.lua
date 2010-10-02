@@ -135,6 +135,9 @@ function Mapster:OnEnable()
 	local questObj = CreateFrame("Frame", "MapsterQuestObjectivesDropDown", WorldMapFrame, "UIDropDownMenuTemplate")
 	questObj:SetPoint("BOTTOMRIGHT", "WorldMapPositioningGuide", "BOTTOMRIGHT", -5, -2)
 	
+	WorldMapShowDigSites:ClearAllPoints()
+	WorldMapShowDigSites:SetPoint("BOTTOMLEFT", WorldMapPositioningGuide, "BOTTOMLEFT", 10, 3)
+
 	local text = questObj:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
 	text:SetText(L["Quest Objectives"])
 	text:SetPoint("RIGHT", questObj, "LEFT", 5, 3)
@@ -390,6 +393,8 @@ function Mapster:SizeUp()
 	WorldMapFrameTitle:SetPoint("CENTER", 0, 372)
 
 	MapsterQuestObjectivesDropDown:Show()
+	WorldMapShowDigSites:SetScript("OnShow", nil)
+	WorldMapShowDigSites:Show()
 
 	WorldMapFrame_SetPOIMaxBounds()
 	--WorldMapQuestShowObjectives_AdjustPosition()
@@ -441,6 +446,8 @@ function Mapster:SizeDown()
 	WorldMapFrameTitle:SetPoint("TOP", WorldMapDetailFrame, 0, 20)
 
 	MapsterQuestObjectivesDropDown:Hide()
+	WorldMapShowDigSites:Hide()
+	WorldMapShowDigSites:SetScript("OnShow", WorldMapShowDigSites.Hide)
 
 	WorldMapFrame_SetPOIMaxBounds()
 	--WorldMapQuestShowObjectives_AdjustPosition()
