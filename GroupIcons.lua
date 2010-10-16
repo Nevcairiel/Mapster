@@ -19,10 +19,14 @@ local db
 local defaults = {
 	profile = {
 		size = 24,
+		sizeBattleMap = 16,
 	}
 }
 
-local FixUnit, FixWorldMapUnits, FixBattlefieldUnits
+local DEFAULT_WORLDMAP_SIZE = 16
+local DEFAULT_BATTLEMAP_SIZE = 12
+
+local FixWorldMapUnits, FixBattlefieldUnits
 
 local options
 local function getOptions()
@@ -48,11 +52,22 @@ local function getOptions()
 				size = {
 					order = 3,
 					type = "range",
-					name = L["Size"],
+					name = L["Size on the World Map"],
 					min = 8, max = 48, step = 1,
 					get = function() return db.size end,
 					set = function(info, v)
 						db.size = v
+						GroupIcons:Refresh()
+					end
+				},
+				sizeBattleMap = {
+					order = 3,
+					type = "range",
+					name = L["Size on the Battle Map"],
+					min = 8, max = 48, step = 1,
+					get = function() return db.sizeBattleMap end,
+					set = function(info, v)
+						db.sizeBattleMap = v
 						GroupIcons:Refresh()
 					end
 				}
@@ -97,34 +112,36 @@ function GroupIcons:OnDisable()
 	FixBattlefieldUnits(false)
 end
 
-function FixUnit(unit, state, isNormal)
+local function FixUnit(unit, state, size, defSize)
 	local frame = _G[unit]
 	if not frame then return end
 	if state then
-		frame:SetWidth(db.size)
-		frame:SetHeight(db.size)
+		frame:SetWidth(size)
+		frame:SetHeight(size)
 	else
-		frame:SetWidth(16)
-		frame:SetHeight(16)
+		frame:SetWidth(defSize)
+		frame:SetHeight(defSize)
 	end
 end
 
 function FixWorldMapUnits(state)
+	local size = db.size
 	for i = 1, 4 do
-		FixUnit(fmt("WorldMapParty%d", i), state, true)
+		FixUnit(fmt("WorldMapParty%d", i), state, size, DEFAULT_WORLDMAP_SIZE)
 	end
 	for i = 1,40 do
-		FixUnit(fmt("WorldMapRaid%d", i), state)
+		FixUnit(fmt("WorldMapRaid%d", i), state, size, DEFAULT_WORLDMAP_SIZE)
 	end
 end
 
 function FixBattlefieldUnits(state)
 	if BattlefieldMinimap then
+		local size = db.sizeBattleMap
 		for i = 1, 4 do
-			FixUnit(fmt("BattlefieldMinimapParty%d", i), state, true)
+			FixUnit(fmt("BattlefieldMinimapParty%d", i), state, size, DEFAULT_BATTLEMAP_SIZE)
 		end
 		for i = 1, 40 do
-			FixUnit(fmt("BattlefieldMinimapRaid%d", i), state)
+			FixUnit(fmt("BattlefieldMinimapRaid%d", i), state, size, DEFAULT_BATTLEMAP_SIZE)
 		end
 	end
 end
