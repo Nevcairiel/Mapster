@@ -171,6 +171,7 @@ function Mapster:OnEnable()
 	self:SecureHook("WorldMapFrame_DisplayQuestPOI")
 	self:SecureHook("WorldMapFrame_DisplayQuests")
 	self:SecureHook("WorldMapFrame_SetPOIMaxBounds")
+	self:SecureHook("WorldMapLevelDropDown_Update", "UpdateMapElements")
 	WorldMapFrame_SetPOIMaxBounds()
 
 	if vis then
@@ -383,6 +384,7 @@ function Mapster:SizeUp()
 	WorldMapFrameMiniBorderRight:Hide()
 	WorldMapFrameSizeUpButton:Hide()
 	-- floor dropdown
+	WorldMapLevelDropDown:ClearAllPoints()
 	WorldMapLevelDropDown:SetPoint("TOPRIGHT", WorldMapPositioningGuide, "TOPRIGHT", -50, -35)
 	WorldMapLevelDropDown.header:Show()
 	-- tiny adjustments
@@ -435,7 +437,8 @@ function Mapster:SizeDown()
 	WorldMapFrameMiniBorderRight:Show()
 	WorldMapFrameSizeUpButton:Show()
 	-- floor dropdown
-	WorldMapLevelDropDown:SetPoint("TOPRIGHT", WorldMapPositioningGuide, "TOPRIGHT", -441, -35)
+	WorldMapLevelDropDown:ClearAllPoints()
+	WorldMapLevelDropDown:SetPoint("TOPLEFT", WorldMapDetailFrame, "TOPLEFT", -19, 3)
 	WorldMapLevelDropDown:SetFrameLevel(WORLDMAP_POI_FRAMELEVEL + 2)
 	WorldMapLevelDropDown.header:Hide()
 	-- tiny adjustments
@@ -611,6 +614,15 @@ function Mapster:UpdateMapElements()
 		--WorldMapQuestShowObjectives:Hide()
 		for _, frame in pairs(self.elementsToHide) do
 			frame:Hide()
+		end
+	end
+	-- process elements that show/hide themself
+	if self.elementsHidden then
+		WorldMapLevelDropDown:Hide()
+	else
+		local levels = GetNumDungeonMapLevels()
+		if levels and levels > 0 then
+			WorldMapLevelDropDown:Show()
 		end
 	end
 end
