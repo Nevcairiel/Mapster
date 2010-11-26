@@ -281,10 +281,10 @@ local function MapsterZoneButton_OnClick(frame)
 	SetMapByID(Maps:GetZoneData())
 end
 
-local function Mapster_LoadZones(...)
+local function Mapster_LoadZones(data)
 	local info = UIDropDownMenu_CreateInfo()
-	for i=1, select("#", ...), 1 do
-		info.text = select(i, ...)
+	for i=1, #data, 1 do
+		info.text = data[i]
 		info.func = MapsterZoneButton_OnClick
 		info.checked = nil
 		UIDropDownMenu_AddButton(info)
@@ -293,7 +293,7 @@ end
 
 function Maps:WorldMapZoneDropDown_Initialize()
 	if self.mapCont then
-		Mapster_LoadZones(unpack(self.zone_names[self.mapCont]))
+		Mapster_LoadZones(self.zone_names[self.mapCont])
 	else
 		self.hooks.WorldMapZoneDropDown_Initialize()
 	end
