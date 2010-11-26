@@ -16,48 +16,105 @@ local BZ = LBZ and LBZ:GetLookupTable() or setmetatable({}, {__index = function(
 local data = {
 	-- Northrend Instances
 	instances = {
-		["The Nexus"] = 520,
-		["The Culling of Stratholme"] = 521,
-		["Ahn'kahet: The Old Kingdom"] = 522,
-		["Utgarde Keep"] = 523,
-		["Utgarde Pinnacle"] = 524,
-		["Halls of Lightning"] = 525,
-		["Halls of Stone"] = 526,
-		["The Oculus"] = 528,
-		["Gundrak"] = 530,
-		["Azjol-Nerub"] = 533,
-		["Drak'Tharon Keep"] = 534,
-		["The Violet Hold"] = 536,
-		-- 3.2
-		["Trial of the Champion"] = 542,
-		-- 3.3
-		["The Forge of Souls"] = 601,
-		["Pit of Saron"] = 602,
-		["Halls of Reflection"] = 603,
-	},
+		classic = {
+			["Ragefire Chasm"] = 680,
+			["Zul'Farrak"] = 686,
+			["The Temple of Atal'Hakkar"] = 687,
+			["Blackfathom Deeps"] = 688,
+			["The Stockade"] = 690,
+			["Gnomeregan"] = 691,
+			["Uldaman"] = 692,
+			["Dire Maul"] = 699,
+			["Blackrock Depths"] = 704,
+			["Blackrock Spire"] = 721,
+			["Wailing Caverns"] = 749,
+			["Maraudon"] = 750,
+			["The Deadmines"] = 756,
+			["Razorfen Downs"] = 760,
+			["Razorfen Kraul"] = 761,
+			["Scarlet Monastery"] = 762,
+			["Scholomance"] = 763,
+			["Shadowfang Keep"] = 764,
+			["Stratholme"] = 765,
+		},
+		bc = {
 
+		},
+		wrath = {
+			["The Nexus"] = 520,
+			["The Culling of Stratholme"] = 521,
+			["Ahn'kahet: The Old Kingdom"] = 522,
+			["Utgarde Keep"] = 523,
+			["Utgarde Pinnacle"] = 524,
+			["Halls of Lightning"] = 525,
+			["Halls of Stone"] = 526,
+			["The Oculus"] = 528,
+			["Gundrak"] = 530,
+			["Azjol-Nerub"] = 533,
+			["Drak'Tharon Keep"] = 534,
+			["The Violet Hold"] = 536,
+			-- 3.2
+			["Trial of the Champion"] = 542,
+			-- 3.3
+			["The Forge of Souls"] = 601,
+			["Pit of Saron"] = 602,
+			["Halls of Reflection"] = 603,
+		},
+		cataclysm = {
+			["Lost City of the Tol'vir"] = 747,
+			["Blackrock Caverns"] = 753,
+			["The Deadmines"] = 756,
+			["Grim Batol"] = 757,
+			["Halls of Origination"] = 759,
+			["Shadowfang Keep"] = 764,
+			["Throne of the Tides"] = 767,
+			["The Stonecore"] = 768,
+			["The Vortex Pinnacle"] = 769,
+		},
+	},
 	-- Northrend Raids
 	raids = {
-		["The Eye of Eternity"] = 527,
-		["Ulduar"] = 529,
-		["The Obsidian Sanctum"] = 531,
-		["Vault of Archavon"] = 532,
-		["Naxxramas"] = 535,
-		-- 3.2
-		["Trial of the Crusader"] = 543,
-		-- 3.3
-		["Icecrown Citadel"] = 604,
-		-- 3.3.5
-		["The Ruby Sanctum"] = 609,
+		classic = {
+			["Molten Core"] = 696,
+			["Blackwing Lair"] = 755,
+			["Ruins of Ahn'Qiraj"] = 717,
+			["Ahn'Qiraj"] = 766,
+		},
+		bc = {
+
+		},
+		wrath = {
+			["The Eye of Eternity"] = 527,
+			["Ulduar"] = 529,
+			["The Obsidian Sanctum"] = 531,
+			["Vault of Archavon"] = 532,
+			["Naxxramas"] = 535,
+			-- 3.2
+			["Trial of the Crusader"] = 543,
+			-- 3.3
+			["Icecrown Citadel"] = 604,
+			-- 3.3.5
+			["The Ruby Sanctum"] = 609,
+			["Onyxia's Lair"] = 718,
+		},
+		cataclysm = {
+			["Baradin Hold"] = 752,
+			["Blackwing Descent"] = 754,
+			["The Bastion of Twilight"] = 758,
+			["Throne of the Four Winds"] = 773,
+		},
 	},
 	bgs = {
-		["Alterac Valley"] = 401,
-		["Warsong Gulch"] = 443,
-		["Arathi Basin"] = 461,
-		["Eye of the Storm"] = 482,
-		["Strand of the Ancients"] = 512,
-		["Isle of Conquest"] = 540,
-	},
+		all = {
+			["Alterac Valley"] = 401,
+			["Warsong Gulch"] = 443,
+			["Arathi Basin"] = 461,
+			["Eye of the Storm"] = 482,
+			["Strand of the Ancients"] = 512,
+			["Isle of Conquest"] = 540,
+			["Twin Peaks"] = 626,
+		},
+	}
 }
 
 --[[
@@ -111,22 +168,22 @@ function Maps:OnInitialize()
 	self.zone_names = {}
 	self.zone_data = {}
 
-	for key, idata in pairs(data) do
-		local names = {}
-		local name_data = {}
-		for name, zdata in pairs(idata) do
-			tinsert(names, BZ[name])
-			name_data[BZ[name]] = zdata
+	for category, catdata in pairs(data) do
+		for subcat, subdata in pairs(catdata) do
+			local name_data = {}
+			local key = format("%s|%s", category, subcat)
+			self.zone_names[key], self.zone_data[key] = {}, {}
+			for name, id in pairs(subdata) do
+				tinsert(self.zone_names[key], BZ[name])
+				name_data[BZ[name]] = id
+			end
+			table.sort(self.zone_names[key])
+			for index, name in pairs(self.zone_names[key]) do
+				self.zone_data[key][index] = name_data[name]
+			end
 		end
-		table.sort(names)
-		self.zone_names[key] = names
-
-		local zone_data = {}
-		for k,v in pairs(names) do
-			zone_data[k] = name_data[v]
-		end
-		self.zone_data[key] = zone_data
 	end
+
 	data = nil
 end
 
@@ -169,22 +226,46 @@ end
 
 function Maps:WorldMapFrame_LoadContinents()
 	local info = UIDropDownMenu_CreateInfo()
-	info.text =  L["Northrend Instances"]
+	info.text =  L["Classic Instances"]
 	info.func = MapsterContinentButton_OnClick
 	info.checked = nil
-	info.arg1 = "instances"
+	info.arg1 = "instances|classic"
 	UIDropDownMenu_AddButton(info)
 
-	info.text =  L["Northrend Raids"]
+	info.text =  L["Classic Raids"]
 	info.func = MapsterContinentButton_OnClick
 	info.checked = nil
-	info.arg1 = "raids"
+	info.arg1 = "raids|classic"
+	UIDropDownMenu_AddButton(info)
+
+	info.text =  L["Wrath Instances"]
+	info.func = MapsterContinentButton_OnClick
+	info.checked = nil
+	info.arg1 = "instances|wrath"
+	UIDropDownMenu_AddButton(info)
+
+	info.text =  L["Wrath Raids"]
+	info.func = MapsterContinentButton_OnClick
+	info.checked = nil
+	info.arg1 = "raids|wrath"
+	UIDropDownMenu_AddButton(info)
+
+	info.text =  L["Cataclysm Instances"]
+	info.func = MapsterContinentButton_OnClick
+	info.checked = nil
+	info.arg1 = "instances|cataclysm"
+	UIDropDownMenu_AddButton(info)
+
+	info.text =  L["Cataclysm Raids"]
+	info.func = MapsterContinentButton_OnClick
+	info.checked = nil
+	info.arg1 = "raids|cataclysm"
 	UIDropDownMenu_AddButton(info)
 
 	info.text =  L["Battlegrounds"]
 	info.func = MapsterContinentButton_OnClick
 	info.checked = nil
-	info.arg1 = "bgs"
+	info.arg1 = "bgs|all"
 	UIDropDownMenu_AddButton(info)
 end
 
