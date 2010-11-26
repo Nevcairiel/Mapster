@@ -1371,7 +1371,12 @@ local discoveredOverlays = {}
 local function updateOverlayTextures(frame, frameName, textureCache, scale, alphaMod)
 	local self = FogClear
 	local mapFileName, textureHeight = GetMapInfo()
-	if not mapFileName then return end
+	if not mapFileName then
+		for i = 1, #textureCache do
+			textureCache[i]:Hide()
+		end
+		return
+	end
 
 	local pathPrefix = "Interface\\WorldMap\\"..mapFileName.."\\"
 	local overlayMap = self.overlays[mapFileName]
