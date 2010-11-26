@@ -287,12 +287,12 @@ do
 	end
 
 	local function Mapster_LoadDefaultZones(data)
-		local info = UIDropDownMenu_CreateInfo();
+		local info = UIDropDownMenu_CreateInfo()
 		for i=1, #data, 1 do
 			info.text = data[i]
-			info.func = WorldMapZoneButton_OnClick;
-			info.checked = nil;
-			UIDropDownMenu_AddButton(info);
+			info.func = WorldMapZoneButton_OnClick
+			info.checked = nil
+			UIDropDownMenu_AddButton(info)
 		end
 	end
 
