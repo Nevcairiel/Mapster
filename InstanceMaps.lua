@@ -37,9 +37,6 @@ local data = {
 			["Shadowfang Keep"] = 764,
 			["Stratholme"] = 765,
 		},
-		bc = {
-
-		},
 		wrath = {
 			["The Nexus"] = 520,
 			["The Culling of Stratholme"] = 521,
@@ -79,9 +76,6 @@ local data = {
 			["Blackwing Lair"] = 755,
 			["Ruins of Ahn'Qiraj"] = 717,
 			["Ahn'Qiraj"] = 766,
-		},
-		bc = {
-
 		},
 		wrath = {
 			["The Eye of Eternity"] = 527,
