@@ -275,21 +275,38 @@ local function MapsterZoneButton_OnClick(frame)
 	SetMapByID(Maps:GetZoneData())
 end
 
-local function Mapster_LoadZones(data)
-	local info = UIDropDownMenu_CreateInfo()
-	for i=1, #data, 1 do
-		info.text = data[i]
-		info.func = MapsterZoneButton_OnClick
-		info.checked = nil
-		UIDropDownMenu_AddButton(info)
+do
+	local function Mapster_LoadCustomZones(data)
+		local info = UIDropDownMenu_CreateInfo()
+		for i=1, #data, 1 do
+			info.text = data[i]
+			info.func = MapsterZoneButton_OnClick
+			info.checked = nil
+			UIDropDownMenu_AddButton(info)
+		end
 	end
-end
 
-function Maps:WorldMapZoneDropDown_Initialize()
-	if self.mapCont then
-		Mapster_LoadZones(self.zone_names[self.mapCont])
-	else
-		self.hooks.WorldMapZoneDropDown_Initialize()
+	local function Mapster_LoadDefaultZones(data)
+		local info = UIDropDownMenu_CreateInfo();
+		for i=1, #data, 1 do
+			info.text = data[i]
+			info.func = WorldMapZoneButton_OnClick;
+			info.checked = nil;
+			UIDropDownMenu_AddButton(info);
+		end
+	end
+
+	local defaultZoneCache = setmetatable({}, {__index = function(t, k)
+		rawset(t, k, {GetMapZones(k)})
+		return t[k]
+	end})
+
+	function Maps:WorldMapZoneDropDown_Initialize()
+		if self.mapCont then
+			Mapster_LoadCustomZones(self.zone_names[self.mapCont])
+		else
+			Mapster_LoadDefaultZones(defaultZoneCache[GetCurrentMapContinent()])
+		end
 	end
 end
 
