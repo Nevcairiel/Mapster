@@ -507,7 +507,17 @@ end
 
 function dropdownScaleFix(self)
 	ToggleDropDownMenu(nil, nil, self:GetParent())
-	DropDownList1:SetScale(db.scale)
+	local uiScale = 1
+	local uiParentScale = UIParent:GetScale()
+	if GetCVar("useUIScale") == "1" then
+		uiScale = tonumber(GetCVar("uiscale"))
+		if uiParentScale < uiScale then
+			uiScale = uiParentScale
+		end
+	else
+		uiScale = uiParentScale
+	end
+	DropDownList1:SetScale(uiScale * db.scale)
 end
 
 function Mapster:ShowBlobs()
