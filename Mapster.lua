@@ -127,6 +127,7 @@ function Mapster:OnEnable()
 
 	WorldMapFrameSizeDownButton:SetScript("OnClick", function() Mapster:ToggleMapSize() end)
 	WorldMapFrameSizeUpButton:SetScript("OnClick", function() Mapster:ToggleMapSize() end)
+	self:RawHook("WorldMapFrame_ToggleWindowSize", "ToggleMapSize", true)
 
 	-- Hide Quest Objectives CheckBox and replace it with a DropDown
 	WorldMapQuestShowObjectives:Hide()
