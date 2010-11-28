@@ -171,6 +171,7 @@ function Mapster:OnEnable()
 
 	self:SecureHook("WorldMapFrame_DisplayQuestPOI")
 	self:SecureHook("WorldMapFrame_DisplayQuests")
+	self:RawHook("WorldMapFrame_SelectQuestFrame", true)
 	self:SecureHook("WorldMapFrame_SetPOIMaxBounds")
 	self:SecureHook("WorldMapLevelDropDown_Update", "UpdateMapElements")
 	WorldMapFrame_SetPOIMaxBounds()
@@ -673,6 +674,15 @@ function Mapster:WorldMapFrame_DisplayQuests()
 			WorldMapFrame_UpdateQuests()
 		end
 	end
+end
+
+function Mapster:WorldMapFrame_SelectQuestFrame(...)
+	local old_size = WORLDMAP_SETTINGS.size
+	if db.questObjectives ~= 2 then
+		WORLDMAP_SETTINGS.size = WORLDMAP_WINDOWED_SIZE
+	end
+	self.hooks.WorldMapFrame_SelectQuestFrame(...)
+	WORLDMAP_SETTINGS.size = old_size
 end
 
 local function hasOverlays()
