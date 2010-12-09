@@ -398,6 +398,11 @@ local errata = {
 		["Highbank"] = 433449045212,
 		["WeepingWound"] = 375584982,
 		["SlitheringCove"] = 182114788550,
+		["TheGullet"] = 192482037935,
+		["Bloodgulch"] = 220553442519,
+		["RuinsOfDrakgor"] = 310565070,
+		["Crushblow"] = 480350768310,
+		["TheTwilightBreach"] = 206485803207,
 	},
 	["VashjirDepths"] = {
 		["FireplumeTrench"] = 118442159402,
@@ -407,6 +412,7 @@ local errata = {
 		["Seabrush"] = 196930169057,
 		["DeepfinRidge"] = 34648365419,
 		["KorthunsEnd"] = 304301344114,
+		["AbandonedReef"] = 282446932339,
 	},
 	["VashjirKelpForest"] = {
 		["DarkwhisperGorge"] = 245366977756,
