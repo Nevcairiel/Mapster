@@ -372,6 +372,8 @@ function Mapster:SizeUp()
 	WorldMapFrameAreaFrame:SetScale(WORLDMAP_QUESTLIST_SIZE)
 	WorldMapBlobFrame:SetScale(WORLDMAP_QUESTLIST_SIZE)
 	WorldMapBlobFrame.xRatio = nil		-- force hit recalculations
+	WorldMapArchaeologyDigSites:SetScale(WORLDMAP_QUESTLIST_SIZE)
+	WorldMapArchaeologyDigSites.xRatio = nil		-- force hit recalculations
 	-- show big window elements
 	WorldMapZoneMinimapDropDown:Show()
 	WorldMapZoomOutButton:Show()
@@ -421,6 +423,8 @@ function Mapster:SizeDown()
 	WorldMapFrameAreaFrame:SetScale(WORLDMAP_WINDOWED_SIZE)
 	WorldMapBlobFrame:SetScale(WORLDMAP_WINDOWED_SIZE)
 	WorldMapBlobFrame.xRatio = nil		-- force hit recalculations
+	WorldMapArchaeologyDigSites:SetScale(WORLDMAP_WINDOWED_SIZE)
+	WorldMapArchaeologyDigSites.xRatio = nil		-- force hit recalculations
 	WorldMapFrameMiniBorderLeft:SetPoint("TOPLEFT", 10, -14)
 	WorldMapDetailFrame:SetPoint("TOPLEFT", 37, -66)
 	-- hide big window elements
@@ -663,6 +667,8 @@ function Mapster:WorldMapFrame_DisplayQuests()
 			
 			WorldMapBlobFrame:SetScale(WORLDMAP_FULLMAP_SIZE)
 			WorldMapBlobFrame.xRatio = nil		-- force hit recalculations
+			WorldMapArchaeologyDigSites:SetScale(WORLDMAP_FULLMAP_SIZE)
+			WorldMapArchaeologyDigSites.xRatio = nil		-- force hit recalculations
 			WorldMapFrame_SetPOIMaxBounds()
 			WorldMapFrame_UpdateQuests()
 		elseif db.questObjectives == 2 then
@@ -670,6 +676,8 @@ function Mapster:WorldMapFrame_DisplayQuests()
 			
 			WorldMapBlobFrame:SetScale(WORLDMAP_QUESTLIST_SIZE)
 			WorldMapBlobFrame.xRatio = nil		-- force hit recalculations
+			WorldMapArchaeologyDigSites:SetScale(WORLDMAP_QUESTLIST_SIZE)
+			WorldMapArchaeologyDigSites.xRatio = nil		-- force hit recalculations
 			WorldMapFrame_SetPOIMaxBounds()
 			WorldMapFrame_UpdateQuests()
 		end
