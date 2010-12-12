@@ -204,6 +204,7 @@ function Mapster:PLAYER_REGEN_DISABLED()
 	WorldMapBlobFrame.SetScale = blobScaleFunc
 
 	archBlobWasVisible = WorldMapArchaeologyDigSites:IsShown()
+	archBlobNewScale = nil
 	WorldMapArchaeologyDigSites:SetParent(nil)
 	WorldMapArchaeologyDigSites:ClearAllPoints()
 	-- dummy position, off screen, so calculations don't go boom
