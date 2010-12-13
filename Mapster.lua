@@ -381,7 +381,7 @@ function Mapster:SizeUp()
 	WorldMapFrameAreaFrame:SetScale(WORLDMAP_QUESTLIST_SIZE)
 	WorldMapBlobFrame:SetScale(WORLDMAP_QUESTLIST_SIZE)
 	WorldMapBlobFrame.xRatio = nil		-- force hit recalculations
-	WorldMapArchaeologyDigSites:SetScale(WORLDMAP_QUESTLIST_SIZE)
+	WorldMapArchaeologyDigSites:SetScale(WORLDMAP_FULLMAP_SIZE)
 	WorldMapArchaeologyDigSites.xRatio = nil		-- force hit recalculations
 	-- show big window elements
 	WorldMapZoneMinimapDropDown:Show()
