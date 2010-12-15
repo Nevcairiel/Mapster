@@ -670,7 +670,10 @@ end
 
 function Mapster:WorldMapFrame_DisplayQuests()
 	if WORLDMAP_SETTINGS.size == WORLDMAP_WINDOWED_SIZE then return end
-	if WatchFrame.showObjectives and WorldMapFrame.numQuests > 0 then
+	if db.questObjectives == 0 or not (WatchFrame.showObjectives and WorldMapFrame.numQuests > 0) then
+		WorldMapArchaeologyDigSites:SetScale(WORLDMAP_FULLMAP_SIZE)
+		WorldMapArchaeologyDigSites.xRatio = nil		-- force hit recalculations
+	else
 		if db.questObjectives == 1 then
 			WorldMapFrame_SetFullMapView()
 			
