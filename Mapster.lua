@@ -74,6 +74,9 @@ function Mapster:OnInitialize()
 
 	self.elementsToHide = {}
 
+	self.UIHider = CreateFrame("Frame")
+	self.UIHider:Hide()
+
 	self:SetupOptions()
 end
 
@@ -403,7 +406,9 @@ function Mapster:SizeUp()
 	-- tiny adjustments
 	WorldMapFrameCloseButton:SetPoint("TOPRIGHT", WorldMapPositioningGuide, 4, 4)
 	WorldMapFrameSizeDownButton:SetPoint("TOPRIGHT", WorldMapPositioningGuide, -16, 4)
-	WorldMapTrackQuest:SetPoint("BOTTOMLEFT", WorldMapPositioningGuide, "BOTTOMLEFT", 16, 4);
+	WorldMapTrackQuest:SetParent(WorldMapFrame)
+	WorldMapTrackQuest:ClearAllPoints()
+	WorldMapTrackQuest:SetPoint("BOTTOMLEFT", WorldMapPositioningGuide, "BOTTOMLEFT", 16, 4)
 	WorldMapTrackQuest:Show()
 	WorldMapFrameTitle:ClearAllPoints()
 	WorldMapFrameTitle:SetPoint("CENTER", 0, 372)
@@ -460,7 +465,7 @@ function Mapster:SizeDown()
 	-- tiny adjustments
 	WorldMapFrameCloseButton:SetPoint("TOPRIGHT", WorldMapFrameMiniBorderRight, "TOPRIGHT", -44, 5)
 	WorldMapFrameSizeDownButton:SetPoint("TOPRIGHT", WorldMapFrameMiniBorderRight, "TOPRIGHT", -66, 5)
-	WorldMapTrackQuest:ClearAllPoints()
+	WorldMapTrackQuest:SetParent(self.UIHider)
 	WorldMapFrameTitle:ClearAllPoints()
 	WorldMapFrameTitle:SetPoint("TOP", WorldMapDetailFrame, 0, 20)
 
