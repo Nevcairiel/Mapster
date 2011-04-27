@@ -720,11 +720,11 @@ end
 
 function Mapster:UpdateDetailTiles()
 	if db.hideBorder and GetCurrentMapZone() > 0 and hasOverlays() then
-		for i=1, NUM_WORLDMAP_DETAIL_TILES do
+		for i=1, GetNumberOfDetailTiles() do
 			_G["WorldMapDetailTile"..i]:Hide()
 		end
 	else
-		for i=1, NUM_WORLDMAP_DETAIL_TILES do
+		for i=1, GetNumberOfDetailTiles() do
 			_G["WorldMapDetailTile"..i]:Show()
 		end
 	end
