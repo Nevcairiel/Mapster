@@ -82,17 +82,11 @@ end
 
 local realZone
 function Mapster:OnEnable()
-	local advanced, mini = GetCVarBool("advancedWorldMap"), GetCVarBool("miniWorldMap")
+	local mini = GetCVarBool("miniWorldMap")
 	SetCVar("miniWorldMap", nil)
-	SetCVar("advancedWorldMap", nil)
-	InterfaceOptionsObjectivesPanelAdvancedWorldMap:Disable()
-	InterfaceOptionsObjectivesPanelAdvancedWorldMapText:SetTextColor(0.5,0.5,0.5)
 	-- restore map to its vanilla state
 	if mini then
 		WorldMap_ToggleSizeUp()
-	end
-	if advanced then
-		WorldMapFrame_ToggleAdvanced()
 	end
 
 	self:SetupMapButton()
