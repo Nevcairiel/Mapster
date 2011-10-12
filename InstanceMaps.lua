@@ -85,6 +85,9 @@ local data = {
 			["The Vortex Pinnacle"] = 769,
 			["Zul'Aman"] = 781,
 			["Zul'Gurub"] = 793,
+			["Well of Eternity"] = 816,
+			["Hour of Twilight"] = 819,
+			["End Time"] = 820,
 		},
 	},
 	-- Northrend Raids
@@ -122,6 +125,7 @@ local data = {
 			["The Bastion of Twilight"] = 758,
 			["Throne of the Four Winds"] = 773,
 			["Firelands"] = 800,
+			["Dragon Soul"] = 824,
 		},
 	},
 	bgs = {
