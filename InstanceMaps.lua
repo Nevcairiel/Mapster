@@ -37,6 +37,24 @@ local data = {
 			["Shadowfang Keep"] = 764,
 			["Stratholme"] = 765,
 		},
+		bc = {
+			["The Shattered Halls"] = 710,
+			["Auchenai Crypts"] = 722,
+			["Sethekk Halls"] = 723,
+			["Shadow Labyrinth"] = 724,
+			["The Blood Furnace"] = 725,
+			["The Underbog"] = 726,
+			["The Steamvault"] = 727,
+			["The Slave Pens"] = 728,
+			["The Botanica"] = 729,
+			["The Mechanar"] = 730,
+			["The Arcatraz"] = 731,
+			["Mana-Tombs"] = 732,
+			["The Black Morass"] = 733,
+			["Old Hillsbrad Foothills"] = 734,
+			["Hellfire Ramparts"] = 797,
+			["Magisters' Terrace"] = 798,
+		},
 		wrath = {
 			["The Nexus"] = 520,
 			["The Culling of Stratholme"] = 521,
@@ -50,9 +68,7 @@ local data = {
 			["Azjol-Nerub"] = 533,
 			["Drak'Tharon Keep"] = 534,
 			["The Violet Hold"] = 536,
-			-- 3.2
 			["Trial of the Champion"] = 542,
-			-- 3.3
 			["The Forge of Souls"] = 601,
 			["Pit of Saron"] = 602,
 			["Halls of Reflection"] = 603,
@@ -67,6 +83,8 @@ local data = {
 			["Throne of the Tides"] = 767,
 			["The Stonecore"] = 768,
 			["The Vortex Pinnacle"] = 769,
+			["Zul'Aman"] = 781,
+			["Zul'Gurub"] = 793,
 		},
 	},
 	-- Northrend Raids
@@ -77,17 +95,24 @@ local data = {
 			["Ruins of Ahn'Qiraj"] = 717,
 			["Ahn'Qiraj"] = 766,
 		},
+		bc = {
+			["Hyjal Summit"] = 775,
+			["Gruul's Lair"] = 776,
+			["Magtheridon's Lair"] = 779,
+			["Serpentshrine Cavern"] = 780,
+			["The Eye"] = 782,
+			["Sunwell Plateau"] = 789,
+			["Black Temple"] = 796,
+			["Karazhan"] = 799,
+		},
 		wrath = {
 			["The Eye of Eternity"] = 527,
 			["Ulduar"] = 529,
 			["The Obsidian Sanctum"] = 531,
 			["Vault of Archavon"] = 532,
 			["Naxxramas"] = 535,
-			-- 3.2
 			["Trial of the Crusader"] = 543,
-			-- 3.3
 			["Icecrown Citadel"] = 604,
-			-- 3.3.5
 			["The Ruby Sanctum"] = 609,
 			["Onyxia's Lair"] = 718,
 		},
@@ -96,6 +121,7 @@ local data = {
 			["Blackwing Descent"] = 754,
 			["The Bastion of Twilight"] = 758,
 			["Throne of the Four Winds"] = 773,
+			["Firelands"] = 800,
 		},
 	},
 	bgs = {
@@ -107,6 +133,7 @@ local data = {
 			["Strand of the Ancients"] = 512,
 			["Isle of Conquest"] = 540,
 			["Twin Peaks"] = 626,
+			["The Battle for Gilneas"] = 736,
 		},
 	}
 }
@@ -230,6 +257,18 @@ function Maps:WorldMapFrame_LoadContinents()
 	info.func = MapsterContinentButton_OnClick
 	info.checked = nil
 	info.arg1 = "raids|classic"
+	UIDropDownMenu_AddButton(info)
+
+	info.text =  L["Burning Crusade Instances"]
+	info.func = MapsterContinentButton_OnClick
+	info.checked = nil
+	info.arg1 = "instances|bc"
+	UIDropDownMenu_AddButton(info)
+
+	info.text =  L["Burning Crusade Raids"]
+	info.func = MapsterContinentButton_OnClick
+	info.checked = nil
+	info.arg1 = "raids|bc"
 	UIDropDownMenu_AddButton(info)
 
 	info.text =  L["Wrath Instances"]
