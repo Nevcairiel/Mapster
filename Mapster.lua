@@ -130,9 +130,12 @@ function Mapster:OnEnable()
 	-- Hide Quest Objectives CheckBox and replace it with a DropDown
 	WorldMapQuestShowObjectives:Hide()
 	WorldMapQuestShowObjectives:SetChecked(db.questObjectives ~= 0)
+	WorldMapQuestShowObjectives.Show = function() end
 	WorldMapQuestShowObjectives_Toggle()
 	local questObj = CreateFrame("Frame", "MapsterQuestObjectivesDropDown", WorldMapFrame, "UIDropDownMenuTemplate")
 	questObj:SetPoint("BOTTOMRIGHT", "WorldMapPositioningGuide", "BOTTOMRIGHT", -5, -2)
+
+	WorldMapShowDropDown:SetScript("OnShow", function(f) f:Hide() end)
 
 	WorldMapShowDigSites:ClearAllPoints()
 	WorldMapShowDigSites:SetPoint("LEFT", WorldMapTrackQuestText, "RIGHT", 25, 0)
