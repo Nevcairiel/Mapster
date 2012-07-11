@@ -1207,6 +1207,20 @@ local errata = {
 		["OoomlotVillage"] = 370973822173,
 		["landingSite"] = 385868764302,
 	},
+	-- Pandaria
+	["TheWanderingIsle"] = {
+		["RidgeofLaughingWinds"] = 212793099577,
+		["SkyfireCrash-Site"] = 434995731802,
+		["TheSingingPools"] = 13456862580,
+		["TheRows"] = 317282702721,
+		["MorningBreezeVillage"] = 38867889413,
+		["Pei-WuForest"] = 436307499659,
+		["TheDawningValley"] = 341471909,
+		["MandoriVillage"] = 316091521634,
+		["Fe-FangVillage"] = 9804478698,
+		["TempleofFiveDawns"] = 195835672159,
+		["TheWoodofStaves"] = 216909958109,
+	},
 	['*'] = {},
 }
 errata.Hyjal_terrain1 = errata.Hyjal
