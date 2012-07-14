@@ -1409,8 +1409,8 @@ end
 local discoveredOverlays = {}
 local function updateOverlayTextures(frame, frameName, textureCache, scale, alphaMod)
 	local self = FogClear
-	local mapFileName, textureHeight = GetMapInfo()
-	if not mapFileName then
+	local mapFileName, textureHeight, _, isMicroDungeon, microDungeonMapName = GetMapInfo()
+	if not mapFileName or isMicroDungeon then
 		for i = 1, #textureCache do
 			textureCache[i]:Hide()
 		end
