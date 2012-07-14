@@ -12,6 +12,12 @@ local Maps = Mapster:NewModule(MODNAME, "AceHook-3.0")
 local LBZ = LibStub("LibBabble-Zone-3.0", true)
 local BZ = LBZ and LBZ:GetLookupTable() or setmetatable({}, {__index = function(t,k) return k end})
 
+local wowMoP
+do
+	local _, _, _, interface = GetBuildInfo()
+	wowMoP = (interface >= 50000)
+end
+
 -- Data mostly from http://www.wowwiki.com/API_SetMapByID
 local data = {
 	-- Northrend Instances
@@ -89,6 +95,14 @@ local data = {
 			["Hour of Twilight"] = 819,
 			["End Time"] = 820,
 		},
+		pandaria = {
+			["Temple of the Jade Serpent"] = 867,
+			["Stormstout Brewery"] = 876,
+			["Mogu'Shan Palace"] = 885,
+			["Shado-pan Monastery"] = 877,
+			["Gate of the Setting Sun"] = 875,
+			["Siege of Niuzao Temple"] = 887,
+		},
 	},
 	-- Northrend Raids
 	raids = {
@@ -126,6 +140,11 @@ local data = {
 			["Throne of the Four Winds"] = 773,
 			["Firelands"] = 800,
 			["Dragon Soul"] = 824,
+		},
+		pandaria = {
+			["Terrace of Endless Spring"] = 886,
+			["Mogu'shan Vaults"] = 896,
+			["Heart of Fear"] = 897,
 		},
 	},
 	bgs = {
@@ -298,6 +317,20 @@ function Maps:WorldMapFrame_LoadContinents()
 	info.checked = nil
 	info.arg1 = "raids|cataclysm"
 	UIDropDownMenu_AddButton(info)
+
+if wowMoP then
+	info.text =  L["Pandaria Instances"]
+	info.func = MapsterContinentButton_OnClick
+	info.checked = nil
+	info.arg1 = "instances|pandaria"
+	UIDropDownMenu_AddButton(info)
+
+	info.text =  L["Pandaria Raids"]
+	info.func = MapsterContinentButton_OnClick
+	info.checked = nil
+	info.arg1 = "raids|pandaria"
+	UIDropDownMenu_AddButton(info)
+end
 
 	info.text =  L["Battlegrounds"]
 	info.func = MapsterContinentButton_OnClick
