@@ -9,9 +9,6 @@ local L = LibStub("AceLocale-3.0"):GetLocale("Mapster")
 local MODNAME = "InstanceMaps"
 local Maps = Mapster:NewModule(MODNAME, "AceHook-3.0")
 
-local LBZ = LibStub("LibBabble-Zone-3.0", true)
-local BZ = LBZ and LBZ:GetLookupTable() or setmetatable({}, {__index = function(t,k) return k end})
-
 local wowMoP
 do
 	local _, _, _, interface = GetBuildInfo()
@@ -218,8 +215,12 @@ function Maps:OnInitialize()
 			local key = format("%s|%s", category, subcat)
 			self.zone_names[key], self.zone_data[key] = {}, {}
 			for name, id in pairs(subdata) do
-				tinsert(self.zone_names[key], BZ[name])
-				name_data[BZ[name]] = id
+				local zonename = GetMapNameByID(id)
+				if not zonename then
+					zonename = name .. "*" -- mark them, so they can be found and fixed!
+				end
+				tinsert(self.zone_names[key], zonename)
+				name_data[zonename] = id
 			end
 			table.sort(self.zone_names[key])
 			for index, name in pairs(self.zone_names[key]) do
