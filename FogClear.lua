@@ -276,6 +276,23 @@ local errata = {
 	["RuinsofGilneas"] = {
 		["GilneasPuzzle"] = 685034,
 	},
+	["Gilneas"] = {
+		["GilneasCity"] = 225992514842,
+		["StormglenVillage"] = 499831221569,
+		["HammondFarmstead"] = 378132476098,
+		["HaywardFishery"] = 482417536177,
+		["TempestsReach"] = 312069154142,
+		["TheHeadlands"] = 168116552,
+		["Duskhaven"] = 357841422622,
+		["NorthernHeadlands"] = 406120715,
+		["Keelharbor"] = 102318299416,
+		["CrowleyOrchard"] = 458761607378,
+		["EmberstoneMine"] = 46841298201,
+		["Greymanemanor"] = 217043944692,
+		["KorothsDen"] = 414876709086,
+		["TheBlackwald"] = 423582990616,
+		["GilneasCity"] = 225992514842,
+	},
 	["SearingGorge"] = {
 		["ThoriumPoint"] = 41069884845,
 		["BlackrockMountain"] = 455521587504,
@@ -1187,6 +1204,7 @@ local errata = {
 		["Kajamine"] = 331327316322,
 		["FirstbankofKezan"] = 349069204856,
 		["SwindleStreet"] = 249440720040,
+		["KezanMap"] = 4295648234,
 	},
 	["TheLostIsles"] = {
 		["RuinsOfVashelan"] = 485792899284,
@@ -1322,6 +1340,9 @@ local errata = {
 	['*'] = {},
 }
 errata.Hyjal_terrain1 = errata.Hyjal
+errata.Uldum_terrain1 = errata.Uldum
+errata.Gilneas_terrain1 = errata.Gilneas
+errata.Gilneas_terrain2 = errata.Gilneas
 
 local db
 local defaults = {
