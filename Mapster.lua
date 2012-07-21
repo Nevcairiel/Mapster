@@ -23,6 +23,7 @@ local defaults = {
 		scale = 0.75,
 		poiScale = 0.8,
 		ejScale = 0.8,
+		showEJBosses = true,
 		alpha = 1,
 		hideBorder = false,
 		disableMouse = false,
@@ -139,7 +140,19 @@ function Mapster:OnEnable()
 	WorldMapShowDropDown:SetScript("OnShow", function(f) f:Hide() end)
 
 	WorldMapShowDigSites:ClearAllPoints()
-	WorldMapShowDigSites:SetPoint("LEFT", WorldMapTrackQuestText, "RIGHT", 25, 0)
+	WorldMapShowDigSites:SetPoint("LEFT", WorldMapTrackQuestText, "RIGHT", 25, -1)
+
+	local showEJBoss = CreateFrame("CheckButton", "MapsterShowEJBosses", WorldMapFrame, "OptionsCheckButtonTemplate")
+	showEJBoss:SetWidth(24)
+	showEJBoss:SetHeight(24)
+	MapsterShowEJBossesText:SetText(L["Show Bosses"])
+	showEJBoss:SetPoint("LEFT", WorldMapShowDigSitesText, "RIGHT", 20, -1)
+	showEJBoss:Show()
+	showEJBoss:SetChecked(db.showEJBosses)
+	showEJBoss:SetScript("OnClick", function(self)
+		db.showEJBosses = self:GetChecked()
+		EncounterJournal_AddMapButtons()
+	end)
 
 	local text = questObj:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
 	text:SetText(L["Quest Objectives"])
@@ -305,11 +318,24 @@ function Mapster:EncounterJournal_AddMapButtons()
 
 	local index = 1
 	local x, y, instanceID, name, description, encounterID = EJ_GetMapEncounter(index)
+
+	local mini = WORLDMAP_SETTINGS.size == WORLDMAP_WINDOWED_SIZE
+	if name then
+		if not mini then
+			MapsterShowEJBosses:Show()
+		end
+	else
+		MapsterShowEJBosses:Hide()
+	end
 	while name do
 		local bossButton = _G["EJMapButton"..index];
 		if bossButton then
-			bossButton:SetPoint("CENTER", WorldMapBossButtonFrame, "BOTTOMLEFT", x*width, y*height);
-			bossButton:SetScale(db.ejScale)
+			if db.showEJBosses then
+				bossButton:SetPoint("CENTER", WorldMapBossButtonFrame, "BOTTOMLEFT", x*width, y*height);
+				bossButton:SetScale(db.ejScale)
+			else
+				bossButton:Hide()
+			end
 		end
 		index = index + 1
 		x, y, instanceID, name, description, encounterID = EJ_GetMapEncounter(index)
@@ -433,6 +459,9 @@ function Mapster:SizeUp()
 	WorldMapFrameTitle:SetPoint("CENTER", 0, 372)
 
 	MapsterQuestObjectivesDropDown:Show()
+	if EJ_GetMapEncounter(1) then
+		MapsterShowEJBosses:Show()
+	end
 	WorldMapShowDigSites:SetScript("OnShow", nil)
 	WorldMapShowDigSites:Show()
 
@@ -489,6 +518,7 @@ function Mapster:SizeDown()
 	WorldMapFrameTitle:SetPoint("TOP", WorldMapDetailFrame, 0, 20)
 
 	MapsterQuestObjectivesDropDown:Hide()
+	MapsterShowEJBosses:Hide()
 	WorldMapShowDigSites:Hide()
 	WorldMapShowDigSites:SetScript("OnShow", WorldMapShowDigSites.Hide)
 
