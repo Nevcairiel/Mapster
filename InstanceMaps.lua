@@ -173,8 +173,6 @@ local function getOptions()
 			type = "group",
 			name = L["Instance Maps"],
 			arg = MODNAME,
-			get = optGetter,
-			set = optSetter,
 			args = {
 				intro = {
 					order = 1,
