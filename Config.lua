@@ -110,6 +110,14 @@ local function getOptions()
 							min = 0.1, max = 2, bigStep = 0.01,
 							isPercent = true,
 						},
+						ejScale = {
+							order = 13,
+							type = "range",
+							name = L["EJ Icon Scale"],
+							desc = L["Scale of the Encounter Joural Icons on the Map."],
+							min = 0.1, max = 2, bigStep = 0.01,
+							isPercent = true,
+						},
 						nl2 = {
 							order = 20,
 							type = "description",

@@ -22,6 +22,7 @@ local defaults = {
 		points = "CENTER",
 		scale = 0.75,
 		poiScale = 0.8,
+		ejScale = 0.8,
 		alpha = 1,
 		hideBorder = false,
 		disableMouse = false,
@@ -176,6 +177,7 @@ function Mapster:OnEnable()
 	self:SecureHook("WorldMapFrame_SetPOIMaxBounds")
 	self:SecureHook("WorldMapLevelDropDown_Update", "UpdateMapElements")
 	WorldMapFrame_SetPOIMaxBounds()
+	self:SecureHook("EncounterJournal_AddMapButtons")
 
 	if vis then
 		ShowUIPanel(WorldMapFrame)
@@ -294,6 +296,24 @@ end
 function Mapster:WorldMapFrame_SetPOIMaxBounds()
 	WORLDMAP_POI_MAX_Y = WorldMapDetailFrame:GetHeight() * -WORLDMAP_SETTINGS.size + 12;
 	WORLDMAP_POI_MAX_X = WorldMapDetailFrame:GetWidth() * WORLDMAP_SETTINGS.size + 12;
+end
+
+function Mapster:EncounterJournal_AddMapButtons()
+	local scale = WorldMapDetailFrame:GetScale();
+	local width = WorldMapDetailFrame:GetWidth() * scale / db.ejScale
+	local height = WorldMapDetailFrame:GetHeight() * scale / db.ejScale
+
+	local index = 1
+	local x, y, instanceID, name, description, encounterID = EJ_GetMapEncounter(index)
+	while name do
+		local bossButton = _G["EJMapButton"..index];
+		if bossButton then
+			bossButton:SetPoint("CENTER", WorldMapBossButtonFrame, "BOTTOMLEFT", x*width, y*height);
+			bossButton:SetScale(db.ejScale)
+		end
+		index = index + 1
+		x, y, instanceID, name, description, encounterID = EJ_GetMapEncounter(index)
+	end
 end
 
 function Mapster:Refresh()
