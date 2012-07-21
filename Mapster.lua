@@ -355,6 +355,7 @@ function Mapster:Refresh()
 	self:UpdateMouseInteractivity()
 	self:UpdateModuleMapsizes()
 	WorldMapFrame_UpdateQuests()
+	EncounterJournal_AddMapButtons()
 end
 
 function Mapster:ToggleMapSize()
