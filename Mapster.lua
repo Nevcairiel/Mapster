@@ -62,7 +62,7 @@ local db = setmetatable({}, {
 
 local format = string.format
 
-local wmfOnShow, wmfStartMoving, wmfStopMoving, dropdownScaleFix
+local wmfOnShow, wmfOnHide, wmfStartMoving, wmfStopMoving, dropdownScaleFix
 local questObjDropDownInit, questObjDropDownUpdate
 
 function Mapster:OnInitialize()
