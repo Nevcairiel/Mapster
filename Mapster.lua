@@ -197,38 +197,27 @@ function Mapster:OnEnable()
 	end
 end
 
-local blobWasVisible, blobNewScale
-local blobHideFunc = function() blobWasVisible = nil end
-local blobShowFunc = function() blobWasVisible = true end
-local blobScaleFunc = function(self, scale) blobNewScale = scale end
-
-local archBlobWasVisible, archBlobNewScale
-local archBlobHideFunc = function() archBlobWasVisible = nil end
-local archBlobShowFunc = function() archBlobWasVisible = true end
-local archBlobScaleFunc = function(self, scale) archBlobNewScale = scale end
+local secFrameList = {"WorldMapBlobFrame", "WorldMapArchaeologyDigSites", "ScenarioPOIFrame"}
+local secFrameWasVisible, secFrameNewScale = {}, {}
+local secFrameHideFunc = function(self) secFrameWasVisible[self:GetName()] = nil end
+local secFrameShowFunc = function(self) secFrameWasVisible[self:GetName()] = true end
+local secFrameScaleFunc = function(self, scale) secFrameNewScale[self:GetName()] = scale end
 
 function Mapster:PLAYER_REGEN_DISABLED()
-	blobWasVisible = WorldMapBlobFrame:IsShown()
-	blobNewScale = nil
-	WorldMapBlobFrame:SetParent(nil)
-	WorldMapBlobFrame:ClearAllPoints()
-	-- dummy position, off screen, so calculations don't go boom
-	WorldMapBlobFrame:SetPoint("TOP", UIParent, "BOTTOM")
-	WorldMapBlobFrame:Hide()
-	WorldMapBlobFrame.Hide = blobHideFunc
-	WorldMapBlobFrame.Show = blobShowFunc
-	WorldMapBlobFrame.SetScale = blobScaleFunc
-
-	archBlobWasVisible = WorldMapArchaeologyDigSites:IsShown()
-	archBlobNewScale = nil
-	WorldMapArchaeologyDigSites:SetParent(nil)
-	WorldMapArchaeologyDigSites:ClearAllPoints()
-	-- dummy position, off screen, so calculations don't go boom
-	WorldMapArchaeologyDigSites:SetPoint("TOP", UIParent, "BOTTOM")
-	WorldMapArchaeologyDigSites:Hide()
-	WorldMapArchaeologyDigSites.Hide = archBlobHideFunc
-	WorldMapArchaeologyDigSites.Show = archBlobShowFunc
-	WorldMapArchaeologyDigSites.SetScale = archBlobScaleFunc
+	for _,frame in pairs(secFrameList) do
+		local frameRef = _G[frame]
+		if frameRef then
+			secFrameWasVisible[frame] = frameRef:IsShown()
+			secFrameNewScale[frame] = nil
+			frameRef:SetParent(nil)
+			frameRef:ClearAllPoints()
+			frameRef:SetPoint("TOP", UIParent, "BOTTOM")
+			frameRef:Hide()
+			frameRef.Hide = secFrameHideFunc
+			frameRef.Show = secFrameShowFunc
+			frameRef.SetScale = secFrameScaleFunc
+		end
+	end
 end
 
 local updateFrame = CreateFrame("Frame")
@@ -241,37 +230,28 @@ local function restoreBlobs()
 end
 
 function Mapster:PLAYER_REGEN_ENABLED()
-	WorldMapBlobFrame:SetParent(WorldMapFrame)
-	WorldMapBlobFrame:ClearAllPoints()
-	WorldMapBlobFrame:SetPoint("TOPLEFT", WorldMapDetailFrame)
-	WorldMapBlobFrame.Hide = nil
-	WorldMapBlobFrame.Show = nil
-	WorldMapBlobFrame.SetScale = nil
-	if blobWasVisible then
-		WorldMapBlobFrame:Show()
-		updateFrame:SetScript("OnUpdate", restoreBlobs)
+	for _,frame in pairs(secFrameList) do
+		local frameRef = _G[frame]
+		if frameRef then
+			frameRef:SetParent(WorldMapFrame)
+			frameRef:ClearAllPoints()
+			frameRef:SetPoint("TOPLEFT", WorldMapDetailFrame)
+			frameRef.Hide = nil
+			frameRef.Show = nil
+			frameRef.SetScale = nil
+			if secFrameWasVisible[frame] then
+				frameRef:Show()
+				if frame == "WorldMapBlobFrame" then
+					updateFrame:SetScript("OnUpdate", restoreBlobs)
+				end
+			end
+			if secFrameNewScale[frame] then
+				frameRef:SetScale(secFrameNewScale[frame])
+				frameRef.xRatio = nil
+				secFrameNewScale[frame] = nil
+			end
+		end
 	end
-	if blobNewScale then
-		WorldMapBlobFrame:SetScale(blobNewScale)
-		WorldMapBlobFrame.xRatio = nil
-		blobNewScale = nil
-	end
-
-	WorldMapArchaeologyDigSites:SetParent(WorldMapFrame)
-	WorldMapArchaeologyDigSites:ClearAllPoints()
-	WorldMapArchaeologyDigSites:SetPoint("TOPLEFT", WorldMapDetailFrame)
-	WorldMapArchaeologyDigSites.Hide = nil
-	WorldMapArchaeologyDigSites.Show = nil
-	WorldMapArchaeologyDigSites.SetScale = nil
-	if archBlobWasVisible then
-		WorldMapArchaeologyDigSites:Show()
-	end
-	if archBlobNewScale then
-		WorldMapArchaeologyDigSites:SetScale(archBlobNewScale)
-		WorldMapArchaeologyDigSites.xRatio = nil
-		archBlobNewScale = nil
-	end
-
 	if WorldMapQuestScrollChildFrame.selected then
 		WorldMapBlobFrame:DrawBlob(WorldMapQuestScrollChildFrame.selected.questId, false)
 	end
@@ -429,6 +409,7 @@ function Mapster:SizeUp()
 	WorldMapFrameAreaFrame:SetScale(WORLDMAP_QUESTLIST_SIZE)
 	WorldMapBlobFrame:SetScale(WORLDMAP_QUESTLIST_SIZE)
 	WorldMapBlobFrame.xRatio = nil		-- force hit recalculations
+	ScenarioPOIFrame:SetScale(WORLDMAP_FULLMAP_SIZE);	--If we ever need to add objectives on the map itself we should adjust this value
 	WorldMapArchaeologyDigSites:SetScale(WORLDMAP_FULLMAP_SIZE)
 	WorldMapArchaeologyDigSites.xRatio = nil		-- force hit recalculations
 	-- show big window elements
@@ -485,6 +466,7 @@ function Mapster:SizeDown()
 	WorldMapFrameAreaFrame:SetScale(WORLDMAP_WINDOWED_SIZE)
 	WorldMapBlobFrame:SetScale(WORLDMAP_WINDOWED_SIZE)
 	WorldMapBlobFrame.xRatio = nil		-- force hit recalculations
+	ScenarioPOIFrame:SetScale(WORLDMAP_WINDOWED_SIZE);
 	WorldMapArchaeologyDigSites:SetScale(WORLDMAP_WINDOWED_SIZE)
 	WorldMapArchaeologyDigSites.xRatio = nil		-- force hit recalculations
 	WorldMapFrameMiniBorderLeft:SetPoint("TOPLEFT", 10, -14)
