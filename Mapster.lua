@@ -515,11 +515,17 @@ local function getZoneId()
 end
 
 function Mapster:ZONE_CHANGED_NEW_AREA()
-	local curZone = getZoneId()
-	if realZone == curZone or ((curZone % 100) > 0 and (GetPlayerMapPosition("player")) ~= 0) then
-		SetMapToCurrentZone()
-		realZone = getZoneId()
+	if not WorldMapFrame:IsShown() then
+		return
 	end
+	local prevZone = getZoneId()
+	SetMapToCurrentZone()
+	local newRealZone = getZoneId()
+	if prevZone ~= realZone and prevZone ~= newRealZone then
+		local cont, zone = floor(prevZone / 100), mod(prevZone, 100)
+		SetMapZoom(cont, zone)
+	end
+	realZone = newRealZone
 end
 
 function wmfOnShow(frame)
