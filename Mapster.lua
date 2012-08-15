@@ -409,7 +409,9 @@ function Mapster:SizeUp()
 	WorldMapFrameAreaFrame:SetScale(WORLDMAP_QUESTLIST_SIZE)
 	WorldMapBlobFrame:SetScale(WORLDMAP_QUESTLIST_SIZE)
 	WorldMapBlobFrame.xRatio = nil		-- force hit recalculations
-	ScenarioPOIFrame:SetScale(WORLDMAP_FULLMAP_SIZE);	--If we ever need to add objectives on the map itself we should adjust this value
+	if ScenarioPOIFrame then
+		ScenarioPOIFrame:SetScale(WORLDMAP_FULLMAP_SIZE);	--If we ever need to add objectives on the map itself we should adjust this value
+	end
 	WorldMapArchaeologyDigSites:SetScale(WORLDMAP_FULLMAP_SIZE)
 	WorldMapArchaeologyDigSites.xRatio = nil		-- force hit recalculations
 	-- show big window elements
@@ -466,7 +468,9 @@ function Mapster:SizeDown()
 	WorldMapFrameAreaFrame:SetScale(WORLDMAP_WINDOWED_SIZE)
 	WorldMapBlobFrame:SetScale(WORLDMAP_WINDOWED_SIZE)
 	WorldMapBlobFrame.xRatio = nil		-- force hit recalculations
-	ScenarioPOIFrame:SetScale(WORLDMAP_WINDOWED_SIZE);
+	if ScenarioPOIFrame then
+		ScenarioPOIFrame:SetScale(WORLDMAP_WINDOWED_SIZE);
+	end
 	WorldMapArchaeologyDigSites:SetScale(WORLDMAP_WINDOWED_SIZE)
 	WorldMapArchaeologyDigSites.xRatio = nil		-- force hit recalculations
 	WorldMapFrameMiniBorderLeft:SetPoint("TOPLEFT", 10, -14)
