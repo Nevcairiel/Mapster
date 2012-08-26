@@ -26,7 +26,6 @@ Libs\AceGUI-3.0\AceGUI-3.0.xml
 Libs\AceConsole-3.0\AceConsole-3.0.xml
 Libs\AceConfig-3.0\AceConfig-3.0.xml
 
-Libs\LibBabble-Zone-3.0\lib.xml
 Libs\LibWindow-1.1\LibWindow-1.1.lua
 #@end-no-lib-strip@
 
