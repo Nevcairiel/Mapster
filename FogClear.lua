@@ -84,7 +84,6 @@ local errata = {
 		["NorthGateOutpost"] = 46973434093,
 		["IronforgeAirfield"] = 660946228,
 		["HelmsBedLake"] = 288559966426,
-		["ShimmerRidge"] = 142150445227,
 		["TheGrizzledDen"] = 308556234963,
 		["Ironforge"] = 417688952,
 		["ColdridgeValley"] = 393094674830,
