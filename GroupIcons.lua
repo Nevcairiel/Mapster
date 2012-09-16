@@ -99,6 +99,8 @@ function GroupIcons:OnEnable()
 		FixBattlefieldUnits(true)
 	end
 	FixWorldMapUnits(true)
+
+	self:SecureHook("WorldMapButton_OnUpdate")
 end
 
 function GroupIcons:Refresh()
@@ -110,6 +112,22 @@ end
 function GroupIcons:OnDisable()
 	FixWorldMapUnits(false)
 	FixBattlefieldUnits(false)
+end
+
+function GroupIcons:WorldMapButton_OnUpdate()
+	if IsInRaid() then
+		local count = 0;
+		for i=1, MAX_RAID_MEMBERS do
+			local unit = "raid"..i
+			local partyX, partyY = GetPlayerMapPosition(unit)
+			if not ( (partyX == 0 and partyY == 0) or UnitIsUnit(unit, "player") ) then
+				count = count + 1
+			end
+		end
+		for i=count+1, MAX_RAID_MEMBERS do
+			_G["WorldMapRaid"..i]:Hide()
+		end
+	end
 end
 
 local function FixUnit(unit, state, size, defSize)
