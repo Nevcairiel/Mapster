@@ -63,7 +63,7 @@ local db = setmetatable({}, {
 
 local format = string.format
 
-local wmfOnShow, wmfOnHide, wmfStartMoving, wmfStopMoving, dropdownScaleFix
+local wmfOnShow, wmfStartMoving, wmfStopMoving, dropdownScaleFix
 local questObjDropDownInit, questObjDropDownUpdate
 
 function Mapster:OnInitialize()
@@ -104,7 +104,6 @@ function Mapster:OnEnable()
 	WorldMapFrame:SetAttribute("UIPanelLayout-enabled", false)
 	WorldMapFrame:SetAttribute("UIPanelLayout-area", nil)
 	WorldMapFrame:HookScript("OnShow", wmfOnShow)
-	WorldMapFrame:HookScript("OnHide", wmfOnHide)
 	BlackoutWorld:Hide()
 	WorldMapTitleButton:Hide()
 
@@ -540,10 +539,6 @@ function wmfOnShow(frame)
 	if WORLDMAP_SETTINGS.selectedQuest then
 		WorldMapFrame_SelectQuestFrame(WORLDMAP_SETTINGS.selectedQuest)
 	end
-end
-
-function wmfOnHide(frame)
-	SetMapToCurrentZone()
 end
 
 function wmfStartMoving(frame)
