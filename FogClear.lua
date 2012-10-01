@@ -1299,6 +1299,7 @@ local errata = {
 	["TheHiddenPass"] = {
 		["TheHiddenSteps"] = 512607059234,
 		["TheBlackMarket"] = 188294346207,
+		["TheHiddenCliffs"] = 454258982,
 	},
 	["KunLaiSummit"] = {
 		["Mogujia"] = 441792545021,
