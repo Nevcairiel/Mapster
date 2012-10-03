@@ -100,7 +100,7 @@ function GroupIcons:OnEnable()
 	end
 	FixWorldMapUnits(true)
 
-	self:SecureHook("WorldMapButton_OnUpdate")
+	self:SecureHookScript(WorldMapButton, "OnUpdate", "WorldMapButton_OnUpdate")
 end
 
 function GroupIcons:Refresh()
