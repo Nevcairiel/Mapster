@@ -747,7 +747,8 @@ local function hasOverlays()
 end
 
 function Mapster:UpdateDetailTiles()
-	if db.hideBorder and GetCurrentMapZone() > 0 and hasOverlays() then
+	local mapFileName, textureHeight, _, isMicroDungeon, microDungeonMapName = GetMapInfo()
+	if db.hideBorder and GetCurrentMapZone() > 0 and hasOverlays() and not isMicroDungeon then
 		for i=1, GetNumberOfDetailTiles() do
 			_G["WorldMapDetailTile"..i]:Hide()
 		end
