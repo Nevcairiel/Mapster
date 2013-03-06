@@ -186,6 +186,9 @@ function Mapster:OnEnable()
 	WorldMapFrame_SetPOIMaxBounds()
 	self:SecureHook("EncounterJournal_AddMapButtons")
 
+	self:RawHook(WorldMapPlayerLower, "SetPoint", "WorldMapPlayerSetPoint", true)
+	self:RawHook(WorldMapPlayerUpper, "SetPoint", "WorldMapPlayerSetPoint", true)
+
 	if vis then
 		ShowUIPanel(WorldMapFrame)
 	end
@@ -283,6 +286,14 @@ end
 function Mapster:WorldMapFrame_SetPOIMaxBounds()
 	WORLDMAP_POI_MAX_Y = WorldMapDetailFrame:GetHeight() * -WORLDMAP_SETTINGS.size + 12;
 	WORLDMAP_POI_MAX_X = WorldMapDetailFrame:GetWidth() * WORLDMAP_SETTINGS.size + 12;
+end
+
+function Mapster:WorldMapPlayerSetPoint(frame, point, relFrame, relPoint, x, y)
+	if x and y then
+		x = x / db.arrowScale
+		y = y / db.arrowScale
+	end
+	return self.hooks[frame].SetPoint(frame, point, relFrame, relPoint, x, y)
 end
 
 function Mapster:EncounterJournal_AddMapButtons()
@@ -595,8 +606,9 @@ function Mapster:SetAlpha()
 end
 
 function Mapster:SetArrow()
-	PlayerArrowFrame:SetModelScale(db.arrowScale)
-	PlayerArrowEffectFrame:SetModelScale(db.arrowScale)
+	WorldMapPlayerUpper:SetScale(db.arrowScale)
+	WorldMapPlayerLower:SetScale(db.arrowScale)
+	--PlayerArrowEffectFrame:SetModelScale(db.arrowScale)
 end
 
 function Mapster:SetScale()
