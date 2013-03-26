@@ -1376,6 +1376,7 @@ local errata = {
 		["ZANVESS"] = 413560761634,
 	},
 	["IsleoftheThunderKing"] = false,
+	["IsleoftheThunderKingScenario"] = false,
 	['*'] = {},
 }
 errata.Hyjal_terrain1 = errata.Hyjal
@@ -1465,9 +1466,8 @@ function FogClear:OnInitialize()
 	db = self.db.profile
 	self.overlays = self.db.global.errata
 
-	if type(self.overlays["IsleoftheThunderKing"]) == "table" then
-		self.overlays["IsleoftheThunderKing"] = false
-	end
+	self.overlays["IsleoftheThunderKing"] = false
+	self.overlays["IsleoftheThunderKingScenario"] = false
 
 	self:SetEnabledState(Mapster:GetModuleEnabled(MODNAME))
 	Mapster:RegisterModuleOptions(MODNAME, getOptions, L["FogClear"])
