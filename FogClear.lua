@@ -661,6 +661,17 @@ local errata = {
 		["Mudsprocket"] = 336195845553,
 		["BlackhoofVillage"] = 208854360,
 	},
+	["Dustwallow_terrain1"] = {
+		["BRACKENWLLVILLAGE"] = 63490483584,
+		["THERAMOREISLE"] = 240013008177,
+		["ALCAZISLAND"] = 23236649166,
+		["THEWYRMBOG"] = 396587478452,
+		["MUDSPROCKET"] = 336195845553,
+		["BLACKHOOFVILLAGE"] = 208854360,
+		["SHADYRESTINN"] = 202007353661,
+		["DIREHORNPOST"] = 181838066967,
+		["WITCHHILL"] = 449152270,
+	},
 	["Felwood"] = {
 		["BloodvenomFalls"] = 248265245017,
 		["JadefireGlen"] = 492075960549,
