@@ -146,6 +146,7 @@ local data = {
 			["Terrace of Endless Spring"] = 886,
 			["Mogu'shan Vaults"] = 896,
 			["Heart of Fear"] = 897,
+			["Throne of Thunder"] = 930,
 		},
 	},
 	bgs = {
