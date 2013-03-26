@@ -1375,6 +1375,7 @@ local errata = {
 		["KYPARIVOR"] = 508754245,
 		["ZANVESS"] = 413560761634,
 	},
+	["IsleoftheThunderKing"] = false,
 	['*'] = {},
 }
 errata.Hyjal_terrain1 = errata.Hyjal
@@ -1464,6 +1465,10 @@ function FogClear:OnInitialize()
 	db = self.db.profile
 	self.overlays = self.db.global.errata
 
+	if type(self.overlays["IsleoftheThunderKing"]) == "table" then
+		self.overlays["IsleoftheThunderKing"] = false
+	end
+
 	self:SetEnabledState(Mapster:GetModuleEnabled(MODNAME))
 	Mapster:RegisterModuleOptions(MODNAME, getOptions, L["FogClear"])
 end
@@ -1550,7 +1555,7 @@ function FogClear:RealHasOverlays()
 	if not mapFileName or not self.overlays then return false end
 
 	local overlayMap = self.overlays[mapFileName]
-	if overlayMap and next(overlayMap) then return true end
+	if overlayMap and next(overlayMap) then return true else return false end
 end
 
 local discoveredOverlays = {}
@@ -1566,6 +1571,9 @@ local function updateOverlayTextures(frame, frameName, textureCache, scale, alph
 
 	local pathPrefix = "Interface\\WorldMap\\"..mapFileName.."\\"
 	local overlayMap = self.overlays[mapFileName]
+	if not overlayMap then
+		overlayMap = {}
+	end
 
 	local numOverlays = self.hooks.GetNumMapOverlays()
 	local pathLen = strlen(pathPrefix) + 1
