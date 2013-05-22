@@ -8,6 +8,10 @@ local Mapster = LibStub("AceAddon-3.0"):NewAddon("Mapster", "AceEvent-3.0", "Ace
 local LibWindow = LibStub("LibWindow-1.1")
 local L = LibStub("AceLocale-3.0"):GetLocale("Mapster")
 
+local PLAYER_ARROW_SIZE_WINDOW = 40
+local PLAYER_ARROW_SIZE_FULL_WITH_QUESTS = 38
+local PLAYER_ARROW_SIZE_FULL_NO_QUESTS = 28
+
 local defaults = {
 	profile = {
 		strata = "HIGH",
@@ -367,6 +371,7 @@ function Mapster:SizeUp()
 	-- adjust main frame
 	WorldMapFrame:SetWidth(1024)
 	WorldMapFrame:SetHeight(768)
+	WorldMapFrame_ResetFrameLevels()
 	-- adjust map frames
 	WorldMapPositioningGuide:ClearAllPoints()
 	WorldMapPositioningGuide:SetPoint("CENTER")
@@ -376,9 +381,7 @@ function Mapster:SizeUp()
 	WorldMapFrameAreaFrame:SetScale(WORLDMAP_QUESTLIST_SIZE)
 	WorldMapBlobFrame:SetScale(WORLDMAP_QUESTLIST_SIZE)
 	WorldMapBlobFrame.xRatio = nil		-- force hit recalculations
-	if ScenarioPOIFrame then
-		ScenarioPOIFrame:SetScale(WORLDMAP_FULLMAP_SIZE);	--If we ever need to add objectives on the map itself we should adjust this value
-	end
+	ScenarioPOIFrame:SetScale(WORLDMAP_FULLMAP_SIZE);	--If we ever need to add objectives on the map itself we should adjust this value
 	WorldMapArchaeologyDigSites:SetScale(WORLDMAP_FULLMAP_SIZE)
 	WorldMapArchaeologyDigSites.xRatio = nil		-- force hit recalculations
 	-- show big window elements
@@ -390,7 +393,9 @@ function Mapster:SizeUp()
 	WorldMapQuestDetailScrollFrame:Show()
 	WorldMapQuestRewardScrollFrame:Show()
 	WorldMapFrameSizeDownButton:Show()
+	WorldMapShowDropDown:Show()
 	-- hide small window elements
+	WorldMapTitleButton:Hide()
 	WorldMapFrameMiniBorderLeft:Hide()
 	WorldMapFrameMiniBorderRight:Hide()
 	WorldMapFrameSizeUpButton:Hide()
@@ -409,9 +414,16 @@ function Mapster:SizeUp()
 	WorldMapFrameTitle:SetPoint("CENTER", 0, 372)
 
 	WorldMapFrame_SetPOIMaxBounds()
-	--WorldMapQuestShowObjectives_AdjustPosition()
-	self:WorldMapFrame_DisplayQuests()
+	if GetCVarBool("questPOI") then
+		WorldMapPlayerLower:SetSize(PLAYER_ARROW_SIZE_FULL_WITH_QUESTS,PLAYER_ARROW_SIZE_FULL_WITH_QUESTS)
+		WorldMapPlayerUpper:SetSize(PLAYER_ARROW_SIZE_FULL_WITH_QUESTS,PLAYER_ARROW_SIZE_FULL_WITH_QUESTS)
+	else
+		WorldMapPlayerLower:SetSize(PLAYER_ARROW_SIZE_FULL_NO_QUESTS,PLAYER_ARROW_SIZE_FULL_NO_QUESTS)
+		WorldMapPlayerUpper:SetSize(PLAYER_ARROW_SIZE_FULL_NO_QUESTS,PLAYER_ARROW_SIZE_FULL_NO_QUESTS)
+	end
+	MapBarFrame_UpdateLayout(MapBarFrame)
 
+	self:WorldMapFrame_DisplayQuests()
 	self.optionsButton:SetPoint("TOPRIGHT", WorldMapPositioningGuide, "TOPRIGHT", -43, -2)
 end
 
@@ -420,6 +432,7 @@ function Mapster:SizeDown()
 	-- adjust main frame
 	WorldMapFrame:SetWidth(623)
 	WorldMapFrame:SetHeight(437)
+	WorldMapFrame_ResetFrameLevels()
 	-- adjust map frames
 	WorldMapPositioningGuide:ClearAllPoints()
 	WorldMapPositioningGuide:SetAllPoints()
@@ -428,9 +441,7 @@ function Mapster:SizeDown()
 	WorldMapFrameAreaFrame:SetScale(WORLDMAP_WINDOWED_SIZE)
 	WorldMapBlobFrame:SetScale(WORLDMAP_WINDOWED_SIZE)
 	WorldMapBlobFrame.xRatio = nil		-- force hit recalculations
-	if ScenarioPOIFrame then
-		ScenarioPOIFrame:SetScale(WORLDMAP_WINDOWED_SIZE);
-	end
+	ScenarioPOIFrame:SetScale(WORLDMAP_WINDOWED_SIZE);
 	WorldMapArchaeologyDigSites:SetScale(WORLDMAP_WINDOWED_SIZE)
 	WorldMapArchaeologyDigSites.xRatio = nil		-- force hit recalculations
 	WorldMapFrameMiniBorderLeft:SetPoint("TOPLEFT", 10, -14)
@@ -447,7 +458,9 @@ function Mapster:SizeDown()
 	WorldMapQuestDetailScrollFrame:Hide()
 	WorldMapQuestRewardScrollFrame:Hide()
 	WorldMapFrameSizeDownButton:Hide()
+	WorldMapShowDropDown:Hide()
 	-- show small window elements
+	WorldMapTitleButton:Show()
 	WorldMapFrameMiniBorderLeft:Show()
 	WorldMapFrameMiniBorderRight:Show()
 	WorldMapFrameSizeUpButton:Show()
@@ -464,7 +477,9 @@ function Mapster:SizeDown()
 	WorldMapFrameTitle:SetPoint("TOP", WorldMapDetailFrame, 0, 20)
 
 	WorldMapFrame_SetPOIMaxBounds()
-	--WorldMapQuestShowObjectives_AdjustPosition()
+	WorldMapPlayerLower:SetSize(PLAYER_ARROW_SIZE_WINDOW,PLAYER_ARROW_SIZE_WINDOW)
+	WorldMapPlayerUpper:SetSize(PLAYER_ARROW_SIZE_WINDOW,PLAYER_ARROW_SIZE_WINDOW)
+	MapBarFrame_UpdateLayout(MapBarFrame)
 
 	self.optionsButton:SetPoint("TOPRIGHT", WorldMapFrameMiniBorderRight, "TOPRIGHT", -93, -2)
 end
