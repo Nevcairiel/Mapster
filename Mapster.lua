@@ -127,15 +127,8 @@ function Mapster:OnEnable()
 	WorldMapFrameSizeUpButton:SetScript("OnClick", function() Mapster:ToggleMapSize() end)
 	self:RawHook("WorldMapFrame_ToggleWindowSize", "ToggleMapSize", true)
 
-	-- Hide Quest Objectives CheckBox and replace it with a DropDown
-	WorldMapQuestShowObjectives:Hide()
-	WorldMapQuestShowObjectives:SetChecked(db.questObjectives ~= 0)
-	WorldMapQuestShowObjectives.Show = function() end
-	WorldMapQuestShowObjectives_Toggle()
 	MapsterQuestObjectivesDropDown = CreateFrame("Frame", "MapsterQuestObjectivesDropDown", WorldMapFrame, "UIDropDownMenuTemplate")
 	MapsterQuestObjectivesDropDown:SetPoint("BOTTOMRIGHT", "WorldMapPositioningGuide", "BOTTOMRIGHT", -5, -2)
-
-	WorldMapShowDropDown:SetScript("OnShow", function(f) f:Hide() end)
 
 	local text = MapsterQuestObjectivesDropDown:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
 	text:SetText(L["Quest Objectives"])
