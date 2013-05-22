@@ -14,7 +14,6 @@ local PLAYER_ARROW_SIZE_FULL_NO_QUESTS = 28
 
 local defaults = {
 	profile = {
-		strata = "HIGH",
 		hideMapButton = false,
 		arrowScale = 0.88,
 		questPanels = 1,
@@ -580,7 +579,14 @@ function Mapster:HideBlobs()
 end
 
 function Mapster:SetStrata()
-	WorldMapFrame:SetFrameStrata(db.strata)
+	WorldMapFrame:SetFrameStrata("HIGH")
+	-- restore some stratas
+	WorldMapPing:SetFrameStrata("FULLSCREEN")
+	WorldMapPlayerUpper:SetFrameStrata("FULLSCREEN")
+	WorldMapCompareTooltip1:SetFrameStrata("TOOLTIP")
+	WorldMapCompareTooltip2:SetFrameStrata("TOOLTIP")
+	WorldMapCompareTooltip3:SetFrameStrata("TOOLTIP")
+	WorldMapTooltip:SetFrameStrata("TOOLTIP")
 end
 
 function Mapster:SetAlpha()
