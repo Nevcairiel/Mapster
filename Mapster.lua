@@ -63,7 +63,6 @@ local db = setmetatable({}, {
 local format = string.format
 
 local wmfOnShow, wmfStartMoving, wmfStopMoving, dropdownScaleFix
-local questObjDropDownInit, questObjDropDownUpdate
 
 function Mapster:OnInitialize()
 	self.db = LibStub("AceDB-3.0"):New("MapsterDB", defaults, true)
@@ -126,13 +125,6 @@ function Mapster:OnEnable()
 	WorldMapFrameSizeDownButton:SetScript("OnClick", function() Mapster:ToggleMapSize() end)
 	WorldMapFrameSizeUpButton:SetScript("OnClick", function() Mapster:ToggleMapSize() end)
 	self:RawHook("WorldMapFrame_ToggleWindowSize", "ToggleMapSize", true)
-
-	MapsterQuestObjectivesDropDown = CreateFrame("Frame", "MapsterQuestObjectivesDropDown", WorldMapFrame, "UIDropDownMenuTemplate")
-	MapsterQuestObjectivesDropDown:SetPoint("BOTTOMRIGHT", "WorldMapPositioningGuide", "BOTTOMRIGHT", -5, -2)
-
-	local text = MapsterQuestObjectivesDropDown:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
-	text:SetText(L["Quest Objectives"])
-	text:SetPoint("RIGHT", MapsterQuestObjectivesDropDown, "LEFT", 5, 3)
 
 	hooksecurefunc(WorldMapTooltip, "Show", function(self)
 		self:SetFrameStrata("TOOLTIP")
@@ -416,8 +408,6 @@ function Mapster:SizeUp()
 	WorldMapFrameTitle:ClearAllPoints()
 	WorldMapFrameTitle:SetPoint("CENTER", 0, 372)
 
-	MapsterQuestObjectivesDropDown:Show()
-
 	WorldMapFrame_SetPOIMaxBounds()
 	--WorldMapQuestShowObjectives_AdjustPosition()
 	self:WorldMapFrame_DisplayQuests()
@@ -473,8 +463,6 @@ function Mapster:SizeDown()
 	WorldMapFrameTitle:ClearAllPoints()
 	WorldMapFrameTitle:SetPoint("TOP", WorldMapDetailFrame, 0, 20)
 
-	MapsterQuestObjectivesDropDown:Hide()
-
 	WorldMapFrame_SetPOIMaxBounds()
 	--WorldMapQuestShowObjectives_AdjustPosition()
 
@@ -503,15 +491,6 @@ function wmfOnShow(frame)
 	Mapster:SetStrata()
 	Mapster:SetScale()
 	realZone = getZoneId()
-
-	if not MapsterQuestObjectivesDropDown.dropdownInitialized then
-		-- Init DropDown
-		UIDropDownMenu_Initialize(MapsterQuestObjectivesDropDown, questObjDropDownInit)
-		UIDropDownMenu_SetWidth(MapsterQuestObjectivesDropDown, 150)
-		questObjDropDownUpdate()
-
-		MapsterQuestObjectivesDropDown.dropdownInitialized = true
-	end
 
 	if WORLDMAP_SETTINGS.selectedQuest then
 		WorldMapFrame_SelectQuestFrame(WORLDMAP_SETTINGS.selectedQuest)
@@ -747,39 +726,4 @@ function Mapster:SetModuleEnabled(module, value)
 			self:DisableModule(module)
 		end
 	end
-end
-
-local function questObjDropDownOnClick(button)
-	UIDropDownMenu_SetSelectedValue(MapsterQuestObjectivesDropDown, button.value)
-	db.questObjectives = button.value
-	Mapster:RefreshQuestObjectivesDisplay()
-end
-
-local questObjTexts = {
-	[0] = L["Hide Completely"],
-	[1] = L["Only WorldMap Blobs"],
-	[2] = L["Blobs & Panels"],
-}
-
-function questObjDropDownInit()
-	local info = UIDropDownMenu_CreateInfo()
-	local value = db.questObjectives
-
-	for i=0,2 do
-		info.value = i
-		info.text = questObjTexts[i]
-		info.func = questObjDropDownOnClick
-		if ( value == i ) then
-			info.checked = 1
-			UIDropDownMenu_SetText(MapsterQuestObjectivesDropDown, info.text)
-		else
-			info.checked = nil
-		end
-		UIDropDownMenu_AddButton(info)
-	end
-end
-
-function questObjDropDownUpdate()
-	UIDropDownMenu_SetSelectedValue(MapsterQuestObjectivesDropDown, db.questObjectives)
-	UIDropDownMenu_SetText(MapsterQuestObjectivesDropDown,questObjTexts[db.questObjectives])
 end
