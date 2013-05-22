@@ -39,7 +39,7 @@ function Scale:OnEnable()
 		scaler:SetDesaturated(true)
 
 		mousetracker = CreateFrame("Frame", nil, WorldMapPositioningGuide)
-		mousetracker:SetFrameStrata("TOOLTIP")
+		mousetracker:SetFrameLevel(WorldMapPositioningGuide:GetFrameLevel() + 20)
 		mousetracker:SetAllPoints(scaler)
 		mousetracker:EnableMouse(true)
 		mousetracker:SetScript("OnEnter", function()
