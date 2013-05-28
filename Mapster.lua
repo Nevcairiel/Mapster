@@ -711,7 +711,6 @@ function Mapster:WorldMapFrame_DisplayQuests()
 		WorldMapArchaeologyDigSites:SetScale(WORLDMAP_FULLMAP_SIZE)
 		WorldMapArchaeologyDigSites.xRatio = nil		-- force hit recalculations
 		WorldMapFrame_SetPOIMaxBounds()
-		WorldMapFrame_UpdateQuests()
 	elseif db.questPanels == 1 and WORLDMAP_SETTINGS.size ~= WORLDMAP_QUESTLIST_SIZE then
 		WorldMapFrame_SetQuestMapView()
 
@@ -720,8 +719,8 @@ function Mapster:WorldMapFrame_DisplayQuests()
 		WorldMapArchaeologyDigSites:SetScale(WORLDMAP_QUESTLIST_SIZE)
 		WorldMapArchaeologyDigSites.xRatio = nil		-- force hit recalculations
 		WorldMapFrame_SetPOIMaxBounds()
-		WorldMapFrame_UpdateQuests()
 	end
+	WorldMapFrame_UpdateQuests()
 end
 
 function Mapster:WorldMapFrame_SelectQuestFrame(...)
