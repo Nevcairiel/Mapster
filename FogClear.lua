@@ -1507,10 +1507,10 @@ function FogClear:OnEnable()
 		self:SecureHook("BattlefieldMinimap_Update", "UpdateBattlefieldMinimapOverlays")
 
 		wipe(battleMapCache)
-		for i = 1, NUM_BATTLEFIELDMAP_OVERLAYS do
+		for i = 1, BattlefieldMinimap:GetAttribute("NUM_BATTLEFIELDMAP_OVERLAYS") do
 			tinsert(battleMapCache, _G[format("BattlefieldMinimapOverlay%d", i)])
 		end
-		NUM_BATTLEFIELDMAP_OVERLAYS = 0
+		BattlefieldMinimap:SetAttribute("NUM_BATTLEFIELDMAP_OVERLAYS", 0)
 
 		if BattlefieldMinimap:IsShown() then
 			BattlefieldMinimap_Update()
@@ -1537,8 +1537,9 @@ function FogClear:OnDisable()
 	end
 
 	if BattlefieldMinimap then
-		NUM_BATTLEFIELDMAP_OVERLAYS = #battleMapCache
-		for i=1, NUM_BATTLEFIELDMAP_OVERLAYS do
+		local num = #battleMapCache
+		BattlefieldMinimap:SetAttribute("NUM_BATTLEFIELDMAP_OVERLAYS", num)
+		for i=1, num do
 			tex = _G[format("BattlefieldMinimapOverlay%d", i)]
 			tex:SetVertexColor(1,1,1)
 			tex:SetAlpha(1 - BattlefieldMinimapOptions.opacity)
