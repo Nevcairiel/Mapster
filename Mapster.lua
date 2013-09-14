@@ -227,6 +227,7 @@ function Mapster:PLAYER_REGEN_ENABLED()
 			frameRef:SetParent(WorldMapFrame)
 			frameRef:ClearAllPoints()
 			frameRef:SetPoint("TOPLEFT", WorldMapDetailFrame)
+			frameRef:SetPoint("BOTTOMRIGHT", WorldMapDetailFrame)
 			frameRef.Hide = nil
 			frameRef.Show = nil
 			frameRef.SetScale = nil
