@@ -147,6 +147,7 @@ local data = {
 			["Mogu'shan Vaults"] = 896,
 			["Heart of Fear"] = 897,
 			["Throne of Thunder"] = 930,
+			["Siege of Orgrimmar"] = 953,
 		},
 	},
 	bgs = {
