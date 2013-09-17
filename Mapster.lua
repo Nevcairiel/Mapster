@@ -100,6 +100,10 @@ function Mapster:OnEnable()
 		WorldMap_ToggleSizeUp()
 	end
 
+	-- ensure the map remains movable
+	SetCVar("lockedWorldMap", 0);
+	WORLDMAP_SETTINGS.locked = false
+
 	self:SetupMapButton()
 
 	LibWindow.RegisterConfig(WorldMapFrame, db)
