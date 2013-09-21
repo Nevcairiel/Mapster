@@ -153,6 +153,14 @@ function Mapster:OnEnable()
 	questOnlyBlobs:SetScript("OnClick", function(self)
 		db.questPanels = self:GetChecked() and 0 or 1
 		Mapster:WorldMapFrame_DisplayQuests()
+
+		-- force blob frames to recalculate
+		if db.questPanels == 1 then
+			WorldMapBlobFrame:SetScale(WORLDMAP_QUESTLIST_SIZE)
+			WorldMapBlobFrame.xRatio = nil		-- force hit recalculations
+			WorldMapArchaeologyDigSites:SetScale(WORLDMAP_QUESTLIST_SIZE)
+			WorldMapArchaeologyDigSites.xRatio = nil		-- force hit recalculations
+		end
 	end)
 
 	hooksecurefunc(WorldMapTooltip, "Show", function(self)
