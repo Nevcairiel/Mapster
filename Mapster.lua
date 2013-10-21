@@ -133,9 +133,9 @@ function Mapster:OnEnable()
 	WorldMapFrame:SetHeight(768)
 	WorldMapFrame:SetClampedToScreen(false)
 
-	WorldMapContinentDropDownButton:SetScript("OnClick", dropdownScaleFix)
-	WorldMapZoneDropDownButton:SetScript("OnClick", dropdownScaleFix)
-	WorldMapZoneMinimapDropDownButton:SetScript("OnClick", dropdownScaleFix)
+	WorldMapContinentDropDownButton:HookScript("OnClick", dropdownScaleFix)
+	WorldMapZoneDropDownButton:HookScript("OnClick", dropdownScaleFix)
+	WorldMapZoneMinimapDropDownButton:HookScript("OnClick", dropdownScaleFix)
 
 	WorldMapFrameSizeDownButton:SetScript("OnClick", function() Mapster:ToggleMapSize() end)
 	WorldMapFrameSizeUpButton:SetScript("OnClick", function() Mapster:ToggleMapSize() end)
@@ -559,7 +559,6 @@ function wmfStopMoving(frame)
 end
 
 function dropdownScaleFix(self)
-	ToggleDropDownMenu(nil, nil, self:GetParent())
 	local uiScale = 1
 	local uiParentScale = UIParent:GetScale()
 	if GetCVar("useUIScale") == "1" then
