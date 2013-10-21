@@ -235,7 +235,7 @@ function Maps:OnInitialize()
 end
 
 local function scaleFix(widget)
-	widget.pullout.frame:SetScale(Mapster.metadb.scale)
+	widget.pullout.frame:SetScale(Mapster.db.profile.scale)
 end
 
 function Maps:OnEnable()
