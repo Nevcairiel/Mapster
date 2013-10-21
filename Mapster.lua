@@ -62,6 +62,7 @@ local db = setmetatable({}, {
 		end
 	end
 })
+Mapster.metadb = db
 
 local format = string.format
 

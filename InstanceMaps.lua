@@ -234,6 +234,10 @@ function Maps:OnInitialize()
 	data = nil
 end
 
+local function scaleFix(widget)
+	widget.pullout.frame:SetScale(Mapster.metadb.scale)
+end
+
 function Maps:OnEnable()
 	if not self.continentDropDown then
 		self.continentDropDown = AceGUI:Create("Dropdown")
@@ -244,6 +248,7 @@ function Maps:OnEnable()
 		self.continentDropDown:SetPoint("TOPRIGHT", WorldMapPositioningGuide, "TOP", -65, -21)
 		self.continentDropDown:SetLabel(CONTINENT)
 		self.continentDropDown:SetCallback("OnValueChanged", self.ContinentSelectionChanged)
+		self.continentDropDown:SetCallback("OnOpened", scaleFix)
 
 		self.zoneDropDown = AceGUI:Create("Dropdown")
 		self.zoneDropDown.frame:SetParent(WorldMapFrame)
@@ -253,6 +258,7 @@ function Maps:OnEnable()
 		self.zoneDropDown:SetPoint("TOPLEFT", WorldMapPositioningGuide, "TOP", -55, -21)
 		self.zoneDropDown:SetLabel(ZONE)
 		self.zoneDropDown:SetCallback("OnValueChanged", self.ZoneSelectionChanged)
+		self.zoneDropDown:SetCallback("OnOpened", scaleFix)
 	end
 
 	self:UpdateMapsize(Mapster.miniMap)
