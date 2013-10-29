@@ -89,6 +89,10 @@ function Mapster:OnInitialize()
 	self.UIHider:Hide()
 
 	self:SetupOptions()
+
+	-- hack: fix for taint errors when opening the map
+	-- come one Blizzard, fix that thing.
+	C_StorePublic.IsDisabledByParentalControls = function() end
 end
 
 local realZone
