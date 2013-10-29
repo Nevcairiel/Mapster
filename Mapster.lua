@@ -92,7 +92,7 @@ function Mapster:OnInitialize()
 
 	-- hack: fix for taint errors when opening the map
 	-- come one Blizzard, fix that thing.
-	C_StorePublic.IsDisabledByParentalControls = function() end
+	setfenv(WorldMapFrame_OnShow, setmetatable({ UpdateMicroButtons = function() end }, { __index = _G }))
 end
 
 local realZone
