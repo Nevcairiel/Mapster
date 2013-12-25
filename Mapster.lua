@@ -89,10 +89,6 @@ function Mapster:OnInitialize()
 	self.UIHider:Hide()
 
 	self:SetupOptions()
-
-	-- hack: fix for taint errors when opening the map
-	-- come one Blizzard, fix that thing.
-	setfenv(WorldMapFrame_OnShow, setmetatable({ UpdateMicroButtons = function() end }, { __index = _G }))
 end
 
 local realZone
