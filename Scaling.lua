@@ -30,32 +30,36 @@ end
 
 function Scale:OnEnable()
 	if not scaler then
-		scaler = WorldMapPositioningGuide:CreateTexture(nil, "OVERLAY")
-		scaler:SetWidth(20)
-		scaler:SetHeight(20)
-		self:UpdateMapsize(Mapster.miniMap)
-		scaler:SetTexture([[Interface\BUTTONS\UI-AutoCastableOverlay]])
-		scaler:SetTexCoord(0.619, 0.760, 0.612, 0.762)
-		scaler:SetDesaturated(true)
+		scaler = CreateFrame("Frame", "MapsterScaler", WorldMapFrame.UIElementsFrame)
+		scaler:SetWidth(15)
+		scaler:SetHeight(15)
+		scaler:SetFrameStrata("HIGH")
+		scaler:SetFrameLevel(WorldMapFrame.UIElementsFrame:GetFrameLevel() + 15)
+		scaler.tex = WorldMapFrame.UIElementsFrame:CreateTexture("MapsterScalerTex", "OVERLAY")
+		scaler.tex:SetAllPoints(scaler)
+		scaler.tex:SetTexture([[Interface\Buttons\UI-AutoCastableOverlay]])
+		scaler.tex:SetTexCoord(0.619, 0.760, 0.612, 0.762)
+		scaler.tex:SetDesaturated(true)
 
-		mousetracker = CreateFrame("Frame", nil, WorldMapPositioningGuide)
-		mousetracker:SetFrameLevel(WorldMapPositioningGuide:GetFrameLevel() + 20)
+		self:BorderVisibilityChanged()
+		mousetracker = CreateFrame("Frame", nil, WorldMapFrame.UIElementsFrame)
+		mousetracker:SetFrameLevel(WorldMapFrame.UIElementsFrame:GetFrameLevel() + 20)
 		mousetracker:SetAllPoints(scaler)
 		mousetracker:EnableMouse(true)
 		mousetracker:SetScript("OnEnter", function()
-			scaler:SetDesaturated(false)
+			scaler.tex:SetDesaturated(false)
 		end)
 		mousetracker:SetScript("OnLeave", function()
-			scaler:SetDesaturated(true)
+			scaler.tex:SetDesaturated(true)
 		end)
 		mousetracker:SetScript("OnMouseUp", function(self)
 			LibWindow.SavePosition(WorldMapFrame)
 			self:SetScript("OnUpdate", nil)
 			self:SetAllPoints(scaler)
-			Mapster:ShowBlobs()
+
+			WorldMapBlobFrame_ResetHitTranslations()
 		end)
 		mousetracker:SetScript("OnMouseDown",function(self)
-			Mapster:HideBlobs()
 			SOS.left, SOS.top = WorldMapFrame:GetLeft(), WorldMapFrame:GetTop()
 			SOS.scale = WorldMapFrame:GetScale()
 			SOS.x, SOS.y = SOS.left, SOS.top-(UIParent:GetHeight()/SOS.scale)
@@ -73,7 +77,7 @@ end
 function Scale:OnDisable()
 	if scaler then
 		scaler:Hide()
-		moustracker:Hide()
+		mousetracker:Hide()
 	end
 end
 
@@ -102,26 +106,12 @@ function OnUpdate(self)
 	local y = SOS.y*s
 	WorldMapFrame:ClearAllPoints()
 	WorldMapFrame:SetPoint("TOPLEFT", UIParent, "TOPLEFT", x, y)
-end
 
-function Scale:UpdateMapsize(mini)
-	if not scaler then return end
-	-- map was minimized, fix display position
-	if mini then
-		if Mapster.bordersVisible then
-			scaler:SetPoint("BOTTOMRIGHT", -23, -12)
-		else
-			scaler:SetPoint("BOTTOMRIGHT", -26, 16)
-		end
-	else
-		if Mapster.bordersVisible then
-			scaler:SetPoint("BOTTOMRIGHT", -4, 4)
-		else
-			-- TODO
-		end
-	end
+	-- after scale changes, the blobs need re-drawing
+	WorldMapBlobFrame_UpdateBlobs()
 end
 
 function Scale:BorderVisibilityChanged()
-	self:UpdateMapsize(Mapster.miniMap)
+	if not scaler then return end
+	scaler:SetPoint("BOTTOMRIGHT", WorldMapFrame, "BOTTOMRIGHT", 0, -2)
 end
