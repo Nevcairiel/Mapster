@@ -1603,7 +1603,7 @@ local function updateOverlayTextures(frame, frameName, textureCache, scale, alph
 
 	for i=1, numOverlays do
 		local texName, texWidth, texHeight, offsetX, offsetY = GetMapOverlayInfo(i)
-		texName = strsub(texName, pathLen)
+		texName = strsub(texName or "", pathLen)
 		local texID = texWidth + texHeight * 2^10 + offsetX * 2^20 + offsetY * 2^30
 		if texID ~= 0 and texID ~= 131200 and texName ~= "" and strlower(texName) ~= "pixelfix" then
 			discoveredOverlays[texName] = texID
