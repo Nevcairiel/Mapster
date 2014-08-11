@@ -34,9 +34,9 @@ Locale\locale.xml
 Mapster.lua
 Config.lua
 
-Coords.lua
-GroupIcons.lua
-BattleMap.lua
+#Coords.lua
+#GroupIcons.lua
+#BattleMap.lua
 FogClear.lua
-InstanceMaps.lua
+#InstanceMaps.lua
 Scaling.lua
