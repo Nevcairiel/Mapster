@@ -113,8 +113,8 @@ function Mapster:OnEnable()
 	WorldMapFrame:SetScript("OnDragStart", wmfStartMoving)
 	WorldMapFrame:SetScript("OnDragStop", wmfStopMoving)
 
-	WorldMapTitleButton:SetScript("OnDragStart", wmfStartMoving)
-	WorldMapTitleButton:SetScript("OnDragStop", wmfStopMoving)
+	WorldMapTitleButton:Hide()
+	WorldMapTitleButton:SetParent(self.UIHider)
 
 	WorldMapFrame:SetParent(UIParent)
 	WorldMapFrame:SetToplevel(true)
