@@ -113,6 +113,9 @@ function Mapster:OnEnable()
 	WorldMapFrame:SetScript("OnDragStart", wmfStartMoving)
 	WorldMapFrame:SetScript("OnDragStop", wmfStopMoving)
 
+	WorldMapTitleButton:SetScript("OnDragStart", wmfStartMoving)
+	WorldMapTitleButton:SetScript("OnDragStop", wmfStopMoving)
+
 	WorldMapFrame:SetParent(UIParent)
 	WorldMapFrame:SetToplevel(true)
 	WorldMapFrame:SetClampedToScreen(false)
@@ -259,12 +262,12 @@ function wmfOnShow(frame)
 end
 
 function wmfStartMoving(frame)
-	frame:StartMoving()
+	WorldMapFrame:StartMoving()
 end
 
 function wmfStopMoving(frame)
-	frame:StopMovingOrSizing()
-	LibWindow.SavePosition(frame)
+	WorldMapFrame:StopMovingOrSizing()
+	LibWindow.SavePosition(WorldMapFrame)
 
 	WorldMapBlobFrame_ResetHitTranslations()
 end
