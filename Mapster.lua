@@ -15,7 +15,7 @@ local PLAYER_ARROW_SIZE_FULL_NO_QUESTS = 28
 local defaults = {
 	profile = {
 		hideMapButton = false,
-		arrowScale = 0.88,
+		arrowScale = 0.9,
 		modules = {
 			['*'] = true,
 		},
@@ -23,7 +23,7 @@ local defaults = {
 		y = 0,
 		points = "CENTER",
 		scale = 1,
-		poiScale = 0.8,
+		poiScale = 0.9,
 		ejScale = 0.8,
 		alpha = 1,
 		hideBorder = false,
@@ -144,6 +144,13 @@ function Mapster:OnEnable()
 
 	-- hook to overwrite scale to include our custom scale
 	self:SecureHook("WorldMapBlobFrame_CalculateHitTranslations")
+	self:SecureHook("WorldMap_CreateTaskPOI")
+
+	self:SecureHook("WorldMapPOIFrame_AnchorPOI")
+
+	for i = 1, NUM_WORLDMAP_TASK_POIS do
+		self:WorldMap_CreateTaskPOI(i)
+	end
 
 	self:RawHook(WorldMapPlayerLower, "SetPoint", "WorldMapPlayerSetPoint", true)
 	self:RawHook(WorldMapPlayerUpper, "SetPoint", "WorldMapPlayerSetPoint", true)
@@ -190,6 +197,12 @@ function Mapster:Refresh()
 
 	self:UpdateBorderVisibility()
 	self:UpdateMouseInteractivity()
+
+	for i = 1, NUM_WORLDMAP_TASK_POIS do
+		_G["WorldMapFrameTaskPOI"..i]:SetScale(db.poiScale)
+	end
+	WorldMap_UpdateQuestBonusObjectives()
+	WorldMapScrollFrame_ReanchorQuestPOIs()
 end
 
 function Mapster:NavBar_ToggleMenu(frame)
@@ -208,6 +221,28 @@ end
 
 function Mapster:WorldMapBlobFrame_CalculateHitTranslations()
 	WorldMapBlobFrame.scale = WorldMapFrame:GetScale() * UIParent:GetScale()
+end
+
+function Mapster:WorldMap_CreateTaskPOI(index, isObjectIcon, atlasIcon)
+	local button = _G["WorldMapFrameTaskPOI"..index]
+	button:SetScale(db.poiScale)
+	self:RawHook(button, "SetPoint", "WorldMapPOISetPoint", true)
+end
+
+function Mapster:WorldMapPOISetPoint(frame, point, relFrame, relPoint, x, y)
+	if x and y then
+		x = x / db.poiScale
+		y = y / db.poiScale
+	end
+	return self.hooks[frame].SetPoint(frame, point, relFrame, relPoint, x, y)
+end
+
+function Mapster:WorldMapPOIFrame_AnchorPOI(poiButton, posX, posY)
+	if posX and posY then
+		local point, frame, relPoint, x, y = poiButton:GetPoint()
+		poiButton:SetScale(db.poiScale)
+		poiButton:SetPoint(point, frame, relPoint, x / db.poiScale, y / db.poiScale)
+	end
 end
 
 function Mapster:ToggleMapSize()
