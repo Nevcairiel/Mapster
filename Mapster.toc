@@ -36,7 +36,7 @@ Config.lua
 
 Coords.lua
 GroupIcons.lua
-#BattleMap.lua
+BattleMap.lua
 FogClear.lua
 #InstanceMaps.lua
 Scaling.lua
