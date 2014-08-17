@@ -90,12 +90,21 @@ end
 function Coords:OnEnable()
 	if not display then
 		display = CreateFrame("Frame", "Mapster_CoordsFrame", WorldMapFrame)
+		display:SetFrameLevel(WorldMapFrame.UIElementsFrame:GetFrameLevel() + 20)
 
-		cursortext = display:CreateFontString(nil, "ARTWORK", "GameFontNormal")
-		playertext = display:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+		cursortext = display:CreateFontString(nil, "OVERLAY")
+		playertext = display:CreateFontString(nil, "OVERLAY")
 
-		self:UpdateMapsize(Mapster.miniMap)
+		cursortext:SetFont(GameFontNormal:GetFont(), 9, "OUTLINE")
+		cursortext:SetTextColor(1, 1, 1)
+
+		playertext:SetFont(GameFontNormal:GetFont(), 9, "OUTLINE")
+		playertext:SetTextColor(1, 1, 1)
+
+		cursortext:SetPoint("BOTTOMLEFT", WorldMapFrame.UIElementsFrame, "BOTTOM", 30, -14)
+		playertext:SetPoint("BOTTOMRIGHT", WorldMapFrame.UIElementsFrame, "BOTTOM", -30, -14)
 	end
+
 	display:SetScript("OnUpdate", OnUpdate)
 	if Mapster.bordersVisible then
 		display:Show()
@@ -117,17 +126,6 @@ function Coords:Refresh()
 
 	local acc = tonumber(db.accuracy) or 1
 	text = texttemplate:format(acc, acc)
-end
-
-function Coords:UpdateMapsize(mini)
-	-- map was minimized, fix display position
-	if mini then
-		cursortext:SetPoint("BOTTOMLEFT", WorldMapPositioningGuide, "BOTTOM", 15, -2)
-		playertext:SetPoint("BOTTOMRIGHT", WorldMapPositioningGuide, "BOTTOM", -30, -2)
-	else
-		cursortext:SetPoint("BOTTOMLEFT", WorldMapPositioningGuide, "BOTTOM", 30, 10)
-		playertext:SetPoint("BOTTOMRIGHT", WorldMapPositioningGuide, "BOTTOM", -30, 10)
-	end
 end
 
 function Coords:BorderVisibilityChanged(visible)

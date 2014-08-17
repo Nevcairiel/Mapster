@@ -382,6 +382,7 @@ function Mapster:GetModuleEnabled(module)
 end
 
 function Mapster:UpdateBorderVisibility()
+	Mapster.bordersVisible = true
 	--[[if db.hideBorder then
 		Mapster.bordersVisible = false
 		if self.miniMap then
