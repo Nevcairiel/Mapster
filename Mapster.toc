@@ -35,7 +35,7 @@ Mapster.lua
 Config.lua
 
 Coords.lua
-#GroupIcons.lua
+GroupIcons.lua
 #BattleMap.lua
 FogClear.lua
 #InstanceMaps.lua
