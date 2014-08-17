@@ -101,6 +101,10 @@ function OnUpdate(self)
 	end
 	WorldMapFrame:SetScale(scale)
 
+	if HelpPlate.__Mapster then
+		HelpPlate:SetScale(scale)
+	end
+
 	local s = SOS.scale/WorldMapFrame:GetScale()
 	local x = SOS.x*s
 	local y = SOS.y*s

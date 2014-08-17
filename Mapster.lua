@@ -151,6 +151,10 @@ function Mapster:OnEnable()
 	self:RawHook(WorldMapPlayerLower, "SetPoint", "WorldMapPlayerSetPoint", true)
 	self:RawHook(WorldMapPlayerUpper, "SetPoint", "WorldMapPlayerSetPoint", true)
 
+	self:SecureHook("HelpPlate_Show")
+	self:SecureHook("HelpPlate_Hide")
+	self:SecureHook("HelpPlate_Button_AnimGroup_Show_OnFinished")
+
 	if vis then
 		ToggleFrame(WorldMapFrame)
 	end
@@ -238,6 +242,29 @@ function Mapster:WorldMapPOIFrame_AnchorPOI(poiButton, posX, posY)
 		local point, frame, relPoint, x, y = poiButton:GetPoint()
 		poiButton:SetScale(db.poiScale)
 		poiButton:SetPoint(point, frame, relPoint, x / db.poiScale, y / db.poiScale)
+	end
+end
+
+function Mapster:HelpPlate_Show(plate)
+	if plate == WorldMapFrame_HelpPlate then
+		HelpPlate:SetScale(db.scale)
+		HelpPlate.__Mapster = true
+	end
+end
+
+function Mapster:HelpPlate_Hide(userToggled)
+	if HelpPlate.__Mapster then
+		if not userToggled then
+			HelpPlate:SetScale(1.0)
+			HelpPlate.__Mapster = nil
+		end
+	end
+end
+
+function Mapster:HelpPlate_Button_AnimGroup_Show_OnFinished()
+	if HelpPlate.__Mapster then
+		HelpPlate:SetScale(1.0)
+		HelpPlate.__Mapster = nil
 	end
 end
 
@@ -338,6 +365,9 @@ end
 
 function Mapster:SetScale()
 	WorldMapFrame:SetScale(db.scale)
+	if HelpPlate.__Mapster then
+		HelpPlate:SetScale(db.scale)
+	end
 
 	WorldMapBlobFrame_UpdateBlobs()
 	WorldMapBlobFrame_ResetHitTranslations()
