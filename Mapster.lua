@@ -8,10 +8,6 @@ local Mapster = LibStub("AceAddon-3.0"):NewAddon("Mapster", "AceEvent-3.0", "Ace
 local LibWindow = LibStub("LibWindow-1.1")
 local L = LibStub("AceLocale-3.0"):GetLocale("Mapster")
 
-local PLAYER_ARROW_SIZE_WINDOW = 40
-local PLAYER_ARROW_SIZE_FULL_WITH_QUESTS = 38
-local PLAYER_ARROW_SIZE_FULL_NO_QUESTS = 28
-
 local defaults = {
 	profile = {
 		hideMapButton = false,
