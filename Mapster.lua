@@ -148,6 +148,8 @@ function Mapster:OnEnable()
 		self:WorldMap_CreateTaskPOI(i)
 	end
 
+	self:SecureHook("EncounterJournal_AddMapButtons")
+
 	self:RawHook(WorldMapPlayerLower, "SetPoint", "WorldMapPlayerSetPoint", true)
 	self:RawHook(WorldMapPlayerUpper, "SetPoint", "WorldMapPlayerSetPoint", true)
 
@@ -203,6 +205,7 @@ function Mapster:Refresh()
 	end
 	WorldMap_UpdateQuestBonusObjectives()
 	WorldMapScrollFrame_ReanchorQuestPOIs()
+	self:EncounterJournal_AddMapButtons()
 end
 
 function Mapster:NavBar_ToggleMenu(frame)
@@ -242,6 +245,24 @@ function Mapster:WorldMapPOIFrame_AnchorPOI(poiButton, posX, posY)
 		local point, frame, relPoint, x, y = poiButton:GetPoint()
 		poiButton:SetScale(db.poiScale)
 		poiButton:SetPoint(point, frame, relPoint, x / db.poiScale, y / db.poiScale)
+	end
+end
+
+function Mapster:EncounterJournal_AddMapButtons()
+	local index = 1
+	local bossButton = _G["EJMapButton"..index]
+
+	local width = WorldMapDetailFrame:GetWidth() / db.ejScale
+	local height = WorldMapDetailFrame:GetHeight() / db.ejScale
+
+	while bossButton do
+		if bossButton:IsShown() then
+			local x, y = EJ_GetMapEncounter(index, WorldMapFrame.fromJournal)
+			bossButton:SetScale(db.ejScale)
+			bossButton:SetPoint("CENTER", WorldMapBossButtonFrame, "BOTTOMLEFT", x*width, y*height);
+		end
+		index = index + 1
+		bossButton = _G["EJMapButton"..index]
 	end
 end
 
