@@ -21,20 +21,52 @@ local db
 local defaults = { 
 	profile = {
 		accuracy = 1,
+		fontSize = 11,
+		mini = {
+			fontSize = 14,
+		},
 	}
 }
+
+local miniList = { fontSize = true }
+
+local db_
+local db = setmetatable({}, {
+	__index = function(t, k)
+		if Mapster.miniMap and miniList[k] then
+			return db_.mini[k]
+		else
+			return db_[k]
+		end
+	end,
+	__newindex = function(t, k, v)
+		if Mapster.miniMap and miniList[k] then
+			db_.mini[k] = v
+		else
+			db_[k] = v
+		end
+	end
+})
 
 local optGetter, optSetter
 do
 	local mod = Coords
 	function optGetter(info)
 		local key = info[#info]
-		return db[key]
+		if key:sub(0,5) == "mini_" then
+			return Coords.db.profile.mini[key:sub(6)]
+		else
+			return Coords.db.profile[key]
+		end
 	end
 
 	function optSetter(info, value)
 		local key = info[#info]
-		db[key] = value
+		if key:sub(0,5) == "mini_" then
+			Coords.db.profile.mini[key:sub(6)] = value
+		else
+			Coords.db.profile[key] = value
+		end
 		mod:Refresh()
 	end
 end
@@ -72,6 +104,20 @@ local function getOptions()
 					name = L["Accuracy"],
 					min = 0, max = 2, step = 1,
 				},
+				fontSize = {
+					order = 5,
+					type = "range",
+					name = L["Font Size"],
+					desc = L["Font Size on the normal map."],
+					min = 6, max = 18, step = 1,
+				},
+				mini_fontSize = {
+					order = 6,
+					type = "range",
+					name = L["(Mini) Font Size"],
+					desc = L["Font Size on the minimized map."],
+					min = 6, max = 18, step = 1,
+				}
 			},
 		}
 	end
@@ -81,7 +127,7 @@ end
 
 function Coords:OnInitialize()
 	self.db = Mapster.db:RegisterNamespace(MODNAME, defaults)
-	db = self.db.profile
+	db_ = self.db.profile
 
 	self:SetEnabledState(Mapster:GetModuleEnabled(MODNAME))
 	Mapster:RegisterModuleOptions(MODNAME, getOptions, L["Coordinates"])
@@ -95,14 +141,15 @@ function Coords:OnEnable()
 		cursortext = display:CreateFontString(nil, "OVERLAY")
 		playertext = display:CreateFontString(nil, "OVERLAY")
 
-		cursortext:SetFont(GameFontNormal:GetFont(), 9, "OUTLINE")
-		cursortext:SetTextColor(1, 1, 1)
+		self:UpdateMapSize(Mapster.miniMap)
 
-		playertext:SetFont(GameFontNormal:GetFont(), 9, "OUTLINE")
+		cursortext:SetTextColor(1, 1, 1)
 		playertext:SetTextColor(1, 1, 1)
 
-		cursortext:SetPoint("BOTTOMLEFT", WorldMapFrame.UIElementsFrame, "BOTTOM", 30, -14)
-		playertext:SetPoint("BOTTOMRIGHT", WorldMapFrame.UIElementsFrame, "BOTTOM", -30, -14)
+		cursortext:SetPoint("TOPLEFT", WorldMapFrame.UIElementsFrame, "BOTTOM", 30, -5)
+		playertext:SetPoint("TOPRIGHT", WorldMapFrame.UIElementsFrame, "BOTTOM", -30, -5)
+
+		tinsert(Mapster.elementsToHide, display)
 	end
 
 	display:SetScript("OnUpdate", OnUpdate)
@@ -121,20 +168,18 @@ function Coords:OnDisable()
 end
 
 function Coords:Refresh()
-	db = self.db.profile
+	db_ = self.db.profile
 	if not self:IsEnabled() then return end
 
 	local acc = tonumber(db.accuracy) or 1
 	text = texttemplate:format(acc, acc)
+	self:UpdateMapSize(Mapster.miniMap)
 end
 
-function Coords:BorderVisibilityChanged(visible)
-	if not display then return end
-	if visible then
-		display:Show()
-	else
-		display:Hide()
-	end
+function Coords:UpdateMapSize(mini)
+	if not cursortext or not playertext then return end
+	cursortext:SetFont(GameFontNormal:GetFont(), db.fontSize, "OUTLINE")
+	playertext:SetFont(GameFontNormal:GetFont(), db.fontSize, "OUTLINE")
 end
 
 function MouseXY()
