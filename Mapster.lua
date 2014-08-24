@@ -29,7 +29,7 @@ local defaults = {
 			x = 0,
 			y = 0,
 			point = "CENTER",
-			scale = 1,
+			scale = 0.8,
 			alpha = 0.9,
 			hideBorder = true,
 			disableMouse = true,
@@ -118,9 +118,9 @@ function Mapster:OnEnable()
 
 	self:SecureHook("NavBar_ToggleMenu")
 
-	--WorldMapFrameSizeDownButton:SetScript("OnClick", function() Mapster:ToggleMapSize() end)
-	--WorldMapFrameSizeUpButton:SetScript("OnClick", function() Mapster:ToggleMapSize() end)
-	--self:RawHook("WorldMapFrame_ToggleWindowSize", "ToggleMapSize", true)
+	WorldMapFrameSizeDownButton:SetScript("OnClick", function() Mapster:ToggleMapSize() end)
+	WorldMapFrameSizeUpButton:SetScript("OnClick", function() Mapster:ToggleMapSize() end)
+	self:RawHook("WorldMapFrame_ToggleWindowSize", "ToggleMapSize", true)
 
 	tinsert(UISpecialFrames, "WorldMapFrame")
 
@@ -128,8 +128,12 @@ function Mapster:OnEnable()
 
 	if db.miniMap then
 		self:SizeDown()
+	else
+		WorldMapFrameSizeUpButton:Hide()
+		WorldMapFrameSizeDownButton:Show()
 	end
 	self.miniMap = db.miniMap
+	self.bordersVisible = true
 
 	self:SetPosition()
 	self:SetAlpha()
@@ -304,16 +308,42 @@ function Mapster:ToggleMapSize()
 	self:UpdateBorderVisibility()
 	self:UpdateMouseInteractivity()
 
+	for k,v in self:IterateModules() do
+		if v:IsEnabled() and type(v.UpdateMapSize) == "function" then
+			v:UpdateMapSize(self.miniMap)
+		end
+	end
+
 	ToggleFrame(WorldMapFrame)
-	WorldMapFrame_UpdateQuests()
 end
 
 function Mapster:SizeUp()
+	WorldMapFrameSizeUpButton:Hide()
+	WorldMapFrameSizeDownButton:Show()
 
+	WorldMapFrame.UIElementsFrame.OpenQuestPanelButton:Show()
+	WorldMapFrame.MainHelpButton:Show()
+
+	if GetCVarBool("questLogOpen") or WorldMapFrame.questLogMode then
+		QuestMapFrame_Show()
+	end
+
+	WorldMapFrame_UpdateMap()
+	QuestMapFrame_UpdateAll()
 end
 
 function Mapster:SizeDown()
+	WorldMapFrameSizeUpButton:Show()
+	WorldMapFrameSizeDownButton:Hide()
 
+	WorldMapFrame.UIElementsFrame.OpenQuestPanelButton:Hide()
+	HelpPlate_Hide()
+	WorldMapFrame.MainHelpButton:Hide()
+
+	QuestMapFrame_Hide()
+
+	WorldMapFrame_UpdateMap()
+	QuestMapFrame_UpdateAll()
 end
 
 local function getZoneId()
@@ -403,35 +433,36 @@ function Mapster:GetModuleEnabled(module)
 end
 
 function Mapster:UpdateBorderVisibility()
-	Mapster.bordersVisible = true
-	--[[if db.hideBorder then
+	if db.hideBorder and Mapster.bordersVisible then
 		Mapster.bordersVisible = false
-		if self.miniMap then
-			WorldMapFrameMiniBorderLeft:Hide()
-			WorldMapFrameMiniBorderRight:Hide()
-			--WorldMapQuestShowObjectives:SetPoint("BOTTOMRIGHT", WorldMapDetailFrame, "TOPRIGHT", -50 - WorldMapQuestShowObjectivesText:GetWidth(), 2);
-		else
-			-- TODO
-		end
-		WorldMapFrameTitle:Hide()
+
+		WorldMapFrame.BorderFrame:Hide()
+		WorldMapFrameNavBar:Hide()
+		WorldMapFrame.UIElementsFrame.TrackingOptionsButton:Hide()
+
+		WorldMapFrameSizeDownButton:SetParent(WorldMapFrame)
+		WorldMapFrameSizeUpButton:SetParent(WorldMapFrame)
+		WorldMapFrameCloseButton:SetParent(WorldMapFrame)
+
 		self:RegisterEvent("WORLD_MAP_UPDATE", "UpdateDetailTiles")
 		self:UpdateDetailTiles()
 		self.optionsButton:Hide()
+
 		if not self.hookedOnUpdate then
 			self:HookScript(WorldMapFrame, "OnUpdate", "UpdateMapElements")
 			self.hookedOnUpdate = true
 		end
 		self:UpdateMapElements()
-	else
+	elseif not db.hideBorder and not Mapster.bordersVisible then
 		Mapster.bordersVisible = true
-		if self.miniMap then
-			WorldMapFrameMiniBorderLeft:Show()
-			WorldMapFrameMiniBorderRight:Show()
-		else
-			-- TODO
-		end
-		--WorldMapQuestShowObjectives_AdjustPosition()
-		WorldMapFrameTitle:Show()
+
+		WorldMapFrame.BorderFrame:Show()
+		WorldMapFrameNavBar:Show()
+
+		WorldMapFrameSizeDownButton:SetParent(WorldMapFrame.BorderFrame)
+		WorldMapFrameSizeUpButton:SetParent(WorldMapFrame.BorderFrame)
+		WorldMapFrameCloseButton:SetParent(WorldMapFrame.BorderFrame)
+
 		self:UnregisterEvent("WORLD_MAP_UPDATE")
 		self:UpdateDetailTiles()
 		if not db.hideMapButton then
@@ -442,7 +473,7 @@ function Mapster:UpdateBorderVisibility()
 			self.hookedOnUpdate = nil
 		end
 		self:UpdateMapElements()
-	end--]]
+	end
 
 	for k,v in self:IterateModules() do
 		if v:IsEnabled() and type(v.BorderVisibilityChanged) == "function" then
@@ -452,12 +483,11 @@ function Mapster:UpdateBorderVisibility()
 end
 
 function Mapster:UpdateMapElements()
-	--[[local mouseOver = WorldMapFrame:IsMouseOver()
+	local mouseOver = WorldMapFrame:IsMouseOver()
 	if self.elementsHidden and (mouseOver or not db.hideBorder) then
 		self.elementsHidden = nil
 		(self.miniMap and WorldMapFrameSizeUpButton or WorldMapFrameSizeDownButton):Show()
 		WorldMapFrameCloseButton:Show()
-		--WorldMapQuestShowObjectives:Show()
 		for _, frame in pairs(self.elementsToHide) do
 			frame:Show()
 		end
@@ -466,20 +496,10 @@ function Mapster:UpdateMapElements()
 		WorldMapFrameSizeUpButton:Hide()
 		WorldMapFrameSizeDownButton:Hide()
 		WorldMapFrameCloseButton:Hide()
-		--WorldMapQuestShowObjectives:Hide()
 		for _, frame in pairs(self.elementsToHide) do
 			frame:Hide()
 		end
 	end
-	-- process elements that show/hide themself
-	if self.elementsHidden then
-		WorldMapLevelDropDown:Hide()
-	else
-		local levels = GetNumDungeonMapLevels()
-		if levels and levels > 0 then
-			WorldMapLevelDropDown:Show()
-		end
-	end--]]
 end
 
 function Mapster:UpdateMouseInteractivity()

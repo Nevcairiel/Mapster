@@ -41,7 +41,8 @@ function Scale:OnEnable()
 		scaler.tex:SetTexCoord(0.619, 0.760, 0.612, 0.762)
 		scaler.tex:SetDesaturated(true)
 
-		self:BorderVisibilityChanged()
+		scaler:SetPoint("BOTTOMRIGHT", WorldMapFrame, "BOTTOMRIGHT", 0, -2)
+
 		mousetracker = CreateFrame("Frame", nil, WorldMapFrame.UIElementsFrame)
 		mousetracker:SetFrameLevel(WorldMapFrame.UIElementsFrame:GetFrameLevel() + 20)
 		mousetracker:SetAllPoints(scaler)
@@ -113,9 +114,4 @@ function OnUpdate(self)
 
 	-- after scale changes, the blobs need re-drawing
 	WorldMapBlobFrame_UpdateBlobs()
-end
-
-function Scale:BorderVisibilityChanged()
-	if not scaler then return end
-	scaler:SetPoint("BOTTOMRIGHT", WorldMapFrame, "BOTTOMRIGHT", 0, -2)
 end
