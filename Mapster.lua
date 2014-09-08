@@ -233,7 +233,8 @@ end
 function Mapster:WorldMap_CreateTaskPOI(index, isObjectIcon, atlasIcon)
 	local button = _G["WorldMapFrameTaskPOI"..index]
 	button:SetScale(db.poiScale)
-	self:RawHook(button, "SetPoint", "WorldMapPOISetPoint", true)
+	button.__SetPoint = button.SetPoint
+	self:SecureHook(button, "SetPoint", "WorldMapPOISetPoint")
 end
 
 function Mapster:WorldMapPOISetPoint(frame, point, relFrame, relPoint, x, y)
@@ -241,7 +242,7 @@ function Mapster:WorldMapPOISetPoint(frame, point, relFrame, relPoint, x, y)
 		x = x / db.poiScale
 		y = y / db.poiScale
 	end
-	return self.hooks[frame].SetPoint(frame, point, relFrame, relPoint, x, y)
+	return frame:__SetPoint(point, relFrame, relPoint, x, y)
 end
 
 function Mapster:WorldMapPOIFrame_AnchorPOI(poiButton, posX, posY)
