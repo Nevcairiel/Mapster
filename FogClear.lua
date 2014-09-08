@@ -1608,14 +1608,10 @@ end
 local worldMapCache = {}
 local battleMapCache = {}
 function FogClear:OnEnable()
-	self:RawHook("GetNumMapOverlays", true)
 	self:SecureHook("WorldMapFrame_Update", "UpdateWorldMapOverlays")
 
 	wipe(worldMapCache)
-	for i = 1, NUM_WORLDMAP_OVERLAYS do
-		tinsert(worldMapCache, _G[format("WorldMapOverlay%d", i)])
-	end
-	NUM_WORLDMAP_OVERLAYS = 0
+	self.NUM_WORLDMAP_OVERLAYS = 0
 
 	if not IsAddOnLoaded("Blizzard_BattlefieldMinimap") then
 		self:RegisterEvent("ADDON_LOADED", function(event, addon)
@@ -1639,20 +1635,28 @@ function FogClear:OnEnable()
 	end
 
 	if WorldMapFrame:IsShown() then
-		WorldMapFrame_Update()
+		UpdateWorldMapOverlays()
 	end
 end
 
 function FogClear:OnDisable()
 	self:UnhookAll()
+
+	-- restore built-in overlays to default
 	local tex
-	NUM_WORLDMAP_OVERLAYS = #worldMapCache
 	for i=1, NUM_WORLDMAP_OVERLAYS do
 		tex = _G[format("WorldMapOverlay%d", i)]
 		tex:SetVertexColor(1,1,1)
 		tex:SetAlpha(1)
 		tex:SetDrawLayer("ARTWORK")
 	end
+
+	-- hide all overlays
+	for i = 1, #worldMapCache do
+		worldMapCache[i]:Hide()
+	end
+
+	-- refresh built-in overlays
 	if WorldMapFrame:IsShown() then
 		WorldMapFrame_Update()
 	end
@@ -1677,10 +1681,6 @@ function FogClear:Refresh()
 
 	self:UpdateWorldMapOverlays()
 	self:UpdateBattlefieldMinimapOverlays()
-end
-
-function FogClear:GetNumMapOverlays()
-	return 0
 end
 
 function FogClear:RealHasOverlays()
@@ -1708,7 +1708,7 @@ local function updateOverlayTextures(frame, frameName, textureCache, scale, alph
 		overlayMap = {}
 	end
 
-	local numOverlays = self.hooks.GetNumMapOverlays()
+	local numOverlays = GetNumMapOverlays()
 	local pathLen = strlen(pathPrefix) + 1
 
 	for i=1, numOverlays do
@@ -1804,13 +1804,20 @@ end
 
 function FogClear:UpdateWorldMapOverlays()
 	if not WorldMapFrame:IsShown() then return end
-	updateOverlayTextures(WorldMapDetailFrame, "WorldMapOverlay%d", worldMapCache, 1, 0)
+	if NUM_WORLDMAP_OVERLAYS > self.NUM_WORLDMAP_OVERLAYS then
+		local tex
+		for i = self.NUM_WORLDMAP_OVERLAYS + 1, NUM_WORLDMAP_OVERLAYS do
+			tinsert(worldMapCache, i, _G[format("WorldMapOverlay%d", i)])
+		end
+		self.NUM_WORLDMAP_OVERLAYS = NUM_WORLDMAP_OVERLAYS
+	end
+	updateOverlayTextures(WorldMapDetailFrame, "MapsterWorldMapOverlay%d", worldMapCache, 1, 0)
 end
 
 function FogClear:UpdateBattlefieldMinimapOverlays()
 	if not BattlefieldMinimap or not BattlefieldMinimap:IsShown() then return end
 	local scale = BattlefieldMinimap1:GetWidth()/256
-	updateOverlayTextures(BattlefieldMinimap, "BattlefieldMinimapOverlay%d", battleMapCache, scale, BattlefieldMinimapOptions.opacity)
+	updateOverlayTextures(BattlefieldMinimap, "MapsterBattlefieldMinimapOverlay%d", battleMapCache, scale, BattlefieldMinimapOptions.opacity)
 end
 
 function FogClear:GetOverlayColor()
