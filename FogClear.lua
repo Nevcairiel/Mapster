@@ -1626,7 +1626,7 @@ function FogClear:OnEnable()
 	end
 
 	if WorldMapFrame:IsShown() then
-		UpdateWorldMapOverlays()
+		self:UpdateWorldMapOverlays()
 	end
 end
 
