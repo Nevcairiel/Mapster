@@ -1514,7 +1514,6 @@ local defaults = {
 		colorG = 1,
 		colorB = 1,
 		colorA = 1,
-		debug = false
 	},
 	global = {
 		errata = errata,
@@ -1566,14 +1565,6 @@ local function getOptions()
 					name = L["Reset FogClear Data"],
 					desc = L["FogClear collects new Data in your own SavedVariables, but that data might get corrupted (or simply old) with a new patch. Reset the data if you see corruption in the world map."],
 					func = function() clearFogClearData() end,
-				},
-				debug = {
-					order = 6,
-					type = "toggle",
-					name = L["Debug"],
-					desc = L["Turn on debugging for the FogClear Module."],
-					get = function() return db.debug end,
-					set = function(_, value) db.debug = value end,
 				},
 				desc = {
 					order = 7,
@@ -1785,9 +1776,6 @@ local function updateOverlayTextures(frame, frameName, textureCache, scale, alph
 					texture:SetVertexColor(r, g, b)
 					texture:SetAlpha(a * ( 1 - (alphaMod or 0)))
 					texture:SetDrawLayer("BORDER")
-					if db.debug then
-						DEFAULT_CHAT_FRAME:AddMessage(format("|cff33ff99Mapster|r: Subzone: %s in zone: %s", texName, mapFileName))
-					end
 				end
 
 				texture:Show()
