@@ -1604,6 +1604,9 @@ function FogClear:OnEnable()
 	wipe(worldMapCache)
 	self.NUM_WORLDMAP_OVERLAYS = 0
 
+	wipe(battleMapCache)
+	self.NUM_BATTLEFIELDMAP_OVERLAYS = 0;
+
 	if not IsAddOnLoaded("Blizzard_BattlefieldMinimap") then
 		self:RegisterEvent("ADDON_LOADED", function(event, addon)
 			if addon == "Blizzard_BattlefieldMinimap" then
@@ -1614,14 +1617,8 @@ function FogClear:OnEnable()
 	else
 		self:SecureHook("BattlefieldMinimap_Update", "UpdateBattlefieldMinimapOverlays")
 
-		wipe(battleMapCache)
-		for i = 1, BattlefieldMinimap:GetAttribute("NUM_BATTLEFIELDMAP_OVERLAYS") do
-			tinsert(battleMapCache, _G[format("BattlefieldMinimapOverlay%d", i)])
-		end
-		BattlefieldMinimap:SetAttribute("NUM_BATTLEFIELDMAP_OVERLAYS", 0)
-
 		if BattlefieldMinimap:IsShown() then
-			BattlefieldMinimap_Update()
+			self:UpdateBattlefieldMinimapOverlays()
 		end
 	end
 
@@ -1653,13 +1650,17 @@ function FogClear:OnDisable()
 	end
 
 	if BattlefieldMinimap then
-		local num = #battleMapCache
-		BattlefieldMinimap:SetAttribute("NUM_BATTLEFIELDMAP_OVERLAYS", num)
-		for i=1, num do
+		for i = 1, BattlefieldMinimap:GetAttribute("NUM_BATTLEFIELDMAP_OVERLAYS") do
 			tex = _G[format("BattlefieldMinimapOverlay%d", i)]
 			tex:SetVertexColor(1,1,1)
 			tex:SetAlpha(1 - BattlefieldMinimapOptions.opacity)
 		end
+
+		-- hide all overlays
+		for i = 1, #battleMapCache do
+			battleMapCache[i]:Hide()
+		end
+
 		if BattlefieldMinimap:IsShown() then
 			BattlefieldMinimap_Update()
 		end
@@ -1804,6 +1805,15 @@ end
 function FogClear:UpdateBattlefieldMinimapOverlays()
 	if not BattlefieldMinimap or not BattlefieldMinimap:IsShown() then return end
 	local scale = BattlefieldMinimap1:GetWidth()/256
+
+	-- update battleMapCache
+	local NUM_BATTLEFIELDMAP_OVERLAYS = BattlefieldMinimap:GetAttribute("NUM_BATTLEFIELDMAP_OVERLAYS")
+	if NUM_BATTLEFIELDMAP_OVERLAYS > self.NUM_BATTLEFIELDMAP_OVERLAYS then
+		for i = self.NUM_WORLDMAP_OVERLAYS + 1, NUM_WORLDMAP_OVERLAYS do
+			tinsert(battleMapCache, i, _G[format("BattlefieldMinimapOverlay%d", i)])
+		end
+		self.NUM_BATTLEFIELDMAP_OVERLAYS = NUM_BATTLEFIELDMAP_OVERLAYS
+	end
 	updateOverlayTextures(BattlefieldMinimap, "MapsterBattlefieldMinimapOverlay%d", battleMapCache, scale, BattlefieldMinimapOptions.opacity)
 end
 
