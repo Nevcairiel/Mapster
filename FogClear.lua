@@ -1793,7 +1793,6 @@ end
 function FogClear:UpdateWorldMapOverlays()
 	if not WorldMapFrame:IsShown() then return end
 	if NUM_WORLDMAP_OVERLAYS > self.NUM_WORLDMAP_OVERLAYS then
-		local tex
 		for i = self.NUM_WORLDMAP_OVERLAYS + 1, NUM_WORLDMAP_OVERLAYS do
 			tinsert(worldMapCache, i, _G[format("WorldMapOverlay%d", i)])
 		end
