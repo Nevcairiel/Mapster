@@ -14,7 +14,7 @@ local mod, floor, ceil = math.fmod, math.floor, math.ceil
 local strlower, format = string.lower, string.format
 local wipe, tinsert, pairs = table.wipe, table.insert, pairs
 
-local FOGCLEAR_VERSION = 1
+local FOGCLEAR_VERSION = 2
 
 local errata = {
 	["AhnQirajTheFallenKingdom"] = {
@@ -1515,14 +1515,7 @@ local defaults = {
 		colorB = 1,
 		colorA = 1,
 	},
-	global = {
-		errata = errata,
-	},
 }
-
-local function clearFogClearData()
-	for k,v in pairs(FogClear.db.global.errata) do FogClear.db.global.errata[k] = nil end
-end
 
 local options
 
@@ -1554,23 +1547,6 @@ local function getOptions()
 					handler = FogClear,
 					hasAlpha = true,
 				},
-				nl = {
-					order = 4,
-					type = "description",
-					name = "",
-				},
-				reset = {
-					order = 5,
-					type = "execute",
-					name = L["Reset FogClear Data"],
-					desc = L["FogClear collects new Data in your own SavedVariables, but that data might get corrupted (or simply old) with a new patch. Reset the data if you see corruption in the world map."],
-					func = function() clearFogClearData() end,
-				},
-				desc = {
-					order = 7,
-					type = "description",
-					name = L["Note: You need to reload your UI after reseting the data!"],
-				},
 			}
 		}
 	end
@@ -1582,14 +1558,10 @@ end
 function FogClear:OnInitialize()
 	self.db = Mapster.db:RegisterNamespace(MODNAME, defaults)
 	db = self.db.profile
-	self.overlays = self.db.global.errata
-
-	self.overlays["IsleoftheThunderKing"] = false
-	self.overlays["IsleoftheThunderKingScenario"] = false
 
 	if db.version == nil or db.version < FOGCLEAR_VERSION then
 		db.version = FOGCLEAR_VERSION
-		clearFogClearData()
+		self.db.global.errata = nil
 	end
 
 	self:SetEnabledState(Mapster:GetModuleEnabled(MODNAME))
@@ -1677,9 +1649,9 @@ end
 
 function FogClear:RealHasOverlays()
 	local mapFileName = GetMapInfo()
-	if not mapFileName or not self.overlays then return false end
+	if not mapFileName or not errata then return false end
 
-	local overlayMap = self.overlays[mapFileName]
+	local overlayMap = errata[mapFileName]
 	if overlayMap and next(overlayMap) then return true else return false end
 end
 
@@ -1695,7 +1667,7 @@ local function updateOverlayTextures(frame, frameName, textureCache, scale, alph
 	end
 
 	local pathPrefix = "Interface\\WorldMap\\"..mapFileName.."\\"
-	local overlayMap = self.overlays[mapFileName]
+	local overlayMap = errata[mapFileName]
 	if not overlayMap then
 		overlayMap = {}
 	end
