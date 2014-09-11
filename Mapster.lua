@@ -160,10 +160,6 @@ function Mapster:OnEnable()
 	self:SecureHook("HelpPlate_Show")
 	self:SecureHook("HelpPlate_Hide")
 	self:SecureHook("HelpPlate_Button_AnimGroup_Show_OnFinished")
-
-	if vis then
-		ToggleFrame(WorldMapFrame)
-	end
 end
 
 function Mapster:Refresh()
