@@ -160,6 +160,16 @@ function Mapster:OnEnable()
 	self:SecureHook("HelpPlate_Show")
 	self:SecureHook("HelpPlate_Hide")
 	self:SecureHook("HelpPlate_Button_AnimGroup_Show_OnFinished")
+
+	-- Update digsites, the Blizzard map doesn't set this properly on load
+	local _, _, arch = GetProfessions()
+	if arch then
+		if GetCVarBool("digSites") then
+			WorldMapArchaeologyDigSites:Show()
+		else
+			WorldMapArchaeologyDigSites:Hide()
+		end
+	end
 end
 
 function Mapster:Refresh()
