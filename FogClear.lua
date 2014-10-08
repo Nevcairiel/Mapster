@@ -158,7 +158,7 @@ local errata = {
 		["DreadmaulPost"] = 195764089067,
 		["NethergardeKeep"] = 6998406439,
 		["NethergardeSupplyCamps"] = 457383107,
-		["RiseoftheDefiler"] = 109915056296,
+		["RISEOFTHEDEFILER"] = 109915056296,
 		["SerpentsCoil"] = 104634440922,
 		["Shattershore"] = 98316859632,
 		["SunveilExcursion"] = 401984465129,
@@ -980,7 +980,7 @@ local errata = {
 		["CLUTCHPOP"] = 410728497369,
 		["EASTMUSHROOMS"] = 167110758582,
 		["EMPTYGARRISON"] = 280542506174,
-		["HOWLINGCRAG"] = 481576238,
+		["HOWLINGCRAG"] = 481577342,
 		["NWCORNER"] = 107266362,
 		["SETHEKKHOLLOW"] = 136910773486,
 		["SKETTIS"] = 303217011,
@@ -1506,6 +1506,7 @@ errata.Gilneas_terrain2 = errata.Gilneas
 errata.TheLostIsles_terrain1 = errata.TheLostIsles
 errata.TheLostIsles_terrain2 = errata.TheLostIsles
 errata.TwilightHighlands_terrain1 = errata.TwilightHighlands
+errata.BlastedLands_terrain1 = errata.BlastedLands
 
 local db
 local defaults = {
