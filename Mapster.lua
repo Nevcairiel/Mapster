@@ -17,7 +17,7 @@ local defaults = {
 		},
 		x = 0,
 		y = 0,
-		points = "CENTER",
+		point = "CENTER",
 		scale = 1,
 		poiScale = 0.9,
 		ejScale = 0.8,
