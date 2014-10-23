@@ -1698,7 +1698,7 @@ local function updateOverlayTextures(frame, frameName, textureCache, scale, alph
 
 	local numOv = #textureCache
 	for i, texName in ipairs(overlayList) do
-		if texName and texName ~= "" then
+		if texName and texName ~= "" and overlayMap[texName] then
 			local texID = overlayMap[texName]
 			local textureName = pathPrefix .. texName
 			local textureWidth, textureHeight, offsetX, offsetY = mod(texID, 2^10), mod(floor(texID / 2^10), 2^10), mod(floor(texID / 2^20), 2^10), floor(texID / 2^30)
