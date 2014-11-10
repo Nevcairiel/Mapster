@@ -375,6 +375,13 @@ function wmfOnShow(frame)
 	Mapster:SetStrata()
 	Mapster:SetScale()
 	realZone = getZoneId()
+
+	if IsPlayerMoving() and GetCVarBool("mapFade") then
+		if not WorldMapFrame:IsMouseOver() then
+			WorldMapFrame:SetAlpha(WORLD_MAP_MIN_ALPHA)
+		end
+		WorldMapFrame.fadeOut = true
+	end
 end
 
 function wmfStartMoving(frame)
