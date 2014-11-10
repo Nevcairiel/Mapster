@@ -414,6 +414,7 @@ end
 
 function Mapster:SetAlpha()
 	WorldMapFrame:SetAlpha(db.alpha)
+	WORLD_MAP_MAX_ALPHA =  db.alpha
 end
 
 function Mapster:SetArrow()
