@@ -97,8 +97,8 @@ function Mapster:OnEnable()
 
 	-- remove from UI panel system
 	UIPanelWindows["WorldMapFrame"] = nil
-	SetUIPanelAttribute(WorldMapFrame, "area", nil)
-	SetUIPanelAttribute(WorldMapFrame, "enabled", false)
+	WorldMapFrame:SetAttribute("UIPanelLayout-area", nil)
+	WorldMapFrame:SetAttribute("UIPanelLayout-enabled", false)
 	WorldMapFrame:HookScript("OnShow", wmfOnShow)
 	BlackoutWorld:Hide()
 
