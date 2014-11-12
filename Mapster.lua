@@ -60,7 +60,7 @@ local db = setmetatable({}, {
 
 local format = string.format
 
-local wmfOnShow, wmfStartMoving, wmfStopMoving, dropdownScaleFix
+local wmfOnShow, wmfStartMoving, wmfStopMoving, dropdownScaleFix, WorldMapFrameGetAlpha
 
 function Mapster:OnInitialize()
 	self.db = LibStub("AceDB-3.0"):New("MapsterDB", defaults, true)
@@ -121,6 +121,9 @@ function Mapster:OnEnable()
 	WorldMapFrameSizeDownButton:SetScript("OnClick", function() Mapster:ToggleMapSize() end)
 	WorldMapFrameSizeUpButton:SetScript("OnClick", function() Mapster:ToggleMapSize() end)
 	self:RawHook("WorldMapFrame_ToggleWindowSize", "ToggleMapSize", true)
+
+	WorldMapFrame.GetAlphaMapster = WorldMapFrame.GetAlpha
+	WorldMapFrame.GetAlpha = WorldMapFrameGetAlpha
 
 	tinsert(UISpecialFrames, "WorldMapFrame")
 
@@ -422,6 +425,17 @@ end
 function Mapster:SetAlpha()
 	WorldMapFrame:SetAlpha(db.alpha)
 	WORLD_MAP_MAX_ALPHA =  db.alpha
+end
+
+function WorldMapFrameGetAlpha(frame)
+	local alpha = WorldMapFrame:GetAlphaMapster()
+	if abs(alpha - WORLD_MAP_MAX_ALPHA) < 0.05 then
+		return WORLD_MAP_MAX_ALPHA
+	end
+	if abs(alpha - WORLD_MAP_MIN_ALPHA) < 0.05 then
+		return WORLD_MAP_MIN_ALPHA
+	end
+	return alpha
 end
 
 function Mapster:SetArrow()
