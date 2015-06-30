@@ -323,7 +323,7 @@ end
 function Maps:UpdateCurrentContinent()
 	if self.mapCont then
 		self.continentDropDown:SetValue(self.mapCont)
-	elseif (GetCurrentMapContinent() == WORLDMAP_WORLD_ID) or (GetCurrentMapContinent() == WORLDMAP_COSMIC_ID) then
+	elseif (GetCurrentMapContinent() == WORLDMAP_AZEROTH_ID) or (GetCurrentMapContinent() == WORLDMAP_COSMIC_ID) then
 		self.continentDropDown:SetValue(0)
 	else
 		self.continentDropDown:SetValue(GetCurrentMapContinent())
@@ -349,7 +349,7 @@ do
 			else
 				self.zoneDropDown:SetValue(0)
 			end
-		elseif (GetCurrentMapContinent() == WORLDMAP_WORLD_ID) or (GetCurrentMapContinent() == WORLDMAP_COSMIC_ID) then
+		elseif (GetCurrentMapContinent() == WORLDMAP_AZEROTH_ID) or (GetCurrentMapContinent() == WORLDMAP_COSMIC_ID) then
 			self.zoneDropDown:SetValue(0)
 		else
 			self.zoneDropDown:SetValue(GetCurrentMapZone())
