@@ -250,9 +250,12 @@ end
 
 function Mapster:WorldMap_GetOrCreateTaskPOI(index, isObjectIcon, atlasIcon)
 	local button = _G["WorldMapFrameTaskPOI"..index]
-	button:SetScale(db.poiScale)
-	button.__SetPoint = button.SetPoint
-	self:SecureHook(button, "SetPoint", "WorldMapPOISetPoint")
+	if not button.__MapsterHooked then
+		button:SetScale(db.poiScale)
+		button.__SetPoint = button.SetPoint
+		self:SecureHook(button, "SetPoint", "WorldMapPOISetPoint")
+		button.__MapsterHooked = true
+	end
 end
 
 function Mapster:WorldMapPOISetPoint(frame, point, relFrame, relPoint, x, y)
