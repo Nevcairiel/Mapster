@@ -8,6 +8,8 @@ local Mapster = LibStub("AceAddon-3.0"):NewAddon("Mapster", "AceEvent-3.0", "Ace
 local LibWindow = LibStub("LibWindow-1.1")
 local L = LibStub("AceLocale-3.0"):GetLocale("Mapster")
 
+local IsLegion = select(4, GetBuildInfo()) >= 70000
+
 local defaults = {
 	profile = {
 		hideMapButton = false,
@@ -147,12 +149,16 @@ function Mapster:OnEnable()
 
 	-- hook to overwrite scale to include our custom scale
 	self:SecureHook("WorldMapBlobFrame_CalculateHitTranslations")
-	self:SecureHook("WorldMap_CreateTaskPOI")
+	if IsLegion then
+		self:SecureHook("WorldMap_GetOrCreateTaskPOI")
+	else
+		self:SecureHook("WorldMap_CreateTaskPOI", "WorldMap_GetOrCreateTaskPOI")
+	end
 
 	self:SecureHook("WorldMapPOIFrame_AnchorPOI")
 
 	for i = 1, NUM_WORLDMAP_TASK_POIS do
-		self:WorldMap_CreateTaskPOI(i)
+		self:WorldMap_GetOrCreateTaskPOI(i)
 	end
 
 	self:SecureHook("EncounterJournal_AddMapButtons")
@@ -242,7 +248,7 @@ function Mapster:WorldMapBlobFrame_CalculateHitTranslations()
 	WorldMapBlobFrame.scale = WorldMapFrame:GetScale() * UIParent:GetScale()
 end
 
-function Mapster:WorldMap_CreateTaskPOI(index, isObjectIcon, atlasIcon)
+function Mapster:WorldMap_GetOrCreateTaskPOI(index, isObjectIcon, atlasIcon)
 	local button = _G["WorldMapFrameTaskPOI"..index]
 	button:SetScale(db.poiScale)
 	button.__SetPoint = button.SetPoint
