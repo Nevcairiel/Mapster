@@ -164,6 +164,9 @@ function Mapster:OnEnable()
 	self:SecureHook("HelpPlate_Hide")
 	self:SecureHook("HelpPlate_Button_AnimGroup_Show_OnFinished")
 
+	-- fix scale of tooltips, which would otherwise inherit the scale of the map
+	WorldMapTooltip:HookScript("OnShow", function(self) self:SetScale(1 / WorldMapFrame:GetScale()) end)
+
 	-- Update digsites, the Blizzard map doesn't set this properly on load
 	local _, _, arch = GetProfessions()
 	if arch then
