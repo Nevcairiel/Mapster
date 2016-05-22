@@ -81,11 +81,6 @@ function Mapster:OnEnable()
 	self:SetScale()
 	--self:UpdateMouseInteractivity()
 
-	-- apply settings to already created frames
-	for i = 1, NUM_WORLDMAP_TASK_POIS do
-		self:WorldMap_GetOrCreateTaskPOI(i)
-	end
-
 	-- Update digsites, the Blizzard map doesn't set this properly on load
 	--[[local _, _, arch = GetProfessions()
 	if arch then
@@ -127,9 +122,6 @@ function Mapster:Refresh()
 	--self:UpdateMouseInteractivity()
 
 	-- apply settings to blizzard frames
-	for i = 1, NUM_WORLDMAP_TASK_POIS do
-		_G["WorldMapFrameTaskPOI"..i]:SetScale(db.poiScale)
-	end
 	WorldMap_UpdateQuestBonusObjectives()
 	WorldMapScrollFrame_ReanchorQuestPOIs()
 	self:EncounterJournal_AddMapButtons()
