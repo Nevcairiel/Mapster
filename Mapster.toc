@@ -9,7 +9,7 @@
 ## Version: @project-version@
 ## X-License: All rights reserved.
 
-## OptionalDeps: Ace3, LibWindow-1.1
+## OptionalDeps: Ace3
 
 #@no-lib-strip@
 Libs\LibStub\LibStub.lua
@@ -25,8 +25,6 @@ Libs\AceLocale-3.0\AceLocale-3.0.xml
 Libs\AceGUI-3.0\AceGUI-3.0.xml
 Libs\AceConsole-3.0\AceConsole-3.0.xml
 Libs\AceConfig-3.0\AceConfig-3.0.xml
-
-Libs\LibWindow-1.1\LibWindow-1.1.lua
 #@end-no-lib-strip@
 
 Locale\locale.xml

@@ -5,7 +5,6 @@ All rights reserved.
 
 local Mapster = LibStub("AceAddon-3.0"):NewAddon("Mapster", "AceEvent-3.0", "AceHook-3.0")
 
-local LibWindow = LibStub("LibWindow-1.1")
 local L = LibStub("AceLocale-3.0"):GetLocale("Mapster")
 
 local IsLegion = select(4, GetBuildInfo()) >= 70000
@@ -17,56 +16,21 @@ local defaults = {
 		modules = {
 			['*'] = true,
 		},
-		x = 0,
-		y = 0,
-		point = "CENTER",
 		scale = 1,
 		poiScale = 0.9,
 		ejScale = 0.8,
 		alpha = 1,
-		hideBorder = false,
 		disableMouse = false,
-		miniMap = false,
-		mini = {
-			x = 230,
-			y = -165,
-			point = "TOPLEFT",
-			scale = 0.7,
-			alpha = 0.9,
-			hideBorder = true,
-			disableMouse = true,
-		}
 	}
 }
 
--- Variables that are changed on "mini" mode
-local miniList = { x = true, y = true, point = true, scale = true, alpha = true, hideBorder = true, disableMouse = true }
-
-local db_
-local db = setmetatable({}, {
-	__index = function(t, k)
-		if Mapster.miniMap and miniList[k] then
-			return db_.mini[k]
-		else
-			return db_[k]
-		end
-	end,
-	__newindex = function(t, k, v)
-		if Mapster.miniMap and miniList[k] then
-			db_.mini[k] = v
-		else
-			db_[k] = v
-		end
-	end
-})
-
 local format = string.format
 
-local wmfOnShow, wmfStartMoving, wmfStopMoving, dropdownScaleFix, WorldMapFrameGetAlpha
+local wmfOnShow, dropdownScaleFix, WorldMapFrameGetAlpha
 
 function Mapster:OnInitialize()
 	self.db = LibStub("AceDB-3.0"):New("MapsterDB", defaults, true)
-	db_ = self.db.profile
+	db = self.db.profile
 
 	self.db.RegisterCallback(self, "OnProfileChanged", "Refresh")
 	self.db.RegisterCallback(self, "OnProfileCopied", "Refresh")
@@ -82,86 +46,27 @@ end
 
 local realZone
 function Mapster:OnEnable()
-	SetCVar("miniWorldMap", 1)
-
-	-- force map into window mode
-	if not WorldMapFrame_InWindowedMode() then
-		WorldMap_ToggleSizeDown()
-	end
-
-	-- ensure the map remains movable
-	SetCVar("lockedWorldMap", 0);
-	WORLDMAP_SETTINGS.locked = false
-
 	self:SetupMapButton()
 
-	LibWindow.RegisterConfig(WorldMapFrame, db)
-
-	-- remove from UI panel system
-	UIPanelWindows["WorldMapFrame"] = nil
-	WorldMapFrame:SetAttribute("UIPanelLayout-area", nil)
-	WorldMapFrame:SetAttribute("UIPanelLayout-enabled", false)
+	-- hook onshow to apply alpha and store current zone
 	WorldMapFrame:HookScript("OnShow", wmfOnShow)
-	BlackoutWorld:Hide()
-
-	--WorldMapFrame:SetScript("OnKeyDown", nil)
-
-	WorldMapFrame:SetMovable(true)
-	WorldMapFrame:RegisterForDrag("LeftButton")
-	WorldMapFrame:SetScript("OnDragStart", wmfStartMoving)
-	WorldMapFrame:SetScript("OnDragStop", wmfStopMoving)
-
-	WorldMapTitleButton:Hide()
-	WorldMapTitleButton:SetParent(self.UIHider)
-
-	WorldMapFrame:SetParent(UIParent)
-	WorldMapFrame:SetToplevel(true)
-	WorldMapFrame:SetClampedToScreen(false)
-
-	self:SecureHook("NavBar_ToggleMenu")
-
-	WorldMapFrameSizeDownButton:SetScript("OnClick", function() Mapster:ToggleMapSize() end)
-	WorldMapFrameSizeUpButton:SetScript("OnClick", function() Mapster:ToggleMapSize() end)
-	self:RawHook("WorldMapFrame_ToggleWindowSize", "ToggleMapSize", true)
-
-	WorldMapFrame.GetAlphaMapster = WorldMapFrame.GetAlpha
-	WorldMapFrame.GetAlpha = WorldMapFrameGetAlpha
-
-	tinsert(UISpecialFrames, "WorldMapFrame")
-
 	self:RegisterEvent("ZONE_CHANGED_NEW_AREA")
 
-	if db.miniMap then
-		self:SizeDown()
-	else
-		WorldMapFrameSizeUpButton:Hide()
-		WorldMapFrameSizeDownButton:Show()
-	end
-	self.miniMap = db.miniMap
-	self.bordersVisible = true
+	-- hook the navbar to be able to scale tooltips
+	self:SecureHook("NavBar_ToggleMenu")
 
-	self:SetPosition()
-	self:SetAlpha()
-	self:SetArrow()
-	self:SetScale()
-	self:UpdateBorderVisibility()
-	self:UpdateMouseInteractivity()
+	-- fix scale of the worldmap tooltip
+	WorldMapTooltip:HookScript("OnShow", function(self) self:SetScale(1 / WorldMapFrame:GetScale()) end)
 
 	-- hook to overwrite scale to include our custom scale
 	self:SecureHook("WorldMapBlobFrame_CalculateHitTranslations")
+	self:SecureHook("WorldMapPOIFrame_AnchorPOI")
+	self:SecureHook("EncounterJournal_AddMapButtons")
 	if IsLegion then
 		self:SecureHook("WorldMap_GetOrCreateTaskPOI")
 	else
 		self:SecureHook("WorldMap_CreateTaskPOI", "WorldMap_GetOrCreateTaskPOI")
 	end
-
-	self:SecureHook("WorldMapPOIFrame_AnchorPOI")
-
-	for i = 1, NUM_WORLDMAP_TASK_POIS do
-		self:WorldMap_GetOrCreateTaskPOI(i)
-	end
-
-	self:SecureHook("EncounterJournal_AddMapButtons")
 
 	self:RawHook(WorldMapPlayerLower, "SetPoint", "WorldMapPlayerSetPoint", true)
 	self:RawHook(WorldMapPlayerUpper, "SetPoint", "WorldMapPlayerSetPoint", true)
@@ -170,22 +75,37 @@ function Mapster:OnEnable()
 	self:SecureHook("HelpPlate_Hide")
 	self:SecureHook("HelpPlate_Button_AnimGroup_Show_OnFinished")
 
-	-- fix scale of tooltips, which would otherwise inherit the scale of the map
-	WorldMapTooltip:HookScript("OnShow", function(self) self:SetScale(1 / WorldMapFrame:GetScale()) end)
+	-- hook alpha to override it
+	WorldMapFrame.GetAlphaMapster = WorldMapFrame.GetAlpha
+	WorldMapFrame.GetAlpha = WorldMapFrameGetAlpha
+	WorldMapFrame.AnimAlphaIn:SetScript("OnFinished", function() WorldMapFrame:SetAlpha(db.alpha) end)
+
+	self:SecureHook("WorldMapFrame_AnimateAlpha")
+
+	-- load settings
+	self:SetAlpha()
+	self:SetArrow()
+	self:SetScale()
+	--self:UpdateMouseInteractivity()
+
+	-- apply settings to already created frames
+	for i = 1, NUM_WORLDMAP_TASK_POIS do
+		self:WorldMap_GetOrCreateTaskPOI(i)
+	end
 
 	-- Update digsites, the Blizzard map doesn't set this properly on load
-	local _, _, arch = GetProfessions()
+	--[[local _, _, arch = GetProfessions()
 	if arch then
 		if GetCVarBool("digSites") then
 			WorldMapArchaeologyDigSites:Show()
 		else
 			WorldMapArchaeologyDigSites:Hide()
 		end
-	end
+	end--]]
 end
 
 function Mapster:Refresh()
-	db_ = self.db.profile
+	db = self.db.profile
 
 	for k,v in self:IterateModules() do
 		if self:GetModuleEnabled(k) and not v:IsEnabled() then
@@ -198,18 +118,10 @@ function Mapster:Refresh()
 		end
 	end
 
-	if (db.miniMap and not self.miniMap) then
-		self:SizeDown()
-	elseif (not db.miniMap and self.miniMap) then
-		self:SizeUp()
-	end
-	self.miniMap = db.miniMap
-
-	self:SetStrata()
+	-- apply new settings
 	self:SetAlpha()
 	self:SetArrow()
 	self:SetScale()
-	self:SetPosition()
 
 	if self.optionsButton then
 		if db.hideMapButton then
@@ -219,9 +131,9 @@ function Mapster:Refresh()
 		end
 	end
 
-	self:UpdateBorderVisibility()
-	self:UpdateMouseInteractivity()
+	--self:UpdateMouseInteractivity()
 
+	-- apply settings to blizzard frames
 	for i = 1, NUM_WORLDMAP_TASK_POIS do
 		_G["WorldMapFrameTaskPOI"..i]:SetScale(db.poiScale)
 	end
@@ -315,59 +227,6 @@ function Mapster:HelpPlate_Button_AnimGroup_Show_OnFinished()
 	end
 end
 
-function Mapster:ToggleMapSize()
-	self.miniMap = not self.miniMap
-	db.miniMap = self.miniMap
-	ToggleFrame(WorldMapFrame)
-	if self.miniMap then
-		self:SizeDown()
-	else
-		self:SizeUp()
-	end
-	self:SetAlpha()
-	self:SetPosition()
-
-	self:UpdateBorderVisibility()
-	self:UpdateMouseInteractivity()
-
-	for k,v in self:IterateModules() do
-		if v:IsEnabled() and type(v.UpdateMapSize) == "function" then
-			v:UpdateMapSize(self.miniMap)
-		end
-	end
-
-	ToggleFrame(WorldMapFrame)
-end
-
-function Mapster:SizeUp()
-	WorldMapFrameSizeUpButton:Hide()
-	WorldMapFrameSizeDownButton:Show()
-
-	WorldMapFrame.UIElementsFrame.OpenQuestPanelButton:Show()
-	WorldMapFrame.MainHelpButton:Show()
-
-	if GetCVarBool("questLogOpen") or WorldMapFrame.questLogMode then
-		QuestMapFrame_Show()
-	end
-
-	WorldMapFrame_UpdateMap()
-	QuestMapFrame_UpdateAll()
-end
-
-function Mapster:SizeDown()
-	WorldMapFrameSizeUpButton:Show()
-	WorldMapFrameSizeDownButton:Hide()
-
-	WorldMapFrame.UIElementsFrame.OpenQuestPanelButton:Hide()
-	HelpPlate_Hide()
-	WorldMapFrame.MainHelpButton:Hide()
-
-	QuestMapFrame_Hide()
-
-	WorldMapFrame_UpdateMap()
-	QuestMapFrame_UpdateAll()
-end
-
 local function getZoneId()
 	return (GetCurrentMapZone() + GetCurrentMapContinent() * 100)
 end
@@ -387,8 +246,6 @@ function Mapster:ZONE_CHANGED_NEW_AREA()
 end
 
 function wmfOnShow(frame)
-	Mapster:SetStrata()
-	Mapster:SetScale()
 	realZone = getZoneId()
 
 	if IsPlayerMoving() and GetCVarBool("mapFade") then
@@ -397,17 +254,6 @@ function wmfOnShow(frame)
 		end
 		WorldMapFrame.fadeOut = true
 	end
-end
-
-function wmfStartMoving(frame)
-	WorldMapFrame:StartMoving()
-end
-
-function wmfStopMoving(frame)
-	WorldMapFrame:StopMovingOrSizing()
-	LibWindow.SavePosition(WorldMapFrame)
-
-	WorldMapBlobFrame_ResetHitTranslations()
 end
 
 function dropdownScaleFix()
@@ -424,30 +270,41 @@ function dropdownScaleFix()
 	DropDownList1:SetScale(uiScale * db.scale)
 end
 
-function Mapster:SetStrata()
-	WorldMapFrame:SetFrameStrata("HIGH")
-	-- restore some stratas
-	WorldMapPing:SetFrameStrata("FULLSCREEN")
-	WorldMapPlayerUpper:SetFrameStrata("FULLSCREEN")
-	WorldMapCompareTooltip1:SetFrameStrata("TOOLTIP")
-	WorldMapCompareTooltip2:SetFrameStrata("TOOLTIP")
-	WorldMapTooltip:SetFrameStrata("TOOLTIP")
-end
-
 function Mapster:SetAlpha()
 	WorldMapFrame:SetAlpha(db.alpha)
-	WORLD_MAP_MAX_ALPHA =  db.alpha
 end
 
 function WorldMapFrameGetAlpha(frame)
 	local alpha = WorldMapFrame:GetAlphaMapster()
-	if abs(alpha - WORLD_MAP_MAX_ALPHA) < 0.05 then
-		return WORLD_MAP_MAX_ALPHA
+	if abs(alpha - db.alpha) < 0.05 then
+		return db.alpha
 	end
 	if abs(alpha - WORLD_MAP_MIN_ALPHA) < 0.05 then
 		return WORLD_MAP_MIN_ALPHA
 	end
 	return alpha
+end
+
+function Mapster:WorldMapFrame_AnimateAlpha(frame, useStartDelay, anim, otherAnim, startAlpha, endAlpha)
+	if frame == WorldMapFrame then
+		if anim == frame.AnimAlphaIn and endAlpha ~= db.alpha then
+			startAlpha = anim.Alpha:GetFromAlpha()
+			local duration = ((db.alpha - startAlpha) / (db.alpha - WORLD_MAP_MIN_ALPHA)) * tonumber(GetCVar("mapAnimDuration"));
+			anim:Stop()
+			anim.Alpha:SetToAlpha(db.alpha)
+			anim.Alpha:SetDuration(abs(duration))
+			anim:Play()
+		elseif anim == frame.AnimAlphaOut and startAlpha ~= db.alpha then
+			frame:SetAlpha(db.alpha)
+
+			startAlpha = min(anim.Alpha:GetFromAlpha(), db.alpha)
+			local duration = ((endAlpha - startAlpha) / (db.alpha - WORLD_MAP_MIN_ALPHA)) * tonumber(GetCVar("mapAnimDuration"));
+			anim:Stop()
+			anim.Alpha:SetFromAlpha(startAlpha)
+			anim.Alpha:SetDuration(abs(duration))
+			anim:Play()
+		end
+	end
 end
 
 function Mapster:SetArrow()
@@ -465,84 +322,6 @@ function Mapster:SetScale()
 	WorldMapBlobFrame_ResetHitTranslations()
 end
 
-function Mapster:SetPosition()
-	LibWindow.RestorePosition(WorldMapFrame)
-end
-
-function Mapster:GetModuleEnabled(module)
-	return db.modules[module]
-end
-
-function Mapster:UpdateBorderVisibility()
-	if db.hideBorder and Mapster.bordersVisible then
-		Mapster.bordersVisible = false
-
-		WorldMapFrame.BorderFrame:Hide()
-		WorldMapFrameNavBar:Hide()
-		WorldMapFrame.UIElementsFrame.TrackingOptionsButton:Hide()
-
-		WorldMapFrameSizeDownButton:SetParent(WorldMapFrame)
-		WorldMapFrameSizeUpButton:SetParent(WorldMapFrame)
-		WorldMapFrameCloseButton:SetParent(WorldMapFrame)
-
-		self:RegisterEvent("WORLD_MAP_UPDATE", "UpdateDetailTiles")
-		self:UpdateDetailTiles()
-		self.optionsButton:Hide()
-
-		if not self.hookedOnUpdate then
-			self:HookScript(WorldMapFrame, "OnUpdate", "UpdateMapElements")
-			self.hookedOnUpdate = true
-		end
-		self:UpdateMapElements()
-	elseif not db.hideBorder and not Mapster.bordersVisible then
-		Mapster.bordersVisible = true
-
-		WorldMapFrame.BorderFrame:Show()
-		WorldMapFrameNavBar:Show()
-
-		WorldMapFrameSizeDownButton:SetParent(WorldMapFrame.BorderFrame)
-		WorldMapFrameSizeUpButton:SetParent(WorldMapFrame.BorderFrame)
-		WorldMapFrameCloseButton:SetParent(WorldMapFrame.BorderFrame)
-
-		self:UnregisterEvent("WORLD_MAP_UPDATE")
-		self:UpdateDetailTiles()
-		if not db.hideMapButton then
-			self.optionsButton:Show()
-		end
-		if self.hookedOnUpdate then
-			self:Unhook(WorldMapFrame, "OnUpdate")
-			self.hookedOnUpdate = nil
-		end
-		self:UpdateMapElements()
-	end
-
-	for k,v in self:IterateModules() do
-		if v:IsEnabled() and type(v.BorderVisibilityChanged) == "function" then
-			v:BorderVisibilityChanged(not db.hideBorder)
-		end
-	end
-end
-
-function Mapster:UpdateMapElements()
-	local mouseOver = WorldMapFrame:IsMouseOver()
-	if self.elementsHidden and (mouseOver or not db.hideBorder) then
-		self.elementsHidden = nil
-		(self.miniMap and WorldMapFrameSizeUpButton or WorldMapFrameSizeDownButton):Show()
-		WorldMapFrameCloseButton:Show()
-		for _, frame in pairs(self.elementsToHide) do
-			frame:Show()
-		end
-	elseif not self.elementsHidden and not mouseOver and db.hideBorder then
-		self.elementsHidden = true
-		WorldMapFrameSizeUpButton:Hide()
-		WorldMapFrameSizeDownButton:Hide()
-		WorldMapFrameCloseButton:Hide()
-		for _, frame in pairs(self.elementsToHide) do
-			frame:Hide()
-		end
-	end
-end
-
 function Mapster:UpdateMouseInteractivity()
 	if db.disableMouse then
 		WorldMapButton:EnableMouse(false)
@@ -553,25 +332,8 @@ function Mapster:UpdateMouseInteractivity()
 	end
 end
 
-local function hasOverlays()
-	if Mapster:GetModuleEnabled("FogClear") then
-		return Mapster:GetModule("FogClear"):RealHasOverlays()
-	else
-		return GetNumMapOverlays() > 0
-	end
-end
-
-function Mapster:UpdateDetailTiles()
-	local mapFileName, textureHeight, _, isMicroDungeon, microDungeonMapName = GetMapInfo()
-	if db.hideBorder and GetCurrentMapZone() > 0 and hasOverlays() and not isMicroDungeon then
-		for i=1, GetNumberOfDetailTiles() do
-			_G["WorldMapDetailTile"..i]:Hide()
-		end
-	else
-		for i=1, GetNumberOfDetailTiles() do
-			_G["WorldMapDetailTile"..i]:Show()
-		end
-	end
+function Mapster:GetModuleEnabled(module)
+	return db.modules[module]
 end
 
 function Mapster:SetModuleEnabled(module, value)
