@@ -85,18 +85,18 @@ local function getOptions()
 							min = 0.1, max = 2, bigStep = 0.01,
 							isPercent = true,
 						},
-						nl = {
-							order = 10,
-							type = "description",
-							name = "",
-						},
 						arrowScale = {
-							order = 11,
+							order = 7,
 							name = L["PlayerArrow Scale"],
 							desc = L["Adjust the size of the Player Arrow on the Map for better visibility."],
 							type = "range",
 							min = 0.5, max = 2, bigStep = 0.01,
 							isPercent = true,
+						},
+						nl = {
+							order = 10,
+							type = "description",
+							name = "",
 						},
 						poiScale = {
 							order = 12,
@@ -124,13 +124,8 @@ local function getOptions()
 							type = "toggle",
 							name = L["Hide Map Button"],
 						},
-						nl3 = {
-							order = 30,
-							type = "description",
-							name = "",
-						},
 						disableMouse = {
-							order = 33,
+							order = 22,
 							type = "toggle",
 							name = L["Disable Mouse"],
 							desc = L["Disable the mouse interactivity of the main map, eg. to change zones."],
