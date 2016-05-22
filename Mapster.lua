@@ -7,8 +7,6 @@ local Mapster = LibStub("AceAddon-3.0"):NewAddon("Mapster", "AceEvent-3.0", "Ace
 
 local L = LibStub("AceLocale-3.0"):GetLocale("Mapster")
 
-local IsLegion = select(4, GetBuildInfo()) >= 70000
-
 local defaults = {
 	profile = {
 		hideMapButton = false,
@@ -62,11 +60,7 @@ function Mapster:OnEnable()
 	self:SecureHook("WorldMapBlobFrame_CalculateHitTranslations")
 	self:SecureHook("WorldMapPOIFrame_AnchorPOI")
 	self:SecureHook("EncounterJournal_AddMapButtons")
-	if IsLegion then
-		self:SecureHook("WorldMap_GetOrCreateTaskPOI")
-	else
-		self:SecureHook("WorldMap_CreateTaskPOI", "WorldMap_GetOrCreateTaskPOI")
-	end
+	self:SecureHook("WorldMap_GetOrCreateTaskPOI")
 
 	self:RawHook(WorldMapPlayerLower, "SetPoint", "WorldMapPlayerSetPoint", true)
 	self:RawHook(WorldMapPlayerUpper, "SetPoint", "WorldMapPlayerSetPoint", true)
