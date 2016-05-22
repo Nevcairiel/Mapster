@@ -289,9 +289,8 @@ function Mapster:WorldMapFrame_AnimateAlpha(frame, useStartDelay, anim, otherAni
 			anim.Alpha:SetDuration(abs(duration))
 			anim:Play()
 		elseif anim == frame.AnimAlphaOut and startAlpha ~= db.alpha then
-			frame:SetAlpha(db.alpha)
-
 			startAlpha = min(anim.Alpha:GetFromAlpha(), db.alpha)
+			frame:SetAlpha(startAlpha)
 			local duration = ((endAlpha - startAlpha) / (db.alpha - WORLD_MAP_MIN_ALPHA)) * tonumber(GetCVar("mapAnimDuration"));
 			anim:Stop()
 			anim.Alpha:SetFromAlpha(startAlpha)
