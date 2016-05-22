@@ -60,7 +60,6 @@ function Mapster:OnEnable()
 	self:SecureHook("WorldMapBlobFrame_CalculateHitTranslations")
 	self:SecureHook("WorldMapPOIFrame_AnchorPOI")
 	self:SecureHook("EncounterJournal_AddMapButtons")
-	self:SecureHook("WorldMap_GetOrCreateTaskPOI")
 
 	self:RawHook(WorldMapPlayerLower, "SetPoint", "WorldMapPlayerSetPoint", true)
 	self:RawHook(WorldMapPlayerUpper, "SetPoint", "WorldMapPlayerSetPoint", true)
@@ -152,24 +151,6 @@ end
 
 function Mapster:WorldMapBlobFrame_CalculateHitTranslations()
 	WorldMapBlobFrame.scale = WorldMapFrame:GetScale() * UIParent:GetScale()
-end
-
-function Mapster:WorldMap_GetOrCreateTaskPOI(index, isObjectIcon, atlasIcon)
-	local button = _G["WorldMapFrameTaskPOI"..index]
-	if not button.__MapsterHooked then
-		button:SetScale(db.poiScale)
-		button.__SetPoint = button.SetPoint
-		self:SecureHook(button, "SetPoint", "WorldMapPOISetPoint")
-		button.__MapsterHooked = true
-	end
-end
-
-function Mapster:WorldMapPOISetPoint(frame, point, relFrame, relPoint, x, y)
-	if x and y then
-		x = x / db.poiScale
-		y = y / db.poiScale
-	end
-	return frame:__SetPoint(point, relFrame, relPoint, x, y)
 end
 
 function Mapster:WorldMapPOIFrame_AnchorPOI(poiButton, posX, posY)
