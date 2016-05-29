@@ -1161,9 +1161,6 @@ local errata = {
 		["VOLMAR"] = 184135423214,
 		["ZETHGOL"] = 208429903122,
 	},
-	--[[["TanaanJungleIntro"] = {
-		["TANK"] = 269853271183,
-	},--]]
 	["Tanaris"] = {
 		["AbyssalSands"] = 159225415935,
 		["BrokenPillar"] = 226992753859,
