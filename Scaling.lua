@@ -56,7 +56,7 @@ function Scale:OnEnable()
 			self:SetAllPoints(scaler)
 			Mapster.db.profile.scale = WorldMapFrame:GetScale()
 
-			WorldMapBlobFrame_ResetHitTranslations()
+			WorldMapFrame_ResetPOIHitTranslations()
 		end)
 		mousetracker:SetScript("OnMouseDown",function(self)
 			SOS.left, SOS.top = WorldMapFrame:GetLeft(), WorldMapFrame:GetTop()

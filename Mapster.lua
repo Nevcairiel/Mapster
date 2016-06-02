@@ -57,7 +57,7 @@ function Mapster:OnEnable()
 	WorldMapTooltip:HookScript("OnShow", function(self) self:SetScale(1 / WorldMapFrame:GetScale()) end)
 
 	-- hook to overwrite scale to include our custom scale
-	self:SecureHook("WorldMapBlobFrame_CalculateHitTranslations")
+	self:SecureHook("WorldMapFrame_CalculateHitTranslations")
 	self:SecureHook("WorldMapPOIFrame_AnchorPOI")
 	self:SecureHook("EncounterJournal_AddMapButtons")
 
@@ -141,8 +141,8 @@ function Mapster:WorldMapPlayerSetPoint(frame, point, relFrame, relPoint, x, y)
 	return self.hooks[frame].SetPoint(frame, point, relFrame, relPoint, x, y)
 end
 
-function Mapster:WorldMapBlobFrame_CalculateHitTranslations()
-	WorldMapBlobFrame.scale = WorldMapFrame:GetScale() * UIParent:GetScale()
+function Mapster:WorldMapFrame_CalculateHitTranslations(frame)
+	frame.scale = WorldMapFrame:GetScale() * UIParent:GetScale()
 end
 
 function Mapster:WorldMapPOIFrame_AnchorPOI(poiButton, posX, posY)
@@ -285,7 +285,7 @@ function Mapster:SetScale()
 	end
 
 	WorldMapBlobFrame_UpdateBlobs()
-	WorldMapBlobFrame_ResetHitTranslations()
+	WorldMapFrame_ResetPOIHitTranslations()
 end
 
 function Mapster:UpdateMouseInteractivity()
