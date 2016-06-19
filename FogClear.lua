@@ -1605,7 +1605,6 @@ local errata = {
 	},
 	["IsleoftheThunderKing"] = false,
 	["IsleoftheThunderKingScenario"] = false,
-	['*'] = {},
 }
 errata.Hyjal_terrain1 = errata.Hyjal
 errata.Uldum_terrain1 = errata.Uldum
