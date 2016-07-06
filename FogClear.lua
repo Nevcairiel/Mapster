@@ -1787,11 +1787,11 @@ local function updateOverlayTextures(frame, frameName, textureCache, scale, alph
 	local pathLen = strlen(pathPrefix) + 1
 
 	for i=1, numOverlays do
-		local texName, texWidth, texHeight, offsetX, offsetY = GetMapOverlayInfo(i)
+		local texName, texWidth, texHeight, offsetX, offsetY, isShownByMouseOver = GetMapOverlayInfo(i)
 		texName = strsub(texName or "", pathLen)
 		local texID = texWidth + texHeight * 2^10 + offsetX * 2^20 + offsetY * 2^30
 		if texID ~= 0 and texID ~= 131200 and texName ~= "" and strlower(texName) ~= "pixelfix" then
-			discoveredOverlays[texName] = texID
+			discoveredOverlays[texName] = isShownByMouseOver and 2 or 1
 			overlayMap[texName] = texID
 		end
 		overlayList[i] = texName or ""
@@ -1864,7 +1864,11 @@ local function updateOverlayTextures(frame, frameName, textureCache, scale, alph
 					if discoveredOverlays[texName] then
 						texture:SetVertexColor(1, 1, 1)
 						texture:SetAlpha(1 - (alphaMod or 0))
-						texture:SetDrawLayer("ARTWORK")
+						if discoveredOverlays[texName] == 2 then
+							texture:SetDrawLayer("ARTWORK", 1)
+						else
+							texture:SetDrawLayer("ARTWORK", 0)
+						end
 					else
 						texture:SetVertexColor(r, g, b)
 						texture:SetAlpha(a * ( 1 - (alphaMod or 0)))
