@@ -236,6 +236,9 @@ local errata = {
 		["THELOSTTEMPLE"] = 135934543185,
 		["TOMBOFSARGERAS"] = 391407006,
 	},
+	["BrokenShorePaladin"] = {
+		["THELOSTTEMPLE"] = 227633639800,
+	},
 	["BurningSteppes"] = {
 		["AltarofStorms"] = 368822,
 		["BlackrockMountain"] = 83235097,
