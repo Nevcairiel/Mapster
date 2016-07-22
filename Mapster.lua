@@ -25,6 +25,7 @@ local defaults = {
 local format = string.format
 
 local wmfOnShow, dropdownScaleFix, WorldMapFrameGetAlpha
+local db
 
 function Mapster:OnInitialize()
 	self.db = LibStub("AceDB-3.0"):New("MapsterDB", defaults, true)
