@@ -167,7 +167,7 @@ function OnUpdate()
 		cursortext:SetText("")
 	end
 
-	if px == 0 then
+	if not px or px == 0 then
 		playertext:SetText("")
 	else
 		playertext:SetFormattedText(text, player, 100 * px, 100 * py)
