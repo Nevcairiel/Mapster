@@ -62,9 +62,6 @@ function Mapster:OnEnable()
 	self:SecureHook("WorldMapPOIFrame_AnchorPOI")
 	self:SecureHook("EncounterJournal_AddMapButtons")
 
-	self:RawHook(WorldMapPlayerLower, "SetPoint", "WorldMapPlayerSetPoint", true)
-	self:RawHook(WorldMapPlayerUpper, "SetPoint", "WorldMapPlayerSetPoint", true)
-
 	self:SecureHook("HelpPlate_Show")
 	self:SecureHook("HelpPlate_Hide")
 	self:SecureHook("HelpPlate_Button_AnimGroup_Show_OnFinished")
@@ -132,14 +129,6 @@ function Mapster:NavBar_ToggleMenu(frame)
 	if frame:GetParent() and frame:GetParent():GetParent() == WorldMapFrame then
 		dropdownScaleFix()
 	end
-end
-
-function Mapster:WorldMapPlayerSetPoint(frame, point, relFrame, relPoint, x, y)
-	if x and y then
-		x = x / db.arrowScale
-		y = y / db.arrowScale
-	end
-	return self.hooks[frame].SetPoint(frame, point, relFrame, relPoint, x, y)
 end
 
 function Mapster:WorldMapFrame_CalculateHitTranslations(frame)
@@ -274,8 +263,7 @@ function Mapster:WorldMapFrame_AnimateAlpha(frame, useStartDelay, anim, otherAni
 end
 
 function Mapster:SetArrow()
-	WorldMapPlayerUpper:SetScale(db.arrowScale)
-	WorldMapPlayerLower:SetScale(db.arrowScale)
+	-- TODO, can we still do this?
 end
 
 function Mapster:SetScale()
