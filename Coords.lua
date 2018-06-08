@@ -10,8 +10,9 @@ local MODNAME = "Coords"
 local Coords = Mapster:NewModule(MODNAME)
 
 local GetCursorPosition = GetCursorPosition
-local GetPlayerMapPosition = GetPlayerMapPosition
-local WorldMapDetailFrame = WorldMapDetailFrame
+local GetPlayerMapPosition = C_Map.GetPlayerMapPosition
+local WorldMapBorderFrame = WorldMapFrame.BorderFrame
+local WorldMapScrollChild = WorldMapFrame.ScrollContainer.Child
 local display, cursortext, playertext
 local texttemplate, text = "%%s: %%.%df, %%.%df"
 
@@ -97,8 +98,7 @@ end
 
 function Coords:OnEnable()
 	if not display then
-		display = CreateFrame("Frame", "Mapster_CoordsFrame", WorldMapFrame)
-		display:SetFrameLevel(WorldMapFrame.UIElementsFrame:GetFrameLevel() + 20)
+		display = CreateFrame("Frame", "Mapster_CoordsFrame", WorldMapBorderFrame)
 
 		cursortext = display:CreateFontString(nil, "OVERLAY")
 		playertext = display:CreateFontString(nil, "OVERLAY")
@@ -108,8 +108,8 @@ function Coords:OnEnable()
 		cursortext:SetTextColor(1, 1, 1)
 		playertext:SetTextColor(1, 1, 1)
 
-		cursortext:SetPoint("TOPLEFT", WorldMapFrame.UIElementsFrame, "BOTTOM", 30, -5)
-		playertext:SetPoint("TOPRIGHT", WorldMapFrame.UIElementsFrame, "BOTTOM", -30, -5)
+		cursortext:SetPoint("TOPLEFT", WorldMapScrollChild, "BOTTOM", 30, -5)
+		playertext:SetPoint("TOPRIGHT", WorldMapScrollChild, "BOTTOM", -30, -5)
 
 		tinsert(Mapster.elementsToHide, display)
 	end
@@ -141,9 +141,9 @@ function Coords:UpdateMapSize()
 end
 
 function MouseXY()
-	local left, top = WorldMapDetailFrame:GetLeft(), WorldMapDetailFrame:GetTop()
-	local width, height = WorldMapDetailFrame:GetWidth(), WorldMapDetailFrame:GetHeight()
-	local scale = WorldMapDetailFrame:GetEffectiveScale()
+	local left, top = WorldMapScrollChild:GetLeft(), WorldMapScrollChild:GetTop()
+	local width, height = WorldMapScrollChild:GetWidth(), WorldMapScrollChild:GetHeight()
+	local scale = WorldMapScrollChild:GetEffectiveScale()
 
 	local x, y = GetCursorPosition()
 	local cx = (x/scale - left) / width
@@ -159,7 +159,11 @@ end
 local cursor, player = L["Cursor"], L["Player"]
 function OnUpdate()
 	local cx, cy = MouseXY()
-	local px, py = GetPlayerMapPosition("player")
+	local px, py
+	local xy = GetPlayerMapPosition(WorldMapFrame:GetMapID(), "player")
+	if xy then
+		px, py = xy:GetXY()
+	end
 
 	if cx then
 		cursortext:SetFormattedText(text, cursor, 100 * cx, 100 * cy)

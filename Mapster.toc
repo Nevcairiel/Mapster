@@ -32,7 +32,7 @@ Locale\locale.xml
 Mapster.lua
 Config.lua
 
-# Coords.lua
+Coords.lua
 # GroupIcons.lua
 # BattleMap.lua
 # FogClear.lua
