@@ -52,6 +52,7 @@ function Mapster:OnEnable()
 	self:SecureHook("HelpPlate_Show")
 	self:SecureHook("HelpPlate_Hide")
 	self:SecureHook("HelpPlate_Button_AnimGroup_Show_OnFinished")
+	self:RawHook(WorldMapFrame.ScrollContainer, "GetCursorPosition", "WorldMapFrame_ScrollContainer_GetCursorPosition", true)
 
 	-- load settings
 	--self:SetAlpha()
@@ -103,6 +104,12 @@ function Mapster:SetScale()
 		SetUIPanelAttribute(WorldMapFrame, "xoffset", xOff)
 		SetUIPanelAttribute(WorldMapFrame, "yoffset", yOff)
 	end
+end
+
+function Mapster:WorldMapFrame_ScrollContainer_GetCursorPosition()
+	local x,y = self.hooks[WorldMapFrame.ScrollContainer].GetCursorPosition(WorldMapFrame.ScrollContainer)
+	local s = WorldMapFrame:GetScale()
+	return x / s, y / s
 end
 
 function Mapster:WorldMapFrame_OnFrameSizeChanged()
