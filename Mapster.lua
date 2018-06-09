@@ -47,12 +47,15 @@ local realZone
 function Mapster:OnEnable()
 	self:SetupMapButton()
 
-	self:SecureHook(WorldMapFrame, "OnFrameSizeChanged", "WorldMapFrame_OnFrameSizeChanged")
+	self:SecureHook(WorldMapFrame, "SynchronizeDisplayState", "WorldMapFrame_SynchronizeDisplayState")
 
 	self:SecureHook("HelpPlate_Show")
 	self:SecureHook("HelpPlate_Hide")
 	self:SecureHook("HelpPlate_Button_AnimGroup_Show_OnFinished")
 	self:RawHook(WorldMapFrame.ScrollContainer, "GetCursorPosition", "WorldMapFrame_ScrollContainer_GetCursorPosition", true)
+
+	self:RegisterEvent("PLAYER_REGEN_DISABLED", "OnEnterCombat")
+	self:RegisterEvent("PLAYER_REGEN_ENABLED", "OnLeaveCombat")
 
 	-- load settings
 	--self:SetAlpha()
@@ -88,12 +91,23 @@ function Mapster:Refresh()
 	end
 end
 
+function Mapster:OnEnterCombat()
+	WorldMapFrame.BorderFrame.MaximizeMinimizeFrame.MaximizeButton:Disable()
+	WorldMapFrame.BorderFrame.MaximizeMinimizeFrame.MinimizeButton:Disable()
+end
+
+function Mapster:OnLeaveCombat()
+	WorldMapFrame.BorderFrame.MaximizeMinimizeFrame.MaximizeButton:Enable()
+	WorldMapFrame.BorderFrame.MaximizeMinimizeFrame.MinimizeButton:Enable()
+end
+
+
 function Mapster:SetScale()
-	if WorldMapFrame:IsMaximized() then
+	if WorldMapFrame:IsMaximized() and WorldMapFrame:GetScale() ~= 1 then
 		WorldMapFrame:SetScale(1)
 		SetUIPanelAttribute(WorldMapFrame, "xoffset", 0)
 		SetUIPanelAttribute(WorldMapFrame, "yoffset", 0)
-	else
+	elseif not WorldMapFrame:IsMaximized() and WorldMapFrame:GetScale() ~= db.scale then
 		WorldMapFrame:SetScale(db.scale)
 
 		-- adjust x/y offset to compensate for scale changes
@@ -112,7 +126,7 @@ function Mapster:WorldMapFrame_ScrollContainer_GetCursorPosition()
 	return x / s, y / s
 end
 
-function Mapster:WorldMapFrame_OnFrameSizeChanged()
+function Mapster:WorldMapFrame_SynchronizeDisplayState()
 	self:SetScale()
 end
 
