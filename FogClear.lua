@@ -9,7 +9,7 @@ local L = LibStub("AceLocale-3.0"):GetLocale("Mapster")
 local MODNAME = "FogClear"
 local FogClear = Mapster:NewModule(MODNAME, "AceHook-3.0", "AceEvent-3.0")
 
-local mod, floor, ceil = math.fmod, math.floor, math.ceil
+local mod, floor, ceil, tonumber = math.fmod, math.floor, math.ceil, tonumber
 local wipe, concat, ipairs, pairs = table.wipe, table.concat, ipairs, pairs
 
 -- data
