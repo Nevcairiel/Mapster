@@ -36,4 +36,4 @@ Coords.lua
 # GroupIcons.lua
 # BattleMap.lua
 # FogClear.lua
-# Scaling.lua
+Scaling.lua

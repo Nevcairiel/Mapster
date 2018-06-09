@@ -47,10 +47,16 @@ local realZone
 function Mapster:OnEnable()
 	self:SetupMapButton()
 
+	self:SecureHook(WorldMapFrame, "OnFrameSizeChanged", "WorldMapFrame_OnFrameSizeChanged")
+
+	self:SecureHook("HelpPlate_Show")
+	self:SecureHook("HelpPlate_Hide")
+	self:SecureHook("HelpPlate_Button_AnimGroup_Show_OnFinished")
+
 	-- load settings
 	--self:SetAlpha()
 	--self:SetArrow()
-	--self:SetScale()
+	self:SetScale()
 end
 
 function Mapster:Refresh()
@@ -70,7 +76,7 @@ function Mapster:Refresh()
 	-- apply new settings
 	--self:SetAlpha()
 	--self:SetArrow()
-	--self:SetScale()
+	self:SetScale()
 
 	if self.optionsButton then
 		if db.hideMapButton then
@@ -78,6 +84,49 @@ function Mapster:Refresh()
 		else
 			self.optionsButton:Show()
 		end
+	end
+end
+
+function Mapster:SetScale()
+	if WorldMapFrame:IsMaximized() then
+		WorldMapFrame:SetScale(1)
+		SetUIPanelAttribute(WorldMapFrame, "xoffset", 0)
+		SetUIPanelAttribute(WorldMapFrame, "yoffset", 0)
+	else
+		WorldMapFrame:SetScale(db.scale)
+
+		-- adjust x/y offset to compensate for scale changes
+		local xOff = UIParent:GetAttribute("LEFT_OFFSET")
+		local yOff = UIParent:GetAttribute("TOP_OFFSET")
+		xOff = xOff / db.scale - xOff
+		yOff = yOff / db.scale - yOff
+		SetUIPanelAttribute(WorldMapFrame, "xoffset", xOff)
+		SetUIPanelAttribute(WorldMapFrame, "yoffset", yOff)
+	end
+end
+
+function Mapster:WorldMapFrame_OnFrameSizeChanged()
+	self:SetScale()
+end
+
+function Mapster:HelpPlate_Show(plate, frame)
+	if frame == WorldMapFrame then
+		HelpPlate:SetScale(db.scale)
+		HelpPlate.__Mapster = true
+	end
+end
+
+function Mapster:HelpPlate_Hide(userToggled)
+	if HelpPlate.__Mapster and not userToggled then
+		HelpPlate:SetScale(1.0)
+		HelpPlate.__Mapster = nil
+	end
+end
+
+function Mapster:HelpPlate_Button_AnimGroup_Show_OnFinished()
+	if HelpPlate.__Mapster then
+		HelpPlate:SetScale(1.0)
+		HelpPlate.__Mapster = nil
 	end
 end
 
