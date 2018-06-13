@@ -2047,7 +2047,7 @@ function FogClear:MapExplorationPin_RefreshOverlays(pin, fullUpdate)
 					texture:SetHeight(texturePixelHeight)
 					texture:SetTexCoord(0, texturePixelWidth/textureFileWidth, 0, texturePixelHeight/textureFileHeight)
 					texture:SetPoint("TOPLEFT", offsetX + (TILE_SIZE_WIDTH * (k-1)), -(offsetY + (TILE_SIZE_HEIGHT * (j - 1))))
-					texture:SetTexture(tonumber(fileDataIDs[((j - 1) * numTexturesWide) + k]))
+					texture:SetTexture(tonumber(fileDataIDs[((j - 1) * numTexturesWide) + k]), nil, nil, "TRILINEAR")
 
 					texture:SetVertexColor(r, g, b)
 					texture:SetAlpha(a)
