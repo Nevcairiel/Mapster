@@ -102,12 +102,12 @@ function Mapster:OnLeaveCombat()
 end
 
 
-function Mapster:SetScale()
+function Mapster:SetScale(force)
 	if WorldMapFrame:IsMaximized() and WorldMapFrame:GetScale() ~= 1 then
 		WorldMapFrame:SetScale(1)
 		SetUIPanelAttribute(WorldMapFrame, "xoffset", 0)
 		SetUIPanelAttribute(WorldMapFrame, "yoffset", 0)
-	elseif not WorldMapFrame:IsMaximized() and WorldMapFrame:GetScale() ~= db.scale then
+	elseif not WorldMapFrame:IsMaximized() and (WorldMapFrame:GetScale() ~= db.scale or force) then
 		WorldMapFrame:SetScale(db.scale)
 
 		-- adjust x/y offset to compensate for scale changes
