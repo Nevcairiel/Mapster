@@ -11,7 +11,6 @@ local Coords = Mapster:NewModule(MODNAME)
 
 local GetCursorPosition = GetCursorPosition
 local GetPlayerMapPosition = C_Map.GetPlayerMapPosition
-local WorldMapBorderFrame = WorldMapFrame.BorderFrame
 local WorldMapScrollChild = WorldMapFrame.ScrollContainer.Child
 local display, cursortext, playertext
 local texttemplate, text = "%%s: %%.%df, %%.%df"
@@ -98,7 +97,7 @@ end
 
 function Coords:OnEnable()
 	if not display then
-		display = CreateFrame("Frame", "Mapster_CoordsFrame", WorldMapBorderFrame)
+		display = CreateFrame("Frame", "Mapster_CoordsFrame", WorldMapFrame.ScrollContainer)
 
 		cursortext = display:CreateFontString(nil, "OVERLAY")
 		playertext = display:CreateFontString(nil, "OVERLAY")
@@ -108,8 +107,8 @@ function Coords:OnEnable()
 		cursortext:SetTextColor(1, 1, 1)
 		playertext:SetTextColor(1, 1, 1)
 
-		cursortext:SetPoint("TOPLEFT", WorldMapScrollChild, "BOTTOM", 30, -5)
-		playertext:SetPoint("TOPRIGHT", WorldMapScrollChild, "BOTTOM", -30, -5)
+		cursortext:SetPoint("TOPLEFT", WorldMapFrame.ScrollContainer, "BOTTOM", 30, -5)
+		playertext:SetPoint("TOPRIGHT", WorldMapFrame.ScrollContainer, "BOTTOM", -30, -5)
 
 		tinsert(Mapster.elementsToHide, display)
 	end
