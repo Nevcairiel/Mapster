@@ -2001,8 +2001,10 @@ function FogClear:MapExplorationPin_RefreshOverlays(pin, fullUpdate)
 		data = data.phases[phase]
 	end
 
+	pin.layerIndex = pin:GetMap():GetCanvasContainer():GetCurrentLayerIndex()
 	local layers = C_Map.GetMapArtLayers(mapID)
-	local layerInfo = layers[pin.layerIndex]
+	local layerInfo = layers and layers[pin.layerIndex]
+	if not layerInfo then return end
 	local TILE_SIZE_WIDTH = layerInfo.tileWidth
 	local TILE_SIZE_HEIGHT = layerInfo.tileHeight
 
