@@ -147,16 +147,15 @@ function Mapster:EncounterJournal_AddMapButtons()
 	local width = WorldMapDetailFrame:GetWidth() / db.ejScale
 	local height = WorldMapDetailFrame:GetHeight() / db.ejScale
 
-	local index = 1
-	local x, y, instanceID, name = EJ_GetMapEncounter(index, WorldMapFrame.fromJournal)
-	while name do
-		local bossButton = _G["EJMapButton"..index]
-		if bossButton and bossButton:IsShown() then
-			bossButton:SetScale(db.ejScale)
-			bossButton:SetPoint("CENTER", WorldMapBossButtonFrame, "BOTTOMLEFT", x*width, y*height);
+	local mapEncounters = C_EncounterJournal.GetCurrentMapEncounters(WorldMapFrame.fromJournal);
+	if (mapEncounters) then
+		for index, mapEncounterInfo in ipairs(mapEncounters) do
+			local bossButton = _G["EJMapButton"..index]
+			if bossButton and bossButton:IsShown() then
+				bossButton:SetScale(db.ejScale)
+				bossButton:SetPoint("CENTER", WorldMapBossButtonFrame, "BOTTOMLEFT", mapEncounterInfo.mapX*width, mapEncounterInfo.mapY*height);
+			end
 		end
-		index = index + 1
-		x, y, instanceID, name = EJ_GetMapEncounter(index, WorldMapFrame.fromJournal)
 	end
 end
 
