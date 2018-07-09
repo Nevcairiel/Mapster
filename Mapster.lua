@@ -54,9 +54,6 @@ function Mapster:OnEnable()
 	self:SecureHook("HelpPlate_Button_AnimGroup_Show_OnFinished")
 	self:RawHook(WorldMapFrame.ScrollContainer, "GetCursorPosition", "WorldMapFrame_ScrollContainer_GetCursorPosition", true)
 
-	self:RegisterEvent("PLAYER_REGEN_DISABLED", "OnEnterCombat")
-	self:RegisterEvent("PLAYER_REGEN_ENABLED", "OnLeaveCombat")
-
 	-- load settings
 	--self:SetAlpha()
 	--self:SetArrow()
@@ -90,17 +87,6 @@ function Mapster:Refresh()
 		end
 	end
 end
-
-function Mapster:OnEnterCombat()
-	WorldMapFrame.BorderFrame.MaximizeMinimizeFrame.MaximizeButton:Disable()
-	WorldMapFrame.BorderFrame.MaximizeMinimizeFrame.MinimizeButton:Disable()
-end
-
-function Mapster:OnLeaveCombat()
-	WorldMapFrame.BorderFrame.MaximizeMinimizeFrame.MaximizeButton:Enable()
-	WorldMapFrame.BorderFrame.MaximizeMinimizeFrame.MinimizeButton:Enable()
-end
-
 
 function Mapster:SetScale(force)
 	if WorldMapFrame:IsMaximized() and WorldMapFrame:GetScale() ~= 1 then
