@@ -5,6 +5,7 @@ All rights reserved.
 
 local Mapster = LibStub("AceAddon-3.0"):NewAddon("Mapster", "AceEvent-3.0", "AceHook-3.0")
 
+local LibWindow = LibStub("LibWindow-1.1")
 local L = LibStub("AceLocale-3.0"):GetLocale("Mapster")
 
 local defaults = {
@@ -19,12 +20,16 @@ local defaults = {
 		ejScale = 0.8,
 		alpha = 1,
 		disableMouse = false,
+		-- position defaults for LibWindow
+		x = 40,
+		y = 140,
+		point = "LEFT",
 	}
 }
 
 local format = string.format
 
-local wmfOnShow, dropdownScaleFix, WorldMapFrameGetAlpha
+local WorldMapFrameStartMoving, WorldMapFrameStopMoving
 local db
 
 function Mapster:OnInitialize()
@@ -47,6 +52,19 @@ local realZone
 function Mapster:OnEnable()
 	self:SetupMapButton()
 
+	LibWindow.RegisterConfig(WorldMapFrame, db)
+
+	-- remove from UI panel system
+	UIPanelWindows["WorldMapFrame"] = nil
+	WorldMapFrame:SetAttribute("UIPanelLayout-area", nil)
+	WorldMapFrame:SetAttribute("UIPanelLayout-enabled", false)
+
+	-- make the map movable
+	WorldMapFrame:SetMovable(true)
+	WorldMapFrame:RegisterForDrag("LeftButton")
+	WorldMapFrame:SetScript("OnDragStart", WorldMapFrameStartMoving)
+	WorldMapFrame:SetScript("OnDragStop", WorldMapFrameStopMoving)
+
 	self:SecureHook(WorldMapFrame, "SynchronizeDisplayState", "WorldMapFrame_SynchronizeDisplayState")
 
 	self:SecureHook("HelpPlate_Show")
@@ -58,6 +76,7 @@ function Mapster:OnEnable()
 	--self:SetAlpha()
 	--self:SetArrow()
 	self:SetScale()
+	self:SetPosition()
 end
 
 function Mapster:Refresh()
@@ -88,6 +107,23 @@ function Mapster:Refresh()
 	end
 end
 
+function WorldMapFrameStartMoving(frame)
+	if not WorldMapFrame:IsMaximized() then
+		WorldMapFrame:StartMoving()
+	end
+end
+
+function WorldMapFrameStopMoving(frame)
+	WorldMapFrame:StopMovingOrSizing()
+	if not WorldMapFrame:IsMaximized() then
+		LibWindow.SavePosition(WorldMapFrame)
+	end
+end
+
+function Mapster:SetPosition()
+	LibWindow.RestorePosition(WorldMapFrame)
+end
+
 function Mapster:SetScale(force)
 	if WorldMapFrame:IsMaximized() and WorldMapFrame:GetScale() ~= 1 then
 		WorldMapFrame:SetScale(1)
@@ -114,6 +150,9 @@ end
 
 function Mapster:WorldMapFrame_SynchronizeDisplayState()
 	self:SetScale()
+	if not WorldMapFrame:IsMaximized() then
+		self:SetPosition()
+	end
 end
 
 function Mapster:HelpPlate_Show(plate, frame)
