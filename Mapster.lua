@@ -30,6 +30,7 @@ local defaults = {
 local format = string.format
 
 local WorldMapFrameStartMoving, WorldMapFrameStopMoving
+local WorldMapUnitPin, WorldMapUnitPinSizes
 local db
 
 function Mapster:OnInitialize()
@@ -80,12 +81,19 @@ function Mapster:OnEnable()
 		pin.OnAcquired = EncounterJournalPinMixin.OnAcquired
 	end
 
+	-- hook into unit provider
+	for pin in WorldMapFrame:EnumeratePinsByTemplate("GroupMembersPinTemplate") do
+		WorldMapUnitPin = pin
+		WorldMapUnitPinSizes = pin.dataProvider:GetUnitPinSizesTable()
+		break
+	end
+
 	-- close the map on escape
 	table.insert(UISpecialFrames, "WorldMapFrame")
 
 	-- load settings
 	--self:SetAlpha()
-	--self:SetArrow()
+	self:SetArrow()
 	self:SetEJScale()
 	self:SetScale()
 	self:SetPosition()
@@ -107,7 +115,7 @@ function Mapster:Refresh()
 
 	-- apply new settings
 	--self:SetAlpha()
-	--self:SetArrow()
+	self:SetArrow()
 	self:SetEJScale()
 	self:SetScale()
 	self:SetPosition()
@@ -200,6 +208,15 @@ function Mapster:SetEJScale()
 		pin:SetSize(50 * db.ejScale, 49 * db.ejScale)
 		pin.Background:SetScale(db.ejScale)
 	end
+end
+
+function Mapster:SetArrow()
+	if not WorldMapUnitPin or not WorldMapUnitPinSizes then
+		return
+	end
+
+	WorldMapUnitPinSizes.player = 27 * db.arrowScale
+	WorldMapUnitPin:SynchronizePinSizes()
 end
 
 function Mapster:GetModuleEnabled(module)
