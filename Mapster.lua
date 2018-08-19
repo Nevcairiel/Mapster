@@ -65,12 +65,20 @@ function Mapster:OnEnable()
 	WorldMapFrame:SetScript("OnDragStart", WorldMapFrameStartMoving)
 	WorldMapFrame:SetScript("OnDragStop", WorldMapFrameStopMoving)
 
+	-- map transition
 	self:SecureHook(WorldMapFrame, "SynchronizeDisplayState", "WorldMapFrame_SynchronizeDisplayState")
 
+	-- hooks for scale
 	self:SecureHook("HelpPlate_Show")
 	self:SecureHook("HelpPlate_Hide")
 	self:SecureHook("HelpPlate_Button_AnimGroup_Show_OnFinished")
 	self:RawHook(WorldMapFrame.ScrollContainer, "GetCursorPosition", "WorldMapFrame_ScrollContainer_GetCursorPosition", true)
+
+	-- hook into EJ icons
+	self:SecureHook(EncounterJournalPinMixin, "OnAcquired", "EncounterJournalPin_OnAcquired")
+	for pin in WorldMapFrame:EnumeratePinsByTemplate("EncounterJournalPinTemplate") do
+		pin.OnAcquired = EncounterJournalPinMixin.OnAcquired
+	end
 
 	-- close the map on escape
 	table.insert(UISpecialFrames, "WorldMapFrame")
@@ -78,6 +86,7 @@ function Mapster:OnEnable()
 	-- load settings
 	--self:SetAlpha()
 	--self:SetArrow()
+	self:SetEJScale()
 	self:SetScale()
 	self:SetPosition()
 end
@@ -99,6 +108,7 @@ function Mapster:Refresh()
 	-- apply new settings
 	--self:SetAlpha()
 	--self:SetArrow()
+	self:SetEJScale()
 	self:SetScale()
 	self:SetPosition()
 
@@ -177,6 +187,18 @@ function Mapster:HelpPlate_Button_AnimGroup_Show_OnFinished()
 	if HelpPlate.__Mapster then
 		HelpPlate:SetScale(1.0)
 		HelpPlate.__Mapster = nil
+	end
+end
+
+function Mapster:EncounterJournalPin_OnAcquired(pin)
+	pin:SetSize(50 * db.ejScale, 49 * db.ejScale)
+	pin.Background:SetScale(db.ejScale)
+end
+
+function Mapster:SetEJScale()
+	for pin in WorldMapFrame:EnumeratePinsByTemplate("EncounterJournalPinTemplate") do
+		pin:SetSize(50 * db.ejScale, 49 * db.ejScale)
+		pin.Background:SetScale(db.ejScale)
 	end
 end
 
