@@ -72,6 +72,9 @@ function Mapster:OnEnable()
 	self:SecureHook("HelpPlate_Button_AnimGroup_Show_OnFinished")
 	self:RawHook(WorldMapFrame.ScrollContainer, "GetCursorPosition", "WorldMapFrame_ScrollContainer_GetCursorPosition", true)
 
+	-- close the map on escape
+	table.insert(UISpecialFrames, "WorldMapFrame")
+
 	-- load settings
 	--self:SetAlpha()
 	--self:SetArrow()
