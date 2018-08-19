@@ -149,18 +149,8 @@ end
 function Mapster:SetScale(force)
 	if WorldMapFrame:IsMaximized() and WorldMapFrame:GetScale() ~= 1 then
 		WorldMapFrame:SetScale(1)
-		SetUIPanelAttribute(WorldMapFrame, "xoffset", 0)
-		SetUIPanelAttribute(WorldMapFrame, "yoffset", 0)
 	elseif not WorldMapFrame:IsMaximized() and (WorldMapFrame:GetScale() ~= db.scale or force) then
 		WorldMapFrame:SetScale(db.scale)
-
-		-- adjust x/y offset to compensate for scale changes
-		local xOff = UIParent:GetAttribute("LEFT_OFFSET")
-		local yOff = UIParent:GetAttribute("TOP_OFFSET")
-		xOff = xOff / db.scale - xOff
-		yOff = yOff / db.scale - yOff
-		SetUIPanelAttribute(WorldMapFrame, "xoffset", xOff)
-		SetUIPanelAttribute(WorldMapFrame, "yoffset", yOff)
 	end
 end
 
