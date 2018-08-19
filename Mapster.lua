@@ -97,6 +97,7 @@ function Mapster:Refresh()
 	--self:SetAlpha()
 	--self:SetArrow()
 	self:SetScale()
+	self:SetPosition()
 
 	if self.optionsButton then
 		if db.hideMapButton then
