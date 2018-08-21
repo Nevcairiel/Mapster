@@ -19,6 +19,7 @@ local defaults = {
 		poiScale = 0.9,
 		ejScale = 0.8,
 		alpha = 1,
+		fadealpha = 0.5,
 		disableMouse = false,
 		-- position defaults for LibWindow
 		x = 40,
@@ -69,6 +70,9 @@ function Mapster:OnEnable()
 	-- map transition
 	self:SecureHook(WorldMapFrame, "SynchronizeDisplayState", "WorldMapFrame_SynchronizeDisplayState")
 
+	-- hook Show events for fading
+	self:SecureHook(WorldMapFrame, "OnShow", "WorldMapFrame_OnShow")
+
 	-- hooks for scale
 	self:SecureHook("HelpPlate_Show")
 	self:SecureHook("HelpPlate_Hide")
@@ -103,6 +107,7 @@ function Mapster:OnEnable()
 
 	-- load settings
 	--self:SetAlpha()
+	self:SetFadeAlpha()
 	self:SetArrow()
 	self:SetEJScale()
 	self:SetPOIScale()
@@ -126,6 +131,7 @@ function Mapster:Refresh()
 
 	-- apply new settings
 	--self:SetAlpha()
+	self:SetFadeAlpha()
 	self:SetArrow()
 	self:SetEJScale()
 	self:SetPOIScale()
@@ -156,6 +162,15 @@ end
 
 function Mapster:SetPosition()
 	LibWindow.RestorePosition(WorldMapFrame)
+end
+
+function Mapster:SetFadeAlpha()
+	PlayerMovementFrameFader.RemoveFrame(WorldMapFrame)
+	PlayerMovementFrameFader.AddDeferredFrame(WorldMapFrame, db.fadealpha, 1.0, .5, function() return GetCVarBool("mapFade") and not WorldMapFrame:IsMouseOver() end)
+end
+
+function Mapster:WorldMapFrame_OnShow()
+	self:SetFadeAlpha()
 end
 
 function Mapster:SetScale(force)
