@@ -28,8 +28,6 @@ local defaults = {
 	}
 }
 
-local format = string.format
-
 local WorldMapFrameStartMoving, WorldMapFrameStopMoving
 local WorldMapUnitPin, WorldMapUnitPinSizes
 local db
@@ -50,7 +48,6 @@ function Mapster:OnInitialize()
 	self:SetupOptions()
 end
 
-local realZone
 function Mapster:OnEnable()
 	self:SetupMapButton()
 
