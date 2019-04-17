@@ -68,7 +68,7 @@ function Mapster:OnEnable()
 	self:SecureHook(WorldMapFrame, "SynchronizeDisplayState", "WorldMapFrame_SynchronizeDisplayState")
 
 	-- hook Show events for fading
-	self:SecureHook(WorldMapFrame, "OnShow", "WorldMapFrame_OnShow")
+	self:HookScript(WorldMapFrame, "OnShow", "WorldMapFrame_OnShow")
 
 	-- hooks for scale
 	self:SecureHook("HelpPlate_Show")
