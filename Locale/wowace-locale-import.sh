@@ -30,7 +30,7 @@ do_import() {
   esac
 }
 
-lua locale/find-locale-strings.lua || exit 1
+lua Locale/find-locale-strings.lua || exit 1
 
 do_import "" "exported-locale-strings.lua"
 
