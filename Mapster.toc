@@ -8,6 +8,7 @@
 ## X-Category: Map
 ## Version: @project-version@
 ## X-License: All rights reserved.
+## X-Curse-Project-ID: 14376
 
 ## OptionalDeps: Ace3, LibWindow-1.1
 
