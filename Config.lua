@@ -138,11 +138,11 @@ local function getOptions()
 			options.args[k] = (type(v) == "function") and v() or v
 		end
 	end
-	
+
 	return options
 end
 
-local function optFunc() 
+local function optFunc()
 	-- open the profiles tab before, so the menu expands
 	InterfaceOptionsFrame_OpenToCategory(Mapster.optionsFrames.Profiles)
 	InterfaceOptionsFrame_OpenToCategory(Mapster.optionsFrames.Mapster)

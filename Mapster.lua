@@ -107,7 +107,7 @@ function Mapster:OnEnable()
 
 	-- classic compat stuff
 	if WoWClassic then
-		self:RawHook(WorldMapFrame, "HandleUserActionToggleSelf", function(self) if self:IsShown() then self:Hide() else self:Show() end end, true)
+		self:RawHook(WorldMapFrame, "HandleUserActionToggleSelf", function(frame) if frame:IsShown() then frame:Hide() else frame:Show() end end, true)
 		WorldMapFrame:SetIgnoreParentScale(false)
 		WorldMapFrame.BlackoutFrame:Hide()
 		WorldMapFrame.IsMaximized = function() return false end

@@ -20,7 +20,7 @@ local texttemplate, text = "%%s: %%.%df, %%.%df"
 local MouseXY, OnUpdate
 
 local db
-local defaults = { 
+local defaults = {
 	profile = {
 		accuracy = 1,
 		fontSize = 11,
