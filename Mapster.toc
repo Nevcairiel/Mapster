@@ -9,6 +9,7 @@
 ## Version: @project-version@
 ## X-License: All rights reserved.
 ## X-Curse-Project-ID: 14376
+## X-WoWI-ID: 8306
 
 ## OptionalDeps: Ace3, LibWindow-1.1
 
