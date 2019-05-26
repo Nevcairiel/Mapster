@@ -30,12 +30,12 @@ end
 
 function Scale:OnEnable()
 	if not scaler then
-		scaler = CreateFrame("Frame", "MapsterScaler", WorldMapFrame.BorderFrame)
+		scaler = CreateFrame("Frame", "MapsterScaler", WorldMapFrame)
 		scaler:SetWidth(15)
 		scaler:SetHeight(15)
-		scaler:SetFrameStrata("HIGH")
-		scaler:SetFrameLevel(WorldMapFrame.BorderFrame:GetFrameLevel() + 15)
-		scaler.tex = WorldMapFrame.BorderFrame:CreateTexture("MapsterScalerTex", "OVERLAY")
+		scaler:SetFrameStrata(WorldMapFrame:GetFrameStrata())
+		scaler:SetFrameLevel(WorldMapFrame:GetFrameLevel() + 15)
+		scaler.tex = scaler:CreateTexture(nil, "OVERLAY")
 		scaler.tex:SetAllPoints(scaler)
 		scaler.tex:SetTexture([[Interface\Buttons\UI-AutoCastableOverlay]])
 		scaler.tex:SetTexCoord(0.619, 0.760, 0.612, 0.762)
@@ -43,8 +43,9 @@ function Scale:OnEnable()
 
 		scaler:SetPoint("BOTTOMRIGHT", WorldMapFrame, "BOTTOMRIGHT", 0, -2)
 
-		mousetracker = CreateFrame("Frame", nil, WorldMapFrame.BorderFrame)
-		mousetracker:SetFrameLevel(WorldMapFrame.BorderFrame:GetFrameLevel() + 20)
+		mousetracker = CreateFrame("Frame", nil, WorldMapFrame)
+		mousetracker:SetFrameStrata(WorldMapFrame:GetFrameStrata())
+		mousetracker:SetFrameLevel(WorldMapFrame:GetFrameLevel() + 20)
 		mousetracker:SetAllPoints(scaler)
 		mousetracker:EnableMouse(true)
 		mousetracker:SetScript("OnEnter", function()
