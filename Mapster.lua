@@ -198,6 +198,9 @@ end
 function Mapster:WorldMapFrame_ScrollContainer_GetCursorPosition()
 	local x,y = self.hooks[WorldMapFrame.ScrollContainer].GetCursorPosition(WorldMapFrame.ScrollContainer)
 	local s = WorldMapFrame:GetScale()
+	if WoWClassic then
+		s = s * UIParent:GetEffectiveScale()
+	end
 	return x / s, y / s
 end
 
