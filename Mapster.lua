@@ -111,6 +111,9 @@ function Mapster:OnEnable()
 		WorldMapFrame:SetIgnoreParentScale(false)
 		WorldMapFrame.BlackoutFrame:Hide()
 		WorldMapFrame.IsMaximized = function() return false end
+
+		WorldMapFrame:SetFrameStrata("HIGH")
+		WorldMapFrame.BorderFrame:SetFrameStrata("LOW")
 	end
 
 	-- close the map on escape
