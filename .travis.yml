@@ -12,6 +12,7 @@ before_script:
   - if [[ "$TRAVIS_BRANCH" == "master" && "$TRAVIS_PULL_REQUEST" == "false" ]]; then ./Locale/wowace-locale-import.sh; fi
 
 script:
+  - curl -s https://raw.githubusercontent.com/BigWigsMods/packager/master/release.sh | WOWI_API_TOKEN= bash -s -- -g 1.13.2
   - curl -s https://raw.githubusercontent.com/BigWigsMods/packager/master/release.sh | bash
 
 notifications:
