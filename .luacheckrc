@@ -39,6 +39,7 @@ read_globals = {
 	"GetBuildInfo",
 	"GetCursorPosition",
 	"GetCVarBool",
+	"InCombatLockdown",
 	"IsAddOnLoaded",
 	"SetCVar",
 
