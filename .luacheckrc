@@ -22,6 +22,8 @@ globals = {
 	"UIPanelWindows",
 	"UISpecialFrames",
 	"WorldMapFrame",
+
+	"MapsterFogClearData",
 }
 
 read_globals = {

@@ -6,8 +6,6 @@ All rights reserved.
 local Mapster = LibStub("AceAddon-3.0"):GetAddon("Mapster")
 local L = LibStub("AceLocale-3.0"):GetLocale("Mapster")
 
-local WoWClassic = select(4, GetBuildInfo()) < 20000
-
 local MODNAME = "FogClear"
 local FogClear = Mapster:NewModule(MODNAME, "AceHook-3.0", "AceEvent-3.0")
 
