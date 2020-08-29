@@ -44,5 +44,11 @@ Config.lua
 Coords.lua
 # GroupIcons.lua
 # BattleMap.lua
+#@retail@
+FogClearData.lua
+#@end-retail@
+#@non-retail@
+# FogClearDataClassic.lua
+#@end-non-retail@
 FogClear.lua
 Scaling.lua
