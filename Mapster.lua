@@ -9,6 +9,7 @@ local LibWindow = LibStub("LibWindow-1.1")
 local L = LibStub("AceLocale-3.0"):GetLocale("Mapster")
 
 local WoWClassic = select(4, GetBuildInfo()) < 20000
+local WoWShadowlands = select(4, GetBuildInfo()) >= 90001
 
 local defaults = {
 	profile = {
@@ -257,10 +258,17 @@ end
 
 function Mapster:QuestPOI_OnAcquired(pin)
 	pin:SetSize(50 * db.poiScale, 50 * db.poiScale)
-	pin.Texture:SetScale(db.poiScale)
-	pin.PushedTexture:SetScale(db.poiScale)
-	pin.Number:SetScale(db.poiScale)
-	pin.Highlight:SetScale(db.poiScale)
+	if WoWShadowlands then
+		pin.Display:SetScale(db.poiScale)
+		pin.NormalTexture:SetScale(db.poiScale)
+		pin.PushedTexture:SetScale(db.poiScale)
+		pin.HighlightTexture:SetScale(db.poiScale)
+	else
+		pin.Texture:SetScale(db.poiScale)
+		pin.PushedTexture:SetScale(db.poiScale)
+		pin.Number:SetScale(db.poiScale)
+		pin.Highlight:SetScale(db.poiScale)
+	end
 end
 
 function Mapster:SetPOIScale()
