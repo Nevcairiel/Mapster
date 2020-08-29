@@ -183,7 +183,9 @@ function WorldMapFrameStopMoving(frame)
 end
 
 function Mapster:SetPosition()
-	LibWindow.RestorePosition(WorldMapFrame)
+	if not WorldMapFrame:IsMaximized() then
+		LibWindow.RestorePosition(WorldMapFrame)
+	end
 end
 
 function Mapster:SetFadeAlpha()
