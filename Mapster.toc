@@ -45,7 +45,12 @@ Coords.lua
 FogClearData.lua
 #@end-retail@
 #@non-retail@
+# #@version-bcc@
+# FogClearDataBCC.lua
+# #@end-version-bcc@
+# #@version-classic@
 # FogClearDataClassic.lua
+# #@end-version-classic@
 #@end-non-retail@
 FogClear.lua
 Scaling.lua
