@@ -52,5 +52,9 @@ FogClearData.lua
 # FogClearDataClassic.lua
 # #@end-version-classic@
 #@end-non-retail@
+#@debug@
+FogClearDataBCC.lua
+FogClearDataClassic.lua
+#@end-debug@
 FogClear.lua
 Scaling.lua
