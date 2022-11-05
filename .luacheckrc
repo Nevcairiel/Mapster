@@ -30,6 +30,7 @@ read_globals = {
 	"sqrt",
 	"strsplit",
 	"tinsert",
+	"issecurevariable",
 
 	-- Third Party Addon/Libraries
 	"LibStub",

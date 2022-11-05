@@ -50,6 +50,17 @@ function Mapster:OnInitialize()
 	self:SetupOptions()
 end
 
+local function purgeKey(t, k)
+	t[k] = nil
+	local c = 42
+	repeat
+		if t[c] == nil then
+			t[c] = nil
+		end
+		c = c + 1
+	until issecurevariable(t, k)
+end
+
 local function FaderOnUpdate(frame, elapsed)
 	Mapster:WorldMapFrameOnUpdate(elapsed)
 end
@@ -62,7 +73,7 @@ function Mapster:OnEnable()
 	LibWindow.RegisterConfig(WorldMapFrame, db)
 
 	-- remove from UI panel system
-	UIPanelWindows["WorldMapFrame"] = nil
+	purgeKey(UIPanelWindows, "WorldMapFrame")
 	WorldMapFrame:SetAttribute("UIPanelLayout-area", nil)
 	WorldMapFrame:SetAttribute("UIPanelLayout-enabled", false)
 
