@@ -50,6 +50,14 @@ function Mapster:OnInitialize()
 	self:SetupOptions()
 end
 
+local function FaderOnUpdate(frame, elapsed)
+	Mapster:WorldMapFrameOnUpdate(elapsed)
+end
+
+local FaderFrame = CreateFrame("Frame", nil, WorldMapFrame)
+FaderFrame:Hide()
+FaderFrame:SetScript("OnUpdate", FaderOnUpdate)
+
 function Mapster:OnEnable()
 	LibWindow.RegisterConfig(WorldMapFrame, db)
 
@@ -70,7 +78,7 @@ function Mapster:OnEnable()
 	end
 
 	-- hook Show events for fading
-	self:HookScript(WorldMapFrame, "OnShow", "WorldMapFrame_OnShow")
+	self:SecureHookScript(WorldMapFrame, "OnShow", "WorldMapFrame_OnShow")
 
 	-- hooks for scale
 	if HelpPlate_Show then
@@ -168,6 +176,21 @@ function Mapster:Refresh()
 	end
 end
 
+function Mapster:SetFadeAlpha()
+	if GetCVarBool("mapFade") then
+		FaderFrame:Show()
+	else
+		FaderFrame:Hide()
+	end
+end
+
+function Mapster:WorldMapFrameOnUpdate(elapsed)
+	local fadeOut = IsPlayerMoving() and (GetCVarBool("mapFade") and not WorldMapFrame:IsMouseOver())
+	local alpha = DeltaLerp(WorldMapFrame:GetAlpha(), fadeOut and db.fadealpha or 1.0, 0.2, elapsed)
+	if alpha >= 0.98 then alpha = 1.0 end
+	WorldMapFrame:SetAlpha(alpha)
+end
+
 function WorldMapFrameStartMoving(frame)
 	if not WorldMapFrame:IsMaximized() then
 		WorldMapFrame:StartMoving()
@@ -187,13 +210,8 @@ function Mapster:SetPosition()
 	end
 end
 
-function Mapster:SetFadeAlpha()
-	PlayerMovementFrameFader.RemoveFrame(WorldMapFrame)
-	PlayerMovementFrameFader.AddDeferredFrame(WorldMapFrame, db.fadealpha, 1.0, .5, function() return GetCVarBool("mapFade") and not WorldMapFrame:IsMouseOver() end)
-end
-
 function Mapster:WorldMapFrame_OnShow()
-	self:SetFadeAlpha()
+	PlayerMovementFrameFader.RemoveFrame(WorldMapFrame)
 end
 
 function Mapster:SetScale(force)

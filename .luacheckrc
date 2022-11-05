@@ -43,6 +43,7 @@ read_globals = {
 	"GetCVarBool",
 	"InCombatLockdown",
 	"IsAddOnLoaded",
+	"IsPlayerMoving",
 	"SetCVar",
 
 	-- FrameXML Frames
@@ -53,6 +54,7 @@ read_globals = {
 	"WorldMapZoomOutButton",
 
 	-- FrameXML Functions
+	"DeltaLerp",
 	"HelpPlate_Show",
 	"InterfaceOptionsFrame_OpenToCategory",
 	"TexturePool_HideAndClearAnchors",
