@@ -221,6 +221,10 @@ end
 
 function Mapster:SetPosition()
 	if not WorldMapFrame:IsMaximized() then
+		-- override scale back to 1.0 for retail fix
+		if WoWRetail then
+			db.scale = 1.0
+		end
 		LibWindow.RestorePosition(WorldMapFrame)
 	end
 end
