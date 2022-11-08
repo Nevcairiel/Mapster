@@ -24,6 +24,8 @@ globals = {
 	"WorldMapFrame",
 
 	"MapsterFogClearData",
+
+	"StaticPopupDialogs.MAPSTER_RELOAD_UI_SCALING",
 }
 
 read_globals = {
@@ -45,6 +47,8 @@ read_globals = {
 	"InCombatLockdown",
 	"IsAddOnLoaded",
 	"IsPlayerMoving",
+	"PlaySound",
+	"ReloadUI",
 	"SetCVar",
 
 	-- FrameXML Frames
@@ -66,8 +70,13 @@ read_globals = {
 	"GameFontNormal",
 	"QuestPinMixin",
 
+	"STATICPOPUP_NUMDIALOGS",
+	"StaticPopup_Show",
+
 	-- FrameXML Constants
 	"MAP_FADE_TEXT",
+	"NO",
+	"SOUNDKIT",
 	"WOW_PROJECT_ID",
 	"WOW_PROJECT_MAINLINE",
 	"WOW_PROJECT_CLASSIC",

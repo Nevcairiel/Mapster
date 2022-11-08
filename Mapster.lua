@@ -18,6 +18,7 @@ local defaults = {
 		modules = {
 			['*'] = true,
 		},
+		enableScaling = false,
 		scale = 1,
 		poiScale = 0.9,
 		ejScale = 0.8,
@@ -94,7 +95,7 @@ function Mapster:OnEnable()
 
 	-- hooks for scale
 	-- XXX: disabled on retail due to taint
-	if not WoWRetail then
+	if not WoWRetail or db.enableScaling then
 		if HelpPlate_Show then
 			self:SecureHook("HelpPlate_Show")
 			self:SecureHook("HelpPlate_Hide")
@@ -222,7 +223,7 @@ end
 function Mapster:SetPosition()
 	if not WorldMapFrame:IsMaximized() then
 		-- override scale back to 1.0 for retail fix
-		if WoWRetail then
+		if WoWRetail and not db.enableScaling then
 			db.scale = 1.0
 		end
 		LibWindow.RestorePosition(WorldMapFrame)
@@ -235,7 +236,7 @@ end
 
 function Mapster:SetScale(force)
 	-- disabled on retail due to map taint
-	if WoWRetail then return end
+	if WoWRetail and not db.enableScaling then return end
 
 	if WorldMapFrame:IsMaximized() and WorldMapFrame:GetScale() ~= 1 then
 		WorldMapFrame:SetScale(1)

@@ -8,7 +8,6 @@ Initial implementation provided by yssaril
 local Mapster = LibStub("AceAddon-3.0"):GetAddon("Mapster")
 
 local WoWRetail = (WOW_PROJECT_ID == WOW_PROJECT_MAINLINE)
-if WoWRetail then return end
 
 local MODNAME= "Scale"
 local Scale = Mapster:NewModule(MODNAME)
@@ -32,6 +31,10 @@ function Scale:OnInitialize()
 end
 
 function Scale:OnEnable()
+	if WoWRetail and not Mapster.db.profile.enableScaling then
+		return
+	end
+
 	if not scaler then
 		scaler = CreateFrame("Frame", "MapsterScaler", WorldMapFrame)
 		scaler:SetWidth(15)
