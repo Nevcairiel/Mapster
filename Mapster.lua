@@ -246,11 +246,9 @@ function Mapster:SetScale(force)
 end
 
 function Mapster:WorldMapFrame_ScrollContainer_GetCursorPosition()
-	local x,y = self.hooks[WorldMapFrame.ScrollContainer].GetCursorPosition(WorldMapFrame.ScrollContainer)
-	local s = WorldMapFrame:GetScale()
-	if WoWClassic then
-		s = s * UIParent:GetEffectiveScale()
-	end
+	-- intentionally not calling the original function to avoid double-hooks with addons trying to fix the same thing
+	local x,y = GetCursorPosition()
+	local s = WorldMapFrame:GetEffectiveScale()
 	return x / s, y / s
 end
 
