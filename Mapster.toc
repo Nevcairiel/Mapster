@@ -1,7 +1,4 @@
-## Interface: 100100
-## Interface-Classic: 11403
-## Interface-BCC: 20504
-## Interface-Wrath: 30401
+## Interface: 100200
 ## Notes: Simple Map Mod
 ## Notes-zhCN: 简单实用的地图模块
 ## Notes-frFR: Simples modifications de la carte.
@@ -42,24 +39,6 @@ Config.lua
 Coords.lua
 # GroupIcons.lua
 # BattleMap.lua
-#@retail@
 FogClearData.lua
-#@end-retail@
-#@non-retail@
-# #@version-wrath@
-# FogClearDataWrath.lua
-# #@end-version-wrath@
-# #@version-bcc@
-# FogClearDataBCC.lua
-# #@end-version-bcc@
-# #@version-classic@
-# FogClearDataClassic.lua
-# #@end-version-classic@
-#@end-non-retail@
-#@debug@
-FogClearDataWrath.lua
-FogClearDataBCC.lua
-FogClearDataClassic.lua
-#@end-debug@
 FogClear.lua
 Scaling.lua

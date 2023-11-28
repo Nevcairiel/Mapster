@@ -6,8 +6,6 @@ All rights reserved.
 local Mapster = LibStub("AceAddon-3.0"):GetAddon("Mapster")
 local L = LibStub("AceLocale-3.0"):GetLocale("Mapster")
 
-local WoWClassic = (WOW_PROJECT_ID ~= WOW_PROJECT_MAINLINE)
-
 local MODNAME = "Coords"
 local Coords = Mapster:NewModule(MODNAME)
 
@@ -109,8 +107,8 @@ function Coords:OnEnable()
 		cursortext:SetTextColor(1, 1, 1)
 		playertext:SetTextColor(1, 1, 1)
 
-		cursortext:SetPoint("TOPLEFT", WorldMapFrame.ScrollContainer, "BOTTOM", 30, WoWClassic and -9 or -5)
-		playertext:SetPoint("TOPRIGHT", WorldMapFrame.ScrollContainer, "BOTTOM", -30, WoWClassic and -9 or -5)
+		cursortext:SetPoint("TOPLEFT", WorldMapFrame.ScrollContainer, "BOTTOM", 30, -5)
+		playertext:SetPoint("TOPRIGHT", WorldMapFrame.ScrollContainer, "BOTTOM", -30, -5)
 
 		tinsert(Mapster.elementsToHide, display)
 	end

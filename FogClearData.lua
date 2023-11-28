@@ -3,9 +3,6 @@ Copyright (c) 2009-2020, Hendrik "Nevcairiel" Leppkes < h.leppkes@gmail.com >
 All rights reserved.
 ]]
 
-local WoWClassic = (WOW_PROJECT_ID ~= WOW_PROJECT_MAINLINE)
-if WoWClassic then return end
-
 -- data
 -- [MapArtID] = {
 --   key: w + h + x + y, 12-bits each for 48 total, value = string list of file data IDs

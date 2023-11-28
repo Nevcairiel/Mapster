@@ -6,9 +6,6 @@ All rights reserved.
 local Mapster = LibStub("AceAddon-3.0"):GetAddon("Mapster")
 local L = LibStub("AceLocale-3.0"):GetLocale("Mapster")
 
-local WoWRetail = (WOW_PROJECT_ID == WOW_PROJECT_MAINLINE)
-local WoWClassic = (WOW_PROJECT_ID ~= WOW_PROJECT_MAINLINE)
-
 local optGetter, optSetter
 do
 	function optGetter(info)
@@ -90,7 +87,6 @@ local function getOptions()
 							order = 6.1,
 							type = "description",
 							name = "",
-							hidden = not WoWRetail,
 						},
 						arrowScale = {
 							order = 7,
@@ -182,14 +178,7 @@ function Mapster:SetupMapButton()
 	self.optionsButton:SetHeight(18)
 	self.optionsButton:SetText("Mapster")
 	self.optionsButton:ClearAllPoints()
-	if WoWClassic then
-		self.optionsButton:SetParent(WorldMapFrame)
-		self.optionsButton:SetPoint("LEFT", WorldMapZoomOutButton, "RIGHT", 5, 0)
-		self.optionsButton:SetWidth(110)
-		self.optionsButton:SetHeight(22)
-	else
-		self.optionsButton:SetPoint("TOPRIGHT", WorldMapFrame.BorderFrame.TitleContainer, "TOPRIGHT", -48, -1)
-	end
+	self.optionsButton:SetPoint("TOPRIGHT", WorldMapFrame.BorderFrame.TitleContainer, "TOPRIGHT", -48, -1)
 
 	if self.db.profile.hideMapButton then
 		self.optionsButton:Hide()

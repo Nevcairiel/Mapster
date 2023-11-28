@@ -8,9 +8,6 @@ local Mapster = LibStub("AceAddon-3.0"):NewAddon("Mapster", "AceEvent-3.0", "Ace
 local LibWindow = LibStub("LibWindow-1.1")
 local L = LibStub("AceLocale-3.0"):GetLocale("Mapster")
 
-local WoWClassic = (WOW_PROJECT_ID ~= WOW_PROJECT_MAINLINE)
-local WoWRetail = (WOW_PROJECT_ID == WOW_PROJECT_MAINLINE)
-
 local defaults = {
 	profile = {
 		hideMapButton = false,
@@ -98,9 +95,6 @@ function Mapster:OnEnable()
 		self:SecureHook("HelpPlate_Hide")
 		self:SecureHook("HelpPlate_Button_AnimGroup_Show_OnFinished")
 	end
-	if not WoWRetail then
-		self:RawHook(WorldMapFrame.ScrollContainer, "GetCursorPosition", "WorldMapFrame_ScrollContainer_GetCursorPosition", true)
-	end
 
 	-- hook into EJ icons
 	self:SecureHook(EncounterJournalPinMixin, "OnAcquired", "EncounterJournalPin_OnAcquired")
@@ -126,17 +120,6 @@ function Mapster:OnEnable()
 	end
 
 	self:SecureHook("ShowUIPanel", "ShowUIPanelHook")
-
-	-- classic compat stuff
-	if WoWClassic then
-		self:RawHook(WorldMapFrame, "HandleUserActionToggleSelf", function(frame) if frame:IsShown() then frame:Hide() else frame:Show() end end, true)
-		WorldMapFrame:SetIgnoreParentScale(false)
-		WorldMapFrame.BlackoutFrame:Hide()
-		WorldMapFrame.IsMaximized = function() return false end
-
-		WorldMapFrame:SetFrameStrata("HIGH")
-		WorldMapFrame.BorderFrame:SetFrameStrata("LOW")
-	end
 
 	-- close the map on escape
 	table.insert(UISpecialFrames, "WorldMapFrame")
@@ -289,17 +272,10 @@ end
 
 function Mapster:QuestPOI_OnAcquired(pin)
 	pin:SetSize(50 * db.poiScale, 50 * db.poiScale)
-	if not WoWClassic then
-		pin.Display:SetScale(db.poiScale)
-		pin.NormalTexture:SetScale(db.poiScale)
-		pin.PushedTexture:SetScale(db.poiScale)
-		pin.HighlightTexture:SetScale(db.poiScale)
-	else
-		pin.Texture:SetScale(db.poiScale)
-		pin.PushedTexture:SetScale(db.poiScale)
-		pin.Number:SetScale(db.poiScale)
-		pin.Highlight:SetScale(db.poiScale)
-	end
+	pin.Display:SetScale(db.poiScale)
+	pin.NormalTexture:SetScale(db.poiScale)
+	pin.PushedTexture:SetScale(db.poiScale)
+	pin.HighlightTexture:SetScale(db.poiScale)
 end
 
 function Mapster:SetPOIScale()
