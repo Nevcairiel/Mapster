@@ -95,7 +95,9 @@ function FogClear:MapExplorationPin_RefreshOverlays(pin, fullUpdate)
 		overlay:SetAlpha(1)
 	end
 
-	local mapID = pin:GetMap():GetMapID()
+	local mapCanvas = pin:GetMap()
+
+	local mapID = mapCanvas:GetMapID()
 	if not mapID then return end
 	local artID = C_Map.GetMapArtID(mapID)
 	if not artID or not FogData[artID] then return end
@@ -110,7 +112,7 @@ function FogClear:MapExplorationPin_RefreshOverlays(pin, fullUpdate)
 		end
 	end
 
-	pin.layerIndex = pin:GetMap():GetCanvasContainer():GetCurrentLayerIndex()
+	pin.layerIndex = mapCanvas:GetCanvasContainer():GetCurrentLayerIndex()
 	local layers = C_Map.GetMapArtLayers(mapID)
 	local layerInfo = layers and layers[pin.layerIndex]
 	if not layerInfo then return end
@@ -118,6 +120,8 @@ function FogClear:MapExplorationPin_RefreshOverlays(pin, fullUpdate)
 	local TILE_SIZE_HEIGHT = layerInfo.tileHeight
 
 	local r, g, b, a = self:GetOverlayColor()
+
+	local drawLayer, subLevel = pin.dataProvider:GetDrawLayer()
 
 	for key, files in pairs(data) do
 		if not exploredTilesKeyed[key] then
@@ -142,6 +146,7 @@ function FogClear:MapExplorationPin_RefreshOverlays(pin, fullUpdate)
 				end
 				for k = 1, numTexturesWide do
 					local texture = pin.overlayTexturePool:Acquire()
+					mapCanvas:AddMaskableTexture(texture)
 					if ( k < numTexturesWide ) then
 						texturePixelWidth = TILE_SIZE_WIDTH
 						textureFileWidth = TILE_SIZE_WIDTH
@@ -163,7 +168,7 @@ function FogClear:MapExplorationPin_RefreshOverlays(pin, fullUpdate)
 
 					texture:SetVertexColor(r, g, b)
 					texture:SetAlpha(a)
-					texture:SetDrawLayer("ARTWORK", -1)
+					texture:SetDrawLayer(drawLayer, subLevel - 1)
 					texture:Show()
 
 					if fullUpdate then
