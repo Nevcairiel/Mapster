@@ -68,17 +68,9 @@ function FogClear:OnInitialize()
 	self:SetEnabledState(Mapster:GetModuleEnabled(MODNAME))
 	Mapster:RegisterModuleOptions(MODNAME, getOptions, L["FogClear"])
 end
-
-local function TexturePool_ResetVertexColor(pool, texture)
-	texture:SetVertexColor(1,1,1)
-	texture:SetAlpha(1)
-	return TexturePool_HideAndClearAnchors(pool, texture)
-end
-
 function FogClear:OnEnable()
 	for pin in WorldMapFrame:EnumeratePinsByTemplate("MapExplorationPinTemplate") do
 		self:SecureHook(pin, "RefreshOverlays", "MapExplorationPin_RefreshOverlays")
-		pin.overlayTexturePool.resetterFunc = TexturePool_ResetVertexColor
 	end
 end
 
@@ -97,6 +89,12 @@ end
 
 local FogData = MapsterFogClearData or {}
 function FogClear:MapExplorationPin_RefreshOverlays(pin, fullUpdate)
+	-- remove color tint from active overlays
+	for overlay in pin.overlayTexturePool:EnumerateActive() do
+		overlay:SetVertexColor(1,1,1)
+		overlay:SetAlpha(1)
+	end
+
 	local mapID = pin:GetMap():GetMapID()
 	if not mapID then return end
 	local artID = C_Map.GetMapArtID(mapID)
