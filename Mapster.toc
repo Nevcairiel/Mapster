@@ -1,4 +1,4 @@
-## Interface: 100200
+## Interface: 110000, 110002
 ## Notes: Simple Map Mod
 ## Notes-zhCN: 简单实用的地图模块
 ## Notes-frFR: Simples modifications de la carte.
