@@ -85,7 +85,7 @@ function BattleMap:OnInitialize()
 end
 
 function BattleMap:OnEnable()
-	if not IsAddOnLoaded("Blizzard_BattlefieldMinimap") then
+	if not C_AddOns.IsAddOnLoaded("Blizzard_BattlefieldMinimap") then
 		self:RegisterEvent("ADDON_LOADED", function(event, addon)
 			if addon == "Blizzard_BattlefieldMinimap" then
 				BattleMap:UnregisterEvent("ADDON_LOADED")

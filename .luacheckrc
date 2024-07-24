@@ -38,6 +38,7 @@ read_globals = {
 	"LibStub",
 
 	-- API functions
+	"C_AddOns",
 	"C_Map",
 	"C_MapExplorationInfo",
 	"CreateFrame",
@@ -45,7 +46,6 @@ read_globals = {
 	"GetCursorPosition",
 	"GetCVarBool",
 	"InCombatLockdown",
-	"IsAddOnLoaded",
 	"IsPlayerMoving",
 	"PlaySound",
 	"ReloadUI",
