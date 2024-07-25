@@ -103,13 +103,17 @@ function Mapster:OnEnable()
 	end
 
 	-- hook into Quest POI icons
-	self:SecureHook(BonusObjectivePinMixin, "OnAcquired", "BonusQuestPOI_OnAcquired")
+	self:SecureHook(BonusObjectivePinMixin, "OnAcquired", "QuestPOI_OnAcquired")
 	self:SecureHook(QuestPinMixin, "OnAcquired", "QuestPOI_OnAcquired")
+	self:SecureHook(WorldMap_WorldQuestPinMixin, "OnAcquired", "QuestPOI_OnAcquired")
 	for pin in WorldMapFrame:EnumeratePinsByTemplate("BonusObjectivePinTemplate") do
 		pin.OnAcquired = BonusObjectivePinMixin.OnAcquired
 	end
 	for pin in WorldMapFrame:EnumeratePinsByTemplate("QuestPinTemplate") do
 		pin.OnAcquired = QuestPinMixin.OnAcquired
+	end
+	for pin in WorldMapFrame:EnumeratePinsByTemplate("WorldMap_WorldQuestPinTemplate") do
+		pin.OnAcquired = WorldMap_WorldQuestPinMixin.OnAcquired
 	end
 
 	-- hook into unit provider
@@ -257,17 +261,13 @@ end
 function Mapster:EncounterJournalPin_OnAcquired(pin)
 	pin:SetSize(50 * db.ejScale, 49 * db.ejScale)
 	pin.Background:SetScale(db.ejScale)
+	pin.DefeatedOverlay:SetScale(db.ejScale)
 end
 
 function Mapster:SetEJScale()
 	for pin in WorldMapFrame:EnumeratePinsByTemplate("EncounterJournalPinTemplate") do
 		self:EncounterJournalPin_OnAcquired(pin)
 	end
-end
-
-function Mapster:BonusQuestPOI_OnAcquired(pin)
-	pin:SetSize(30 * db.poiScale, 30 * db.poiScale)
-	pin.Texture:SetScale(db.poiScale)
 end
 
 function Mapster:QuestPOI_OnAcquired(pin)
@@ -280,9 +280,12 @@ end
 
 function Mapster:SetPOIScale()
 	for pin in WorldMapFrame:EnumeratePinsByTemplate("BonusObjectivePinTemplate") do
-		self:BonusQuestPOI_OnAcquired(pin)
+		self:QuestPOI_OnAcquired(pin)
 	end
 	for pin in WorldMapFrame:EnumeratePinsByTemplate("QuestPinTemplate") do
+		self:QuestPOI_OnAcquired(pin)
+	end
+	for pin in WorldMapFrame:EnumeratePinsByTemplate("WorldMap_WorldQuestPinTemplate") do
 		self:QuestPOI_OnAcquired(pin)
 	end
 end

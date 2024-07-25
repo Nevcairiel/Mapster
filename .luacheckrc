@@ -68,6 +68,7 @@ read_globals = {
 	"EncounterJournalPinMixin",
 	"GameFontNormal",
 	"QuestPinMixin",
+	"WorldMap_WorldQuestPinMixin",
 
 	"STATICPOPUP_NUMDIALOGS",
 	"StaticPopup_Show",

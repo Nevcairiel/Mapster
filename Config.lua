@@ -104,8 +104,8 @@ local function getOptions()
 						poiScale = {
 							order = 12,
 							type = "range",
-							name = L["POI Scale"],
-							desc = L["Scale of the POI Icons on the Map."],
+							name = L["Quest POI Scale"],
+							desc = L["Scale of the Quest POI Icons on the Map."],
 							min = 0.1, max = 2, bigStep = 0.01,
 							isPercent = true,
 						},
