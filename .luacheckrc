@@ -55,14 +55,13 @@ read_globals = {
 	"BattlefieldMinimap",
 	"InterfaceOptionsFrame",
 	"PlayerMovementFrameFader",
+	"Settings",
 	"UIParent",
 	"WorldMapZoomOutButton",
 
 	-- FrameXML Functions
 	"DeltaLerp",
 	"HelpPlate_Show",
-	"InterfaceOptionsFrame_OpenToCategory",
-	"TexturePool_HideAndClearAnchors",
 
 	-- FrameXML Misc
 	"BonusObjectivePinMixin",

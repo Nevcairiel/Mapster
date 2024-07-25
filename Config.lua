@@ -146,20 +146,13 @@ local function getOptions()
 end
 
 local function optFunc()
-	-- open the profiles tab before, so the menu expands
-	InterfaceOptionsFrame_OpenToCategory(Mapster.optionsFrames.Profiles)
-	InterfaceOptionsFrame_OpenToCategory(Mapster.optionsFrames.Mapster)
-	if InterfaceOptionsFrame then
-		InterfaceOptionsFrame:Raise()
-	end
+	Settings.OpenToCategory("Mapster")
 end
 
 function Mapster:SetupOptions()
-	self.optionsFrames = {}
-
 	-- setup options table
 	LibStub("AceConfigRegistry-3.0"):RegisterOptionsTable("Mapster", getOptions)
-	self.optionsFrames.Mapster = LibStub("AceConfigDialog-3.0"):AddToBlizOptions("Mapster", nil, nil, "general")
+	LibStub("AceConfigDialog-3.0"):AddToBlizOptions("Mapster", nil, nil, "general")
 
 	self:RegisterModuleOptions("Profiles", LibStub("AceDBOptions-3.0"):GetOptionsTable(self.db), "Profiles")
 
@@ -168,7 +161,7 @@ end
 
 function Mapster:RegisterModuleOptions(name, optionTbl, displayName)
 	moduleOptions[name] = optionTbl
-	self.optionsFrames[name] = LibStub("AceConfigDialog-3.0"):AddToBlizOptions("Mapster", displayName, "Mapster", name)
+	LibStub("AceConfigDialog-3.0"):AddToBlizOptions("Mapster", displayName, "Mapster", name)
 end
 
 function Mapster:SetupMapButton()
