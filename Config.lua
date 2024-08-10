@@ -181,3 +181,22 @@ function Mapster:SetupMapButton()
 
 	self.optionsButton:SetScript("OnClick", optFunc)
 end
+
+local aboutText = "Mapster";
+local mouseButtonNote = "\nWoW Maps: Improved";
+AddonCompartmentFrame:RegisterAddon({
+	text = aboutText,
+	icon = "Interface/Icons/icon_treasuremap.blp",
+	notCheckable = true,
+	func = function(button, menuInputData, menu)
+		Settings.OpenToCategory("Mapster")
+	end,
+	funcOnEnter = function(button)
+		MenuUtil.ShowTooltip(button, function(tooltip)
+			tooltip:SetText(aboutText .. mouseButtonNote)
+		end)
+	end,
+	funcOnLeave = function(button)
+		MenuUtil.HideTooltip(button)
+	end,
+})
