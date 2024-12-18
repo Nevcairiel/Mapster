@@ -71,9 +71,11 @@ function Mapster:OnEnable()
 	LibWindow.RegisterConfig(WorldMapFrame, db)
 
 	-- remove from UI panel system
+	HideUIPanel(WorldMapFrame)
 	purgeKey(UIPanelWindows, "WorldMapFrame")
 	WorldMapFrame:SetAttribute("UIPanelLayout-area", nil)
 	WorldMapFrame:SetAttribute("UIPanelLayout-enabled", false)
+	WorldMapFrame:SetAttribute("UIPanelLayout-defined", nil)
 
 	-- make the map movable
 	WorldMapFrame:SetMovable(true)

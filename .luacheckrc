@@ -62,6 +62,7 @@ read_globals = {
 	-- FrameXML Functions
 	"DeltaLerp",
 	"HelpPlate_Show",
+	"HideUIPanel",
 
 	-- FrameXML Misc
 	"BonusObjectivePinMixin",
