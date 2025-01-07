@@ -117,13 +117,13 @@ function Mapster:OnEnable()
 	self:SecureHook(QuestPinMixin, "OnAcquired", "QuestPOI_OnAcquired")
 	self:SecureHook(WorldMap_WorldQuestPinMixin, "OnAcquired", "QuestPOI_OnAcquired")
 	for pin in WorldMapFrame:EnumeratePinsByTemplate("BonusObjectivePinTemplate") do
-		pin.OnAcquired = BonusObjectivePinMixin.OnAcquired
+		self:SecureHook(pin, "OnAcquired", "QuestPOI_OnAcquired")
 	end
 	for pin in WorldMapFrame:EnumeratePinsByTemplate("QuestPinTemplate") do
-		pin.OnAcquired = QuestPinMixin.OnAcquired
+		self:SecureHook(pin, "OnAcquired", "QuestPOI_OnAcquired")
 	end
 	for pin in WorldMapFrame:EnumeratePinsByTemplate("WorldMap_WorldQuestPinTemplate") do
-		pin.OnAcquired = WorldMap_WorldQuestPinMixin.OnAcquired
+		self:SecureHook(pin, "OnAcquired", "QuestPOI_OnAcquired")
 	end
 
 	-- hook into unit provider
