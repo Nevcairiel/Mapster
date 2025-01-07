@@ -70,6 +70,13 @@ FaderFrame:SetScript("OnUpdate", FaderOnUpdate)
 function Mapster:OnEnable()
 	LibWindow.RegisterConfig(WorldMapFrame, db)
 
+	-- stop the minimize/maximize function from doing nonsense
+	SetCVar("miniWorldMap", 1)
+	WorldMapFrame:Minimize()
+	WorldMapFrame.Maximize = function() end
+	WorldMapFrame.HandleUserActionMaximizeSelf = function() end
+	WorldMapFrame.BorderFrame.MaximizeMinimizeFrame:Hide()
+
 	-- remove from UI panel system
 	HideUIPanel(WorldMapFrame)
 	purgeKey(UIPanelWindows, "WorldMapFrame")
