@@ -73,17 +73,14 @@ function Mapster:OnEnable()
 	-- hide before we do things
 	HideUIPanel(WorldMapFrame)
 
-	-- stop the minimize/maximize function from doing nonsense
-	SetCVar("miniWorldMap", 1)
-	WorldMapFrame.Maximize = function() end
-	WorldMapFrame.HandleUserActionMaximizeSelf = function() end
-	WorldMapFrame.BorderFrame.MaximizeMinimizeFrame:Hide()
-
 	-- remove from UI panel system
 	purgeKey(UIPanelWindows, "WorldMapFrame")
 	WorldMapFrame:SetAttribute("UIPanelLayout-area", nil)
 	WorldMapFrame:SetAttribute("UIPanelLayout-enabled", false)
-	WorldMapFrame:SetAttribute("UIPanelLayout-defined", nil)
+
+	-- set options for the maximize function to work
+	WorldMapFrame:SetAttribute("UIPanelLayout-defined", true)
+	WorldMapFrame:SetAttribute("UIPanelLayout-maximizePoint", "TOP")
 
 	-- make the map movable
 	WorldMapFrame:SetMovable(true)
