@@ -16,7 +16,7 @@ local defaults = {
 			['*'] = true,
 		},
 		scale = 1,
-		poiScale = 0.9,
+		poiScale = 1,
 		ejScale = 0.8,
 		alpha = 1,
 		fadealpha = 0.5,
@@ -278,11 +278,7 @@ function Mapster:SetEJScale()
 end
 
 function Mapster:QuestPOI_OnAcquired(pin)
-	pin:SetSize(50 * db.poiScale, 50 * db.poiScale)
-	pin.Display:SetScale(db.poiScale)
-	pin.NormalTexture:SetScale(db.poiScale)
-	pin.PushedTexture:SetScale(db.poiScale)
-	pin.HighlightTexture:SetScale(db.poiScale)
+	if pin.SetMapPinScale then pin:SetMapPinScale(db.poiScale, 1, db.poiScale, db.poiScale) end
 end
 
 function Mapster:SetPOIScale()
