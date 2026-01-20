@@ -146,13 +146,14 @@ local function getOptions()
 end
 
 local function optFunc()
-	Settings.OpenToCategory("Mapster")
+	Settings.OpenToCategory(Mapster.SettingsCategory)
 end
 
 function Mapster:SetupOptions()
 	-- setup options table
 	LibStub("AceConfigRegistry-3.0"):RegisterOptionsTable("Mapster", getOptions)
-	LibStub("AceConfigDialog-3.0"):AddToBlizOptions("Mapster", nil, nil, "general")
+	local _frame, category = LibStub("AceConfigDialog-3.0"):AddToBlizOptions("Mapster", nil, nil, "general")
+	self.SettingsCategory = category
 
 	self:RegisterModuleOptions("Profiles", LibStub("AceDBOptions-3.0"):GetOptionsTable(self.db), "Profiles")
 
