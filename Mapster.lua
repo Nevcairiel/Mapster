@@ -21,6 +21,7 @@ local defaults = {
 		alpha = 1,
 		fadealpha = 0.5,
 		disableMouse = false,
+		disableAddonsCompartment = true,
 		-- position defaults for LibWindow
 		x = 40,
 		y = 140,
@@ -31,10 +32,12 @@ local defaults = {
 local WorldMapFrameStartMoving, WorldMapFrameStopMoving
 local WorldMapUnitPin, WorldMapUnitPinSizes
 local db
+mapstercurrentprofile = {}
 
 function Mapster:OnInitialize()
 	self.db = LibStub("AceDB-3.0"):New("MapsterDB", defaults, true)
 	db = self.db.profile
+	mapstercurrentprofile = self.db
 
 	self.db.RegisterCallback(self, "OnProfileChanged", "Refresh")
 	self.db.RegisterCallback(self, "OnProfileCopied", "Refresh")

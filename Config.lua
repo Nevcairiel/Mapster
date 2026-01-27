@@ -133,6 +133,17 @@ local function getOptions()
 							name = L["Disable Mouse"],
 							desc = L["Disable the mouse interactivity of the main map, eg. to change zones."],
 						},
+						nl3 = {
+							order = 30,
+							type = "description",
+							name = "",
+						},
+						disableAddonsCompartment = {
+							order = 31,
+							type = "toggle",
+							name = L["Disable AddOns Compartment Entry"],
+							desc = L["Disable the options access in the Blizzard AddOnsCompartment\nChange Requires Reload\nAvailable in 10.x/DragonFlight and later"],
+						},
 					},
 				},
 			},
@@ -181,4 +192,37 @@ function Mapster:SetupMapButton()
 	end
 
 	self.optionsButton:SetScript("OnClick", optFunc)
+end
+
+function Mapster:BlizzardAddonsCompartment()
+	optFunc()
+end
+
+function Mapster:CheckBlizzardAddonsCompartment()
+	dontUse = true  -- default
+	-- gah = Mapster.disableAddonsCompartment-- get the setting
+	if gah ~= nil then dontUse = gah end -- if set, update to setting
+	--return dontUse
+	return false
+end
+
+local BAC = Mapster:CheckBlizzardAddonsCompartment()
+if (WOW_PROJECT_ID == WOW_PROJECT_MAINLINE) and not BAC then
+	local raw,properName,title,_ = C_AddOns.GetAddOnInfo("Mapster")
+	AddonCompartmentFrame:RegisterAddon({
+		text = properName,
+		icon = "Interface/Icons/icon_treasuremap.blp",
+		notCheckable = true,
+		func = function(button, menuInputData, menu)
+			Mapster:BlizzardAddonsCompartment()
+		end,
+		funcOnEnter = function(button)
+			MenuUtil.ShowTooltip(button, function(tooltip)
+				tooltip:SetText(properName .. "\n" .. title)
+			end)
+		end,
+		funcOnLeave = function(button)
+			MenuUtil.HideTooltip(button)
+		end,
+	})
 end
