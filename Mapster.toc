@@ -1,17 +1,28 @@
-## Interface: 110000, 110002
+## Interface: 110207,120000,120001
 ## Notes: Simple Map Mod
 ## Notes-zhCN: 简单实用的地图模块
 ## Notes-frFR: Simples modifications de la carte.
 ## Title: Mapster
 ## Author: Nevcairiel
 ## SavedVariables: MapsterDB
-## X-Category: Map
 ## Version: @project-version@
+## OptionalDeps: Ace3, LibWindow-1.1
+
 ## X-License: All rights reserved.
 ## X-Curse-Project-ID: 14376
 ## X-WoWI-ID: 8306
 
-## OptionalDeps: Ace3, LibWindow-1.1
+## Category: Map
+## Category-deDE: Karte
+## Category-esES: Mapa
+## Category-esMX: Mapa
+## Category-frFR: Carte
+## Category-itIT: Mappa
+## Category-koKR: 지도
+## Category-ptBR: Mapa
+## Category-ruRU: Карта
+## Category-zhCN: 地图
+## Category-zhTW: 地圖
 
 #@no-lib-strip@
 Libs\LibStub\LibStub.lua

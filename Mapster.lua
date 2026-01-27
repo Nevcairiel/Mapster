@@ -16,7 +16,7 @@ local defaults = {
 			['*'] = true,
 		},
 		scale = 1,
-		poiScale = 0.9,
+		poiScale = 1,
 		ejScale = 0.8,
 		alpha = 1,
 		fadealpha = 0.5,
@@ -70,10 +70,17 @@ FaderFrame:SetScript("OnUpdate", FaderOnUpdate)
 function Mapster:OnEnable()
 	LibWindow.RegisterConfig(WorldMapFrame, db)
 
+	-- hide before we do things
+	HideUIPanel(WorldMapFrame)
+
 	-- remove from UI panel system
 	purgeKey(UIPanelWindows, "WorldMapFrame")
 	WorldMapFrame:SetAttribute("UIPanelLayout-area", nil)
 	WorldMapFrame:SetAttribute("UIPanelLayout-enabled", false)
+
+	-- set options for the maximize function to work
+	WorldMapFrame:SetAttribute("UIPanelLayout-defined", true)
+	WorldMapFrame:SetAttribute("UIPanelLayout-maximizePoint", "TOP")
 
 	-- make the map movable
 	WorldMapFrame:SetMovable(true)
@@ -107,13 +114,13 @@ function Mapster:OnEnable()
 	self:SecureHook(QuestPinMixin, "OnAcquired", "QuestPOI_OnAcquired")
 	self:SecureHook(WorldMap_WorldQuestPinMixin, "OnAcquired", "QuestPOI_OnAcquired")
 	for pin in WorldMapFrame:EnumeratePinsByTemplate("BonusObjectivePinTemplate") do
-		pin.OnAcquired = BonusObjectivePinMixin.OnAcquired
+		self:SecureHook(pin, "OnAcquired", "QuestPOI_OnAcquired")
 	end
 	for pin in WorldMapFrame:EnumeratePinsByTemplate("QuestPinTemplate") do
-		pin.OnAcquired = QuestPinMixin.OnAcquired
+		self:SecureHook(pin, "OnAcquired", "QuestPOI_OnAcquired")
 	end
 	for pin in WorldMapFrame:EnumeratePinsByTemplate("WorldMap_WorldQuestPinTemplate") do
-		pin.OnAcquired = WorldMap_WorldQuestPinMixin.OnAcquired
+		self:SecureHook(pin, "OnAcquired", "QuestPOI_OnAcquired")
 	end
 
 	-- hook into unit provider
@@ -271,11 +278,7 @@ function Mapster:SetEJScale()
 end
 
 function Mapster:QuestPOI_OnAcquired(pin)
-	pin:SetSize(50 * db.poiScale, 50 * db.poiScale)
-	pin.Display:SetScale(db.poiScale)
-	pin.NormalTexture:SetScale(db.poiScale)
-	pin.PushedTexture:SetScale(db.poiScale)
-	pin.HighlightTexture:SetScale(db.poiScale)
+	if pin.SetMapPinScale then pin:SetMapPinScale(db.poiScale, 1, db.poiScale, db.poiScale) end
 end
 
 function Mapster:SetPOIScale()
