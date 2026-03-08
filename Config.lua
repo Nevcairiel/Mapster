@@ -101,7 +101,7 @@ local function getOptions()
 							type = "description",
 							name = "",
 						},
-						poiScale = {
+						--[[poiScale = {
 							order = 12,
 							type = "range",
 							name = L["Quest POI Scale"],
@@ -121,7 +121,7 @@ local function getOptions()
 							order = 20,
 							type = "description",
 							name = "",
-						},
+						},]]
 						hideMapButton = {
 							order = 21,
 							type = "toggle",

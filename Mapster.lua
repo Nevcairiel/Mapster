@@ -104,6 +104,7 @@ function Mapster:OnEnable()
 	end
 
 	-- hook into EJ icons
+	--[[
 	self:SecureHook(EncounterJournalPinMixin, "OnAcquired", "EncounterJournalPin_OnAcquired")
 	for pin in WorldMapFrame:EnumeratePinsByTemplate("EncounterJournalPinTemplate") do
 		pin.OnAcquired = EncounterJournalPinMixin.OnAcquired
@@ -121,7 +122,7 @@ function Mapster:OnEnable()
 	end
 	for pin in WorldMapFrame:EnumeratePinsByTemplate("WorldMap_WorldQuestPinTemplate") do
 		self:SecureHook(pin, "OnAcquired", "QuestPOI_OnAcquired")
-	end
+	end]]
 
 	-- hook into unit provider
 	for pin in WorldMapFrame:EnumeratePinsByTemplate("GroupMembersPinTemplate") do
@@ -273,9 +274,9 @@ function Mapster:EncounterJournalPin_OnAcquired(pin)
 end
 
 function Mapster:SetEJScale()
-	for pin in WorldMapFrame:EnumeratePinsByTemplate("EncounterJournalPinTemplate") do
+	--[[for pin in WorldMapFrame:EnumeratePinsByTemplate("EncounterJournalPinTemplate") do
 		self:EncounterJournalPin_OnAcquired(pin)
-	end
+	end]]
 end
 
 function Mapster:QuestPOI_OnAcquired(pin)
@@ -283,7 +284,7 @@ function Mapster:QuestPOI_OnAcquired(pin)
 end
 
 function Mapster:SetPOIScale()
-	for pin in WorldMapFrame:EnumeratePinsByTemplate("BonusObjectivePinTemplate") do
+	--[[for pin in WorldMapFrame:EnumeratePinsByTemplate("BonusObjectivePinTemplate") do
 		self:QuestPOI_OnAcquired(pin)
 	end
 	for pin in WorldMapFrame:EnumeratePinsByTemplate("QuestPinTemplate") do
@@ -291,7 +292,7 @@ function Mapster:SetPOIScale()
 	end
 	for pin in WorldMapFrame:EnumeratePinsByTemplate("WorldMap_WorldQuestPinTemplate") do
 		self:QuestPOI_OnAcquired(pin)
-	end
+	end]]
 end
 
 function Mapster:ShowUIPanelHook(frame)
