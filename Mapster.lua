@@ -242,6 +242,7 @@ function Mapster:WorldMapFrame_SynchronizeDisplayState()
 	if not WorldMapFrame:IsMaximized() then
 		self:SetPosition()
 	end
+	self:SetArrow()
 end
 
 function Mapster:HelpPlate_Show(plate, frame)
