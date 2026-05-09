@@ -23,6 +23,135 @@ end
 local options, moduleOptions = nil, {}
 local function getOptions()
 	if not options then
+		if (WOW_PROJECT_ID == WOW_PROJECT_MAINLINE) then  -- If on Retail then we add an extra option
+		options = {
+			type = "group",
+			name = "Mapster",
+			args = {
+				general = {
+					order = 1,
+					type = "group",
+					name = "General Settings",
+					get = optGetter,
+					set = optSetter,
+					args = {
+						intro = {
+							order = 1,
+							type = "description",
+							name = L["Mapster allows you to control various aspects of your World Map. You can change the style of the map, control the plugins that extend the map with new functionality, and configure different profiles for every of your characters."],
+						},
+						alphadesc = {
+							order = 2,
+							type = "description",
+							name = L["You can change the transparency of the world map to allow you to continue seeing the world environment while your map is open for navigation."],
+						},
+						fade = {
+							order = 2.2,
+							type = "toggle",
+							name = MAP_FADE_TEXT,
+							desc = L["The map will fade out to the configured Fade Alpha level when you start moving."],
+							get = function() return GetCVarBool("mapFade") end,
+							set = function(_, v) v = v and 1 or 0; SetCVar("mapFade", v); Mapster:Refresh(); end,
+							width = "full",
+						},
+						alpha = {
+							order = 3,
+							name = L["Alpha"],
+							desc = L["The transparency of the big map."],
+							type = "range",
+							min = 0, max = 1, bigStep = 0.01,
+							isPercent = true,
+						},
+						fadealpha = {
+							order = 4.1,
+							type = "range",
+							name = L["Faded Alpha"],
+							desc = L["The transparency of the map while you are moving and the map is faded."],
+							min = 0, max = 1, bigStep = 0.01,
+							isPercent = true,
+							disabled = function() return not GetCVarBool("mapFade") end,
+						},
+						scaledesc = {
+							order = 5.1,
+							type = "description",
+							name = L["Change the scale of the world map if you do not want the whole screen filled while the map is open."],
+						},
+						scale = {
+							order = 6,
+							name = L["Scale"],
+							desc = L["Scale of the big map."],
+							type = "range",
+							min = 0.1, max = 2, bigStep = 0.01,
+							isPercent = true,
+						},
+						nl_scale = {
+							order = 6.1,
+							type = "description",
+							name = "",
+						},
+						arrowScale = {
+							order = 7,
+							name = L["PlayerArrow Scale"],
+							desc = L["Adjust the size of the Player Arrow on the Map for better visibility."],
+							type = "range",
+							min = 0.5, max = 2, bigStep = 0.01,
+							isPercent = true,
+						},
+						nl = {
+							order = 10,
+							type = "description",
+							name = "",
+						},
+						--[[poiScale = {
+							order = 12,
+							type = "range",
+							name = L["Quest POI Scale"],
+							desc = L["Scale of the Quest POI Icons on the Map."],
+							min = 0.1, max = 2, bigStep = 0.01,
+							isPercent = true,
+						},
+						ejScale = {
+							order = 13,
+							type = "range",
+							name = L["EJ Icon Scale"],
+							desc = L["Scale of the Encounter Journal Icons on the Map."],
+							min = 0.1, max = 2, bigStep = 0.01,
+							isPercent = true,
+						},
+						nl2 = {
+							order = 20,
+							type = "description",
+							name = "",
+						},]]
+						hideMapButton = {
+							order = 21,
+							type = "toggle",
+							name = L["Hide Map Button"],
+						},
+						disableMouse = {
+							order = 22,
+							type = "toggle",
+							name = L["Disable Mouse"],
+							desc = L["Disable the mouse interactivity of the main map, eg. to change zones."],
+						},
+						nl3 = {
+							order = 30,
+							type = "description",
+							name = "",
+						},
+						disableBlizzardAddOnCompartment = {
+							order = 31,
+							type = "toggle",
+							name = "Disable Blizzard AddOn Compartment Entry",
+							desc = "Disable the options access in the Blizzard AddOn Compartment\nChange Requires Reload",
+							--name = L["Disable Blizzard AddOn Compartment Entry"],
+							--desc = L["Disable the options access in the Blizzard AddOn Compartment\nChange Requires Reload"],
+						},
+					},
+				},
+			},
+		}
+		else   -- otherwise leave off blizzard addons compartment
 		options = {
 			type = "group",
 			name = "Mapster",
@@ -137,6 +266,8 @@ local function getOptions()
 				},
 			},
 		}
+		end
+
 		for k,v in pairs(moduleOptions) do
 			options.args[k] = (type(v) == "function") and v() or v
 		end
@@ -181,4 +312,8 @@ function Mapster:SetupMapButton()
 	end
 
 	self.optionsButton:SetScript("OnClick", optFunc)
+end
+
+function Mapster:OpenSettings ()
+	Settings.OpenToCategory(Mapster.SettingsCategory)
 end

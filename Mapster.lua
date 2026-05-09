@@ -21,6 +21,7 @@ local defaults = {
 		alpha = 1,
 		fadealpha = 0.5,
 		disableMouse = false,
+		disableBlizzardAddOnCompartment = true,  -- used for blizzard addon compartment
 		-- position defaults for LibWindow
 		x = 40,
 		y = 140,
@@ -322,6 +323,49 @@ function Mapster:SetModuleEnabled(module, value)
 			self:EnableModule(module)
 		else
 			self:DisableModule(module)
+		end
+	end
+end
+
+--[[
+	This is a 10.0+ feature. This area verifies 10.+ & OPT IN to the feature.
+--]]
+
+local addon, ns = ...                                                  -- Get the addon raw name and raw namespace
+
+local raw, proper, note, _ = C_AddOns.GetAddOnInfo(addon)
+function BlizzardAddOnCompartmentClick(proper, button) Mapster:OpenSettings() end
+function BlizzardAddOnCompartmentEnter(proper, button) MenuUtil.ShowTooltip(button, function(tooltip) tooltip:SetText(proper .. "\n" .. note) end) end
+function BlizzardAddOnCompartmentLeave(proper, button) MenuUtil.HideTooltip(button) end
+
+-- this function for a style that doesnt work with this add on. see https://warcraft.wiki.gg/wiki/Addon_compartment
+function Mapster:BlizzardAddOnCompartment ()                           -- sets up the Blizzard AddOn Compartment
+	local raw, proper, note, _ = C_AddOns.GetAddOnInfo(addon)          -- Get the properly formatted name and title note
+	useBAOC = false                                                    -- default
+	if Mapster.db then                                                 -- if the db is ready
+		mapProf = Mapster.db.profile                                   -- shorten access calls
+		if mapProf.disableBlizzardAddOnCompartment ~= nil then         -- if set
+			useBAOC = not mapProf.disableBlizzardAddOnCompartment      -- use the opposite setting
+		end
+	end
+	if (WOW_PROJECT_ID == WOW_PROJECT_MAINLINE) then                   -- If on Retail (this is only supported on 10.x and up)
+		if useBAOC then                                                -- If the person wants to use the Blizzard AddOn Compartment
+			AddonCompartmentFrame:RegisterAddon({                      -- Place this in the Blizzard AddOn Compartment
+				text = properName,                                     -- Name Properly Formatted
+				--icon = "Interface/AddOns/Mapster/Artwork/Normal.tga",  -- needs an icon here
+				notCheckable = true,
+				func = function(button, menuInputData, menu)
+					Mapster:OpenSettings()                             -- open to the settings
+				end,
+				funcOnEnter = function(button)
+					MenuUtil.ShowTooltip(button, function(tooltip)
+						tooltip:SetText(properName .. "\n" .. note)    -- Set mouse scroll over text
+					end)
+				end,
+				funcOnLeave = function(button)
+					MenuUtil.HideTooltip(button)
+				end,
+			})
 		end
 	end
 end

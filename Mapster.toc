@@ -1,4 +1,4 @@
-## Interface: 120001
+## Interface: 120005
 ## Notes: Simple Map Mod
 ## Notes-zhCN: 简单实用的地图模块
 ## Notes-frFR: Simples modifications de la carte.
@@ -23,6 +23,13 @@
 ## Category-ruRU: Карта
 ## Category-zhCN: 地图
 ## Category-zhTW: 地圖
+
+
+# blizzard add on compartment -- 10.0 + feature; more details: https://warcraft.wiki.gg/wiki/Addon_compartment
+## AddonCompartmentFunc: BlizzardAddOnCompartmentClick
+## AddonCompartmentFuncOnEnter: BlizzardAddOnCompartmentEnter
+## AddonCompartmentFuncOnLeave: BlizzardAddOnCompartmentLeave
+## IconTexture: Interface\Icons\icon_treasuremap.blp
 
 #@no-lib-strip@
 Libs\LibStub\LibStub.lua
