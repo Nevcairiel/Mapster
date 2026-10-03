@@ -113,6 +113,10 @@ function Coords:OnEnable()
 		tinsert(Mapster.elementsToHide, display)
 	end
 
+	-- disable built in coordinates
+	C_CVar.SetCVar("worldMapShowPlayerCoords", nil)
+	C_CVar.SetCVar("worldMapShowCursorCoords", nil)
+
 	display:SetScript("OnUpdate", OnUpdate)
 	display:Show()
 

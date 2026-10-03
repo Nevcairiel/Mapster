@@ -39,6 +39,7 @@ read_globals = {
 
 	-- API functions
 	"C_AddOns",
+	"C_CVar",
 	"C_Map",
 	"C_MapExplorationInfo",
 	"CreateFrame",
