@@ -7,6 +7,7 @@
 ## SavedVariables: MapsterDB
 ## Version: @project-version@
 ## OptionalDeps: Ace3, LibWindow-1.1
+## AllowLoadGameType: mainline
 
 ## X-License: All rights reserved.
 ## X-Curse-Project-ID: 14376
@@ -50,6 +51,7 @@ Config.lua
 Coords.lua
 # GroupIcons.lua
 # BattleMap.lua
-FogClearData.lua
+FogClearData.lua [AllowLoadGameType standard]
+FogClearDataForever.lua [AllowLoadGameType camelot, forever][ExcludeLoadGameType standard]
 FogClear.lua
 Scaling.lua
