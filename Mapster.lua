@@ -87,6 +87,7 @@ function Mapster:OnEnable()
 	WorldMapFrame:RegisterForDrag("LeftButton")
 	WorldMapFrame:SetScript("OnDragStart", WorldMapFrameStartMoving)
 	WorldMapFrame:SetScript("OnDragStop", WorldMapFrameStopMoving)
+	self:SecureHook(WorldMapFrame, "StopMovingOrSizing", WorldMapFrameStopMoving)
 
 	-- map transition
 	if WorldMapFrame.SynchronizeDisplayState then
